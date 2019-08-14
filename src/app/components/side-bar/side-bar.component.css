@@ -1,0 +1,29 @@
+#sidebar {
+    min-width: 200px;
+    max-width: 200px;
+    min-height: 90vh;
+    transition: all 0.3s;
+    background-color: #f2f2f2;
+}
+
+.notActive {
+    margin-left: -200px;
+}
+
+.active {
+    margin-left: 0px;
+}
+
+a {
+    color: #343a40;
+    padding: 2px 0px;
+}
+
+.current {
+    color: #007bff;
+}
+
+a:hover {
+    color: #939699;
+}
+

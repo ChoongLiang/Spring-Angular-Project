@@ -1,0 +1,58 @@
+/*
+ * Side bar toggle button
+ */
+.sidebar-bg {
+    padding: 5px 13px;
+    border-radius: 50%;
+    background-color: #343a40;
+}
+
+.sidebar-bg:hover {
+    background-color: #6c757d;
+}
+
+#sidebarBtn {
+    color: white;
+    font-size: 25px;
+}
+
+/*
+ * User 
+ */
+#userCircleLogo {
+    font-size: 35px;
+    color: #939699;
+}
+
+#userCircleLogo:hover {
+    color: white;
+}
+
+/*
+ * Help
+ */
+.helpCircleLogo {
+    font-size: 35px;
+    color: #939699;
+}
+
+.helpCircleLogo:hover {
+    color: white;
+}
+
+/*
+ * Project name
+ */
+#projectName {
+    margin-left: 150px;
+    font-size: 50px;
+}
+
+/*
+ * active link
+ */
+.active {
+    color: white;
+    font-weight: bold;
+}
+

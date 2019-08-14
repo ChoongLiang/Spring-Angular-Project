@@ -1,0 +1,25 @@
+.signup {
+    width: 600px;
+    margin-left: 80%;
+    margin-top: 10%;
+    padding: 50px 30px;
+    border-radius: 10px;
+    background-color: #ebebeb;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border: 1px solid #42A948;
+  }
+  
+.ng-invalid:not(form)  {
+  border: 1px solid #dc3545;
+}
+
+.ng-untouched[required] {
+  border: 1px solid #ced4da;
+}
+
+.invalid {
+  font-size: 15px;
+  color: #dc3545;
+}
