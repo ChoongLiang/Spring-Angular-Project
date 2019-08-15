@@ -11,7 +11,7 @@
                     class="form-control" 
                     placeholder="Email"
                     required
-                    ngModel
+                    ngModel email
                     #email="ngModel">
             <div *ngIf="email.touched" class="invalid">
               <div [hidden]="email.valid && email.dirty">

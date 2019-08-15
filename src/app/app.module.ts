@@ -37,7 +37,7 @@ import { SignupService } from './services/signup.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [SideBarService, SignupService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

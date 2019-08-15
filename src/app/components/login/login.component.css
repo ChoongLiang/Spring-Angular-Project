@@ -6,3 +6,20 @@
     border-radius: 10px;
     background-color: #ebebeb;
 }
+
+.ng-valid[required], .ng-valid.required  {
+    border: 1px solid #42A948;
+}
+    
+.ng-invalid:not(form)  {
+    border: 1px solid #dc3545;
+}
+
+.ng-untouched[required] {
+    border: 1px solid #ced4da;
+}
+
+.invalid {
+    font-size: 15px;
+    color: #dc3545;
+}

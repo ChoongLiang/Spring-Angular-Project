@@ -12,16 +12,11 @@ export class SignupComponent implements OnInit {
   constructor(private signupService: SignupService) { }
 
   ngOnInit() {
-    this.user = new User();
   }
 
   onSubmit(signupForm) {
-    console.log("signing up... " + signupForm);
-    this.user.email = signupForm.value.email;
-    this.user.password = signupForm.value.password;
-    this.user.first_name = signupForm.value.firstName;
-    this.user.last_name = signupForm.value.lastName;
-    this.user.role = ["user"];
+    this.user = new User(signupForm.value.email, signupForm.value.password, signupForm.value.firstName,
+                    signupForm.value.lastName, ["User"]);
 
     this.signupService.newAccount(this.user)
         .subscribe(message => {

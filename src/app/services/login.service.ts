@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { User } from '../models/User';
+import { Login } from '../models/Login';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SignupService {
+export class LoginService {
 
-  private url: string = "http://localhost:8080/api/auth/signup";
+  private url: string = "http://localhost:8080/api/auth/signin";
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,7 +17,8 @@ export class SignupService {
 
   constructor(private http: HttpClient) { }
 
-  newAccount(user: User): Observable<User> {
-    return this.http.post<User>(this.url, user, this.httpOptions);
+  login(login: Login): Observable<Login> {
+    return this.http.post<Login>(this.url, login, this.httpOptions);
   }
+
 }
