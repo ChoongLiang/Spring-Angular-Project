@@ -3,6 +3,7 @@ import { Login } from '../../models/Login';
 
 import { SideBarService } from 'src/app/services/side-bar.service';
 import { LoginService } from 'src/app/services/login.service';
+import { SignupService } from 'src/app/services/signup.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,11 @@ export class LoginComponent implements OnInit {
   login: Login;
   showMessage: boolean;
 
-  constructor(private sidebarService: SideBarService, private loginService: LoginService) { }
+  constructor(
+    private sidebarService: SideBarService,
+    private loginService: LoginService,
+    private signupService: SignupService
+  ) {}
 
   ngOnInit() {
     this.sidebarService.status = false;
@@ -25,19 +30,20 @@ export class LoginComponent implements OnInit {
     //   loginForm.value.remember = false;
     // }
     this.login = new Login(loginForm.value.email, loginForm.value.password);
-    this.loginService.login(this.login).subscribe(
-      res => console.log(res["tokenType"]),
-      (error) => this.showMessage = this.errorHandler(error)
-    )
+    this.loginService
+      .login(this.login)
+      .subscribe(
+        res => console.log(res['tokenType']),
+        error => (this.showMessage = this.errorHandler(error))
+      );
   }
 
   errorHandler(error: string): boolean {
     console.log(error);
-    return true
+    return true;
   }
 
   onClose() {
     this.showMessage = false;
   }
-
 }

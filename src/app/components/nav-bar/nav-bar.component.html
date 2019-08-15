@@ -1,16 +1,30 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
   <!-- Toggle side bar button -->
   <div class="mr-2 sidebar-bg navbar-nav text-center">
-      <a (click)="clickButton()">
-        <span id="sidebarBtn"><i class="fa fa-bars"></i></span>
-      </a>
+    <a (click)="clickButton()">
+      <span id="sidebarBtn"><i class="fa fa-bars"></i></span>
+    </a>
   </div>
-  
+
   <a class="navbar-brand" routerLink="/">
-    <img src="https://image.flaticon.com/icons/svg/892/892926.svg" alt="logo" width="35" height="35" class="d-inline-block align-top">
+    <img
+      src="https://image.flaticon.com/icons/svg/892/892926.svg"
+      alt="logo"
+      width="35"
+      height="35"
+      class="d-inline-block align-top"
+    />
     Resource Management
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -19,38 +33,62 @@
       <a routerLink="/login" class="nav-link">Login</a>
     </li>
   </ul>
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-link" routerLinkActive="active">
+      <a routerLink="/signup" class="nav-link">SignUp</a>
+    </li>
+  </ul>
 
   <ul class="navbar-nav" id="projectName">
     <li class="nav-item">
-        <span class="text-light">"Project Name"</span>
+      <span class="text-light">"Project Name"</span>
     </li>
   </ul>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
           <span id="userCircleLogo"><i class="fas fa-user-circle"></i></span>
         </a>
-        <div class="dropdown-menu dropdown-menu-right text-center p-1" aria-labelledby="navbarDropdown">
+        <div
+          class="dropdown-menu dropdown-menu-right text-center p-1"
+          aria-labelledby="navbarDropdown"
+        >
           <p>Username</p>
           <div class="dropdown-divider"></div>
           <div class="row">
             <div class="col">
-              <a routerLink="#" class="btn btn-secondary btn-sm" role="button">Profile</a>
+              <a routerLink="#" class="btn btn-secondary btn-sm" role="button"
+                >Profile</a
+              >
             </div>
             <div class="col">
-              <a routerLink="/login" class="btn btn-danger btn-sm" role="button">Log out</a>
+              <a routerLink="/login" class="btn btn-danger btn-sm" role="button"
+                >Log out</a
+              >
             </div>
           </div>
         </div>
       </li>
       <li class="nav-item">
-        <span class="navbar-brand font-weight-light mt-2 text-secondary">Username</span>
+        <span class="navbar-brand font-weight-light mt-2 text-secondary"
+          >Username</span
+        >
       </li>
       <li class="nav-item">
         <a routerLink="/help" class="nav-link">
-          <span class="helpCircleLogo"><i class="far fa-question-circle"></i></span>
+          <span class="helpCircleLogo"
+            ><i class="far fa-question-circle"></i
+          ></span>
         </a>
       </li>
     </ul>

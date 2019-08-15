@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/User';
 import { SignupService } from '../../services/signup.service';
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -9,19 +11,33 @@ import { SignupService } from '../../services/signup.service';
 })
 export class SignupComponent implements OnInit {
   user: User;
-  constructor(private signupService: SignupService) { }
+  status: boolean;
+  constructor(private signupService: SignupService, private router: Router) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onSubmit(signupForm) {
-    this.user = new User(signupForm.value.email, signupForm.value.password, signupForm.value.firstName,
-                    signupForm.value.lastName, ["User"]);
+    this.user = new User(
+      signupForm.value.email,
+      signupForm.value.password,
+      signupForm.value.firstName,
+      signupForm.value.lastName,
+      ['User']
+    );
 
-    this.signupService.newAccount(this.user)
-        .subscribe(message => {
-          console.log(message);
-        })
+    this.signupService.newAccount(this.user).subscribe(
+      message => {
+        console.log(message['response']);
+        if (message['response'] === 'User registered successfully!') {
+          this.status = true;
+          this.signupService.registerStatus(this.status);
+          this.router.navigate(['/login']);
+        } else {
+          this.status = false;
+          this.signupService.registerStatus(this.status);
+        }
+      },
+      err => console.log(err.error.message)
+    );
   }
-
 }
