@@ -1,73 +1,100 @@
 <div class="signup">
-
-    <h1 class="font-weight-light">Register</h1>
-    <hr>
-    <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)" novalidate>
-      <div class="form-row">
-          <div class="form-group col-7">
-            <label>Email</label>
-            <input  type="email" 
-                    name="email" 
-                    class="form-control" 
-                    placeholder="Email"
-                    required
-                    ngModel email
-                    #email="ngModel">
-            <div *ngIf="email.touched" class="invalid">
-              <div [hidden]="email.valid && email.dirty">
-                  Email is required
-              </div>
-            </div>
-          </div>
-          <div class="form-group col-5">
-              <label>Password</label>
-              <input  type="password" 
-                      name="password" 
-                      class="form-control" 
-                      placeholder="Password" 
-                      required ngModel
-                      #password="ngModel"
-                      minlength="6">
-              <div *ngIf="password.touched" class="invalid">
-                <div [hidden]="password.valid && password.dirty">
-                    Minimum password length is 6
-                </div>
-              </div>
-          </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-6">
-            <label>First name</label>
-            <input  type="text" 
-                    name="firstName" 
-                    class="form-control" 
-                    placeholder="First name" 
-                    ngModel 
-                    #firstName="ngModel"
-                    required>
-            <div *ngIf="firstName.touched" class="invalid">
-              <div [hidden]="firstName.valid && firstName.dirty">
-                  How do we address you?
-              </div>
-            </div>
-        </div>
-        <div class="form-group col-6">
-            <label>Last name</label>
-            <input  type="text" 
-                    name="lastName" 
-                    class="form-control" 
-                    placeholder="Last name" 
-                    required ngModel 
-                    #lastName="ngModel">
-            <div *ngIf="lastName.touched" class="invalid">
-              <div [hidden]="lastName.valid && lastName.dirty">
-                  What is your family name?
-              </div>
-            </div>
-        </div>
-      </div>
-      <button type="submit" 
-              class="btn btn-dark btn-block mt-3" 
-              [disabled]="signupForm.invalid">Submit</button>
-    </form>
+  <div [hidden]="status">
+    <div class="alert alert-danger fade show">
+      Email is already in use!
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
   </div>
+  <h1 class="font-weight-light">Register</h1>
+  <hr />
+  <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)" novalidate>
+    <div class="form-row">
+      <div class="form-group col-7">
+        <label>Email</label>
+        <input
+          type="email"
+          name="email"
+          class="form-control"
+          placeholder="Email"
+          required
+          ngModel
+          email
+          #email="ngModel"
+        />
+        <div *ngIf="email.touched" class="invalid">
+          <div [hidden]="email.valid && email.dirty">
+            Email is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-5">
+        <label>Password</label>
+        <input
+          type="password"
+          name="password"
+          class="form-control"
+          placeholder="Password"
+          required
+          ngModel
+          #password="ngModel"
+          minlength="6"
+        />
+        <div *ngIf="password.touched" class="invalid">
+          <div [hidden]="password.valid && password.dirty">
+            Minimum password length is 6
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label>First name</label>
+        <input
+          type="text"
+          name="firstName"
+          class="form-control"
+          placeholder="First name"
+          ngModel
+          #firstName="ngModel"
+          required
+        />
+        <div *ngIf="firstName.touched" class="invalid">
+          <div [hidden]="firstName.valid && firstName.dirty">
+            How do we address you?
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-6">
+        <label>Last name</label>
+        <input
+          type="text"
+          name="lastName"
+          class="form-control"
+          placeholder="Last name"
+          required
+          ngModel
+          #lastName="ngModel"
+        />
+        <div *ngIf="lastName.touched" class="invalid">
+          <div [hidden]="lastName.valid && lastName.dirty">
+            What is your family name?
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      type="submit"
+      class="btn btn-dark btn-block mt-3"
+      [disabled]="signupForm.invalid"
+    >
+      Submit
+    </button>
+  </form>
+</div>

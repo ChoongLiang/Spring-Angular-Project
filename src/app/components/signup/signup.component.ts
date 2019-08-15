@@ -11,10 +11,12 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit {
   user: User;
-  status: boolean;
+  status: boolean = true;
   constructor(private signupService: SignupService, private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.status);
+  }
 
   onSubmit(signupForm) {
     this.user = new User(
