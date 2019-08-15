@@ -11,10 +11,13 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class LoginComponent implements OnInit {
   login: Login;
+  showMessage: boolean;
+
   constructor(private sidebarService: SideBarService, private loginService: LoginService) { }
 
   ngOnInit() {
     this.sidebarService.status = false;
+    this.showMessage = false;
   }
 
   onSubmit(loginForm) {
@@ -22,7 +25,19 @@ export class LoginComponent implements OnInit {
     //   loginForm.value.remember = false;
     // }
     this.login = new Login(loginForm.value.email, loginForm.value.password);
-    this.loginService.login(this.login).subscribe(res => console.log(res));
+    this.loginService.login(this.login).subscribe(
+      res => console.log(res["tokenType"]),
+      (error) => this.showMessage = this.errorHandler(error)
+    )
+  }
+
+  errorHandler(error: string): boolean {
+    console.log(error);
+    return true
+  }
+
+  onClose() {
+    this.showMessage = false;
   }
 
 }

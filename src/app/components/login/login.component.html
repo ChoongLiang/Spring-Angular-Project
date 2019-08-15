@@ -1,4 +1,12 @@
 <div class="login">
+  <div [hidden]="!showMessage">
+    <div class="alert alert-danger fade show">
+      Invalid email or password
+      <button type="button" class="close" aria-label="Close" (click)="onClose()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
   <h1 class="font-weight-light text-center">Korera</h1>
   <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
     <div class="form-group">
