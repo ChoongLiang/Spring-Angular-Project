@@ -42,4 +42,8 @@ export class SignupComponent implements OnInit {
       err => console.log(err.error.message)
     );
   }
+
+  onClose() {
+    this.status = true;
+  }
 }
