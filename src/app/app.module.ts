@@ -15,9 +15,6 @@ import { FormulaComponent } from './components/formula/formula.component';
 import { ErrorComponent } from './components/error/error.component';
 import { SignupComponent } from './components/signup/signup.component';
 
-import { SideBarService } from './services/side-bar.service';
-import { SignupService } from './services/signup.service';
-
 @NgModule({
   declarations: [
     AppComponent,

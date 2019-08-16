@@ -8,28 +8,25 @@ import { User } from '../models/User';
   providedIn: 'root'
 })
 export class SignupService {
-  private url: string = 'http://localhost:8080/api/auth/signup';
+
+  private url: string = "http://localhost:8080/api/auth/signup";
+  private registerSuccess: boolean;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-  registerSuccess: boolean;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   newAccount(user: User): Observable<User> {
     return this.http.post<User>(this.url, user, this.httpOptions);
   }
 
   getRegisterStatus() {
-    console.log(
-      'Get Register Success getRegisterStatus()' + this.registerSuccess
-    );
     return this.registerSuccess;
   }
 
-  registerStatus(status: boolean) {
+   registerStatus(status: boolean) {
     this.registerSuccess = status;
-    console.log('Register Success registerStatus()' + this.registerSuccess);
   }
 }

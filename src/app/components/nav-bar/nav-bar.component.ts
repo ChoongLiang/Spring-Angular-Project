@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SideBarService } from '../../services/side-bar.service';
 import { SideBarComponent } from '../side-bar/side-bar.component';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,7 +10,10 @@ import { SideBarComponent } from '../side-bar/side-bar.component';
 })
 export class NavBarComponent implements OnInit {
 
-  constructor(private sideBarSerivce: SideBarService) { 
+  constructor(
+    private sideBarSerivce: SideBarService,
+    private authService: AuthService
+    ) { 
   }
 
   ngOnInit() {
@@ -17,6 +21,10 @@ export class NavBarComponent implements OnInit {
 
   clickButton() {
     this.sideBarSerivce.trigger();
+  }
+
+  logOut() {
+    this.authService.logout();
   }
 
 }
