@@ -11,16 +11,19 @@ import { AuthService } from './auth.service';
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
-  constructor(private authService: AuthService, private http: HttpClient, private router: Router) {}
+  constructor(private authService: AuthService, private http: HttpClient, private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | boolean{
-    if(this.authService.isUserLoggedIn()) {
-      return true
-    } else {
+    state: RouterStateSnapshot): Observable<boolean> | boolean {
+    if (!this.authService.isAuthenticated()) {
+      console.log('false');
+      this.authService.cleanUpStorage();
       this.router.navigateByUrl('/login');
-      return false
+      return false;
+    } else {
+      console.log('true');
+      return true;
     }
   }
 

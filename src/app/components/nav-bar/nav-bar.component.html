@@ -5,12 +5,14 @@
       <span id="sidebarBtn"><i class="fa fa-bars"></i></span>
     </a>
   </div>
-  
+
   <a class="navbar-brand" routerLink="/">
-    <img src="https://image.flaticon.com/icons/svg/892/892926.svg" alt="logo" width="35" height="35" class="d-inline-block align-top">
+    <img src="https://image.flaticon.com/icons/svg/892/892926.svg" alt="logo" width="35" height="35"
+      class="d-inline-block align-top">
     Resource Management
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -28,7 +30,7 @@
   <div *ngIf="authService.isUserLoggedIn()" class="collapse navbar-collapse show">
     <ul id="projectName" class="mx-auto navbar-nav">
       <li class="nav-item">
-          <span class="text-light">"Project Name"</span>
+        <span class="text-light">"Project Name"</span>
       </li>
     </ul>
   </div>
@@ -37,11 +39,12 @@
     <ul class="navbar-nav ml-auto">
       <div *ngIf="authService.isUserLoggedIn()">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
             <span id="userCircleLogo"><i class="fas fa-user-circle"></i></span>
           </a>
           <div class="dropdown-menu dropdown-menu-right text-center p-1" aria-labelledby="navbarDropdown">
-            <p>Username</p>
+            <p>{{ name }}</p>
             <div class="dropdown-divider"></div>
             <div class="row">
               <div class="col">
@@ -56,7 +59,7 @@
       </div>
       <div *ngIf="authService.isUserLoggedIn()">
         <li class="nav-item">
-          <span class="navbar-brand font-weight-light mt-2 text-secondary">Username</span>
+          <span class="navbar-brand font-weight-light mt-2 text-secondary">{{ name }}</span>
         </li>
       </div>
       <li class="nav-item">

@@ -17,12 +17,12 @@ export class LoginComponent implements OnInit {
   showMessage: boolean;
 
   constructor(
-    private sidebarService: SideBarService, 
-    private loginService: LoginService, 
-    private router: Router, 
+    private sidebarService: SideBarService,
+    private loginService: LoginService,
+    private router: Router,
     private authService: AuthService,
     private signupService: SignupService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.sidebarService.status = false;
@@ -30,17 +30,20 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(loginForm) {
-    // if(!loginForm.value.remember) {
-    //   loginForm.value.remember = false;
-    // }
     this.login = new Login(loginForm.value.email, loginForm.value.password);
     this.loginService.login(this.login).subscribe(
-      res => this.authService.storeJwt(res),
+      res => {
+        this.authService.storeJwt(res);
+        this.authService.storeName(res['name']);
+        this.authService.storeExpiration(res['expiration']);
+      },
       (error) => {
         this.showMessage = true;
         console.log(error);
       },
-      () => this.router.navigateByUrl('/')
+      () => {
+        this.router.navigateByUrl('/');
+      }
     )
   }
 

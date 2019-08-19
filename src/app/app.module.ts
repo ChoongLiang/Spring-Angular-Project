@@ -14,7 +14,7 @@ import { ProjectComponent } from './components/project/project.component';
 import { FormulaComponent } from './components/formula/formula.component';
 import { ErrorComponent } from './components/error/error.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { LoadingComponent } from './components/loading/loading.component';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -27,8 +27,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     ProjectComponent,
     FormulaComponent,
     ErrorComponent,
-    SignupComponent,
-    LoadingComponent
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +35,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [JwtHelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
