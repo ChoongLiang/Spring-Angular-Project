@@ -6,6 +6,7 @@ import { SideBarService } from 'src/app/services/side-bar.service';
 import { LoginService } from 'src/app/services/login.service';
 import { AuthService } from '../../auth/auth.service';
 import { SignupService } from 'src/app/services/signup.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-login',
@@ -14,19 +15,21 @@ import { SignupService } from 'src/app/services/signup.service';
 })
 export class LoginComponent implements OnInit {
   login: Login;
-  showMessage: boolean;
+  
+  
 
   constructor(
     private sidebarService: SideBarService, 
     private loginService: LoginService, 
     private router: Router, 
     private authService: AuthService,
-    private signupService: SignupService
+    private signupService: SignupService,
+    private messageService: MessageService
     ) { }
 
   ngOnInit() {
     this.sidebarService.status = false;
-    this.showMessage = false;
+    this.loginService.registerStatus(false) ;
   }
 
   onSubmit(loginForm) {
@@ -37,15 +40,15 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.login).subscribe(
       res => this.authService.storeJwt(res),
       (error) => {
-        this.showMessage = true;
+        console.log('error');
+        this.messageService.setObject("login");
+        this.loginService.registerStatus(true);
         console.log(error);
       },
       () => this.router.navigateByUrl('/')
     )
   }
 
-  onClose() {
-    this.showMessage = false;
-  }
+
 
 }

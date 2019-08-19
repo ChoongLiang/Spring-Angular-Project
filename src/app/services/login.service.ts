@@ -9,7 +9,9 @@ import { Login } from '../models/Login';
 })
 export class LoginService {
 
+  private showMessage: boolean;
   private url: string = "http://localhost:8080/api/auth/signin";
+  private object : String = null;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,6 +21,14 @@ export class LoginService {
 
   login(login: Login): Observable<Login> {
     return this.http.post<Login>(this.url, login, this.httpOptions);
+  }
+
+  getRegisterStatus() {
+    return this.showMessage;
+  }
+
+  registerStatus(status: boolean) {
+    this.showMessage = status;
   }
 
 }

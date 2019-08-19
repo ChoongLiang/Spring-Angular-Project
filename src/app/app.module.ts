@@ -15,6 +15,7 @@ import { FormulaComponent } from './components/formula/formula.component';
 import { ErrorComponent } from './components/error/error.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { MessageComponent } from './components/message/message.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LoadingComponent } from './components/loading/loading.component';
     FormulaComponent,
     ErrorComponent,
     SignupComponent,
-    LoadingComponent
+    LoadingComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,39 @@
+<div *ngIf="showStatus()">
+  <div [ngClass]= "getclass()">
+    {{ message }}
+    <button
+      type="button"
+      class="close"
+      data-dismiss="alert"
+      aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+<!-- <div [hidden]="!loginService.getRegisterStatus()">
+  <div class="alert alert-danger fade show">
+      Invalid email or password
+      <button
+      type="button"
+      class="close"
+      data-dismiss="alert"
+      aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div> -->
+
+<!-- <div *ngFor="let message of messages" >
+    <div [hidden]="!message">
+        <div class="alert alert-success fade show">
+          User registered successfully!
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+</div> -->

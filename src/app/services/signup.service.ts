@@ -11,6 +11,7 @@ export class SignupService {
 
   private url: string = "http://localhost:8080/api/auth/signup";
   private registerSuccess: boolean;
+  private object : String = null;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -26,7 +27,9 @@ export class SignupService {
     return this.registerSuccess;
   }
 
+ 
    registerStatus(status: boolean) {
     this.registerSuccess = status;
   }
+
 }

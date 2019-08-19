@@ -1,24 +1,5 @@
 <div class="login">
-  <div [hidden]="!signupService.getRegisterStatus()">
-    <div class="alert alert-success fade show">
-      User registered successfully!
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-  </div>
-  <div [hidden]="!showMessage">
-    <div class="alert alert-danger fade show">
-      Invalid email or password
-      <button type="button" class="close" aria-label="Close" (click)="onClose()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-  </div>
+  <app-message></app-message>
   <h1 class="font-weight-light text-center">Korera</h1>
   <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
     <div class="form-group">

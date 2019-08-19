@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../models/User';
 import { SignupService } from '../../services/signup.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +12,7 @@ import { SignupService } from '../../services/signup.service';
 export class SignupComponent implements OnInit {
   private user: User;
   private status: boolean = true;
-  constructor(private signupService: SignupService, private router: Router) { }
+  constructor(private signupService: SignupService, private router: Router,private messageService: MessageService) { }
 
   ngOnInit() {}
 
@@ -21,10 +22,11 @@ export class SignupComponent implements OnInit {
 
     this.signupService.newAccount(this.user).subscribe(
       message => {
-        console.log(message['response']);
+        
         if (message['response'] === 'User registered successfully!') {
           this.status = true;
           this.signupService.registerStatus(this.status);
+          this.messageService.setObject("signup");
           this.router.navigate(['/login']);
         } else {
           this.status = false;
