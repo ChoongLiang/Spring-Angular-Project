@@ -1,0 +1,12 @@
+.spinner-3 {
+    width: 3em;
+    height: 3em;
+}
+
+.loading {
+    width: 400px;
+}
+
+.left-spacing {
+    /* margin-left: 150%; */
+}

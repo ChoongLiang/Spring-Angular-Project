@@ -13,18 +13,17 @@ export class NavBarComponent implements OnInit {
   constructor(
     private sideBarSerivce: SideBarService,
     private authService: AuthService
-    ) { 
-  }
+    ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   clickButton() {
     this.sideBarSerivce.trigger();
   }
 
   logOut() {
-    this.authService.logout();
+    this.authService.logOut();
+    this.authService.cleanUpStorage();
   }
 
 }

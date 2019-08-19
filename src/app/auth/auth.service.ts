@@ -7,8 +7,11 @@ export class AuthService {
 
   private localStorageKey: string = "koreraJwt";
   private jwtKey: string[] = ['tokenType', 'accessToken'];
+  private isLoggedIn: boolean;
 
-  constructor() { }
+  constructor() { 
+    this.isLoggedIn = false;
+  }
 
   storeJwt(jwt: object): void {
     if (typeof(Storage) !== "undefined") {
@@ -27,7 +30,20 @@ export class AuthService {
     return (json[this.jwtKey[0]] + ' ' + json[this.jwtKey[1]])
   }
 
-  logout(): void {
+  logOut(): void {
+    this.isLoggedIn = false;
+  }
+
+  cleanUpStorage(): void {
     localStorage.removeItem(this.localStorageKey);
   }
+
+  logIn(): void {
+    this.isLoggedIn = true;
+  }
+
+  isUserLoggedIn(): boolean {
+    return this.isLoggedIn;
+  }
+
 }

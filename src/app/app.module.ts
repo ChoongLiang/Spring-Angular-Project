@@ -14,6 +14,7 @@ import { ProjectComponent } from './components/project/project.component';
 import { FormulaComponent } from './components/formula/formula.component';
 import { ErrorComponent } from './components/error/error.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SignupComponent } from './components/signup/signup.component';
     ProjectComponent,
     FormulaComponent,
     ErrorComponent,
-    SignupComponent
+    SignupComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

@@ -9,15 +9,17 @@ import { ErrorComponent } from './components/error/error.component';
 import { SignupComponent } from './components/signup/signup.component';
 
 import { AuthGuard } from './auth/auth.guard';
+import { LoadingComponent } from './components/loading/loading.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/resource', pathMatch: 'full' },
+  { path: '', redirectTo: '/loading', pathMatch: 'full' },
+  { path: 'loading', component: LoadingComponent},
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'help', component: HelpComponent },
-  { path: 'resource', component: ResourceComponent, canActivate: [AuthGuard], canLoad: [AuthGuard]},
-  { path: 'project', component: ProjectComponent },
-  { path: 'formula', component: FormulaComponent },
+  { path: 'resource', component: ResourceComponent, canActivate: [AuthGuard]},
+  { path: 'project', component: ProjectComponent, canActivate: [AuthGuard] },
+  { path: 'formula', component: FormulaComponent, canActivate: [AuthGuard] },
   { path: '**', component: ErrorComponent}
 ];
 
