@@ -9,18 +9,17 @@ import { ErrorComponent } from './components/error/error.component';
 import { SignupComponent } from './components/signup/signup.component';
 
 import { AuthGuard } from './auth/auth.guard';
-import { LoadingComponent } from './components/loading/loading.component';
+import { LoginGuard } from './auth/login.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/loading', pathMatch: 'full' },
-  { path: 'loading', component: LoadingComponent},
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
+  { path: '', redirectTo: '/resource', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
+  { path: 'signup', component: SignupComponent, canActivate: [LoginGuard] },
   { path: 'help', component: HelpComponent },
-  { path: 'resource', component: ResourceComponent, canActivate: [AuthGuard]},
+  { path: 'resource', component: ResourceComponent, canActivate: [AuthGuard] },
   { path: 'project', component: ProjectComponent, canActivate: [AuthGuard] },
   { path: 'formula', component: FormulaComponent, canActivate: [AuthGuard] },
-  { path: '**', component: ErrorComponent}
+  { path: '**', component: ErrorComponent }
 ];
 
 @NgModule({

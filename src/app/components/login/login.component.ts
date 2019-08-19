@@ -19,9 +19,9 @@ export class LoginComponent implements OnInit {
   
 
   constructor(
-    private sidebarService: SideBarService, 
-    private loginService: LoginService, 
-    private router: Router, 
+    private sidebarService: SideBarService,
+    private loginService: LoginService,
+    private router: Router,
     private authService: AuthService,
     private signupService: SignupService,
     private messageService: MessageService
@@ -33,19 +33,22 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(loginForm) {
-    // if(!loginForm.value.remember) {
-    //   loginForm.value.remember = false;
-    // }
     this.login = new Login(loginForm.value.email, loginForm.value.password);
     this.loginService.login(this.login).subscribe(
-      res => this.authService.storeJwt(res),
+      res => {
+        this.authService.storeJwt(res);
+        this.authService.storeName(res['name']);
+        this.authService.storeExpiration(res['expiration']);
+      },
       (error) => {
         console.log('error');
         this.messageService.setObject("login");
         this.loginService.registerStatus(true);
         console.log(error);
       },
-      () => this.router.navigateByUrl('/')
+      () => {
+        this.router.navigateByUrl('/');
+      }
     )
   }
 
