@@ -10,3 +10,7 @@
     display:inline-block;
     float: none;
 }
+
+table {
+    width: 800px;
+}

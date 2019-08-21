@@ -30,7 +30,7 @@
   <div *ngIf="authService.isUserLoggedIn()" class="collapse navbar-collapse show">
     <ul id="projectName" class="mx-auto navbar-nav">
       <li class="nav-item">
-        <span class="text-light">Project Name</span>
+        <span class="text-light">{{ projectService.getProjectName() }}</span>
       </li>
     </ul>
   </div>
@@ -44,14 +44,14 @@
             <span id="userCircleLogo"><i class="fas fa-user-circle"></i></span>
           </a>
           <div class="dropdown-menu dropdown-menu-right text-center p-1" aria-labelledby="navbarDropdown">
-            <p>{{ name }}</p>
+            <p class="lead pb-0">Welcome, <br><strong>{{ name }}</strong> !</p>
             <div class="dropdown-divider"></div>
-            <div class="row">
+            <div class="row no-gutters">
               <div class="col">
                 <a routerLink="#" class="btn btn-secondary btn-sm" role="button">Profile</a>
               </div>
               <div class="col">
-                <a routerLink="/login" class="btn btn-danger btn-sm" role="button" (click)="logOut()">Log out</a>
+                <a routerLink="/login" class="btn btn-danger btn-sm" role="button" (click)="logOut()">Logout</a>
               </div>
             </div>
           </div>

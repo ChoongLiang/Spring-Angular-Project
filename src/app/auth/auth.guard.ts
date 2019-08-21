@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { CanActivate, CanActivateChild, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, CanActivateChild, CanLoad } from '@angular/router';
 
 import { AuthService } from './auth.service';
 
@@ -11,30 +9,21 @@ import { AuthService } from './auth.service';
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
-  constructor(private authService: AuthService, private http: HttpClient, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | boolean {
+  canActivate(): boolean {
     if (!this.authService.isAuthenticated()) {
-      console.log('false');
-      this.authService.cleanUpStorage();
       this.router.navigateByUrl('/login');
       return false;
     } else {
-      console.log('true');
       return true;
     }
   }
 
-  canActivateChild(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivateChild(): boolean {
     return true;
   }
-  canLoad(
-    route: Route,
-    segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
+  canLoad(): boolean {
     return this.authService.isUserLoggedIn();
   }
 

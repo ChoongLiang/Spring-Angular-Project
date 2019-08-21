@@ -15,8 +15,6 @@ import { MessageService } from 'src/app/services/message.service';
 })
 export class LoginComponent implements OnInit {
   login: Login;
-  
-  
 
   constructor(
     private sidebarService: SideBarService,
@@ -25,7 +23,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private signupService: SignupService,
     private messageService: MessageService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.sidebarService.status = false;
@@ -44,14 +42,11 @@ export class LoginComponent implements OnInit {
         console.log('error');
         this.messageService.setObject("login");
         this.loginService.registerStatus(true);
-        console.log(error);
       },
       () => {
         this.router.navigateByUrl('/');
       }
     )
   }
-
-
 
 }

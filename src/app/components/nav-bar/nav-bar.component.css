@@ -48,10 +48,9 @@
 }
 
 /*
- * active link
+ * Active link
  */
 .active {
     color: white;
     font-weight: bold;
 }
-

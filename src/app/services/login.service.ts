@@ -9,9 +9,9 @@ import { Login } from '../models/Login';
 })
 export class LoginService {
 
-  private showMessage: boolean;
-  private url: string = "http://localhost:8080/api/auth/signin";
+	private showMessage: boolean;
   private object : String = null;
+  private url: string = "http://localhost:8080/api/auth/signin";
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

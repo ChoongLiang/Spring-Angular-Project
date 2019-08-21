@@ -70,7 +70,12 @@ export class AuthService {
 
   public isAuthenticated(): boolean {
     const token = this.getJwt();
-    this.isLoggedIn = !this.jwtHelper.isTokenExpired(token);
+    if(token) {
+      this.isLoggedIn = !this.jwtHelper.isTokenExpired(token);
+      if(!this.isLoggedIn) {
+        this.cleanUpStorage();
+      }
+    }
     return this.isLoggedIn;
   }
 }
