@@ -17,6 +17,10 @@ import { SignupComponent } from './components/signup/signup.component';
 
 import { MessageComponent } from './components/message/message.component';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { TemplateComponent } from './components/template/template.component';
+import { MatFormFieldModule, MatSelectModule } from '@angular/material';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -30,13 +34,18 @@ import { JwtHelperService } from '@auth0/angular-jwt';
     FormulaComponent,
     ErrorComponent,
     MessageComponent,
-    SignupComponent
+    SignupComponent,
+    TemplateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    NgxMatSelectSearchModule
   ],
   providers: [JwtHelperService],
   bootstrap: [AppComponent]

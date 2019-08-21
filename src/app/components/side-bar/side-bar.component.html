@@ -1,19 +1,24 @@
 <nav id="sidebar" [ngClass]="sideBarService.getActiveClass()">
     <ul class="navbar-nav ml-3 pt-3 list-unstyled">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/resource" routerLinkActive="current">
-              <span class="pr-2"><i class="fas fa-key"></i></span>
-              Resource</a>
+            <a class="nav-link" routerLink="/resource" routerLinkActive="current">
+                <span class="pr-2"><i class="fas fa-key"></i></span>
+                Resource</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/project" routerLinkActive="current">
-            <span class="pr-2"><i class="far fa-folder"></i></span>  
-            Project</a>
+            <a class="nav-link" routerLink="/project" routerLinkActive="current">
+                <span class="pr-2"><i class="far fa-folder"></i></span>
+                Project</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" routerLink="/formula" routerLinkActive="current">
                 <span class="pr-2"><i class="fas fa-calculator"></i></span>
                 Formula</a>
-          </li>
-      </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/template" routerLinkActive="current">
+                <span class="pr-2"><i class="fas fa-building"></i></span>
+                Template</a>
+        </li>
+    </ul>
 </nav>

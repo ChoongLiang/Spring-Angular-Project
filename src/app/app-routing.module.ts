@@ -10,6 +10,7 @@ import { SignupComponent } from './components/signup/signup.component';
 
 import { AuthGuard } from './auth/auth.guard';
 import { LoginGuard } from './auth/login.guard';
+import { TemplateComponent } from './components/template/template.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/resource', pathMatch: 'full' },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'resource', component: ResourceComponent, canActivate: [AuthGuard] },
   { path: 'project', component: ProjectComponent, canActivate: [AuthGuard] },
   { path: 'formula', component: FormulaComponent, canActivate: [AuthGuard] },
+  { path: 'template', component: TemplateComponent, canActivate: [AuthGuard] },
   { path: '**', component: ErrorComponent }
 ];
 

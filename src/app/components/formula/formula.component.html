@@ -1,3 +1,49 @@
-<p>
-  formula works!
-</p>
+<div class="formula-wrapper">
+  <div class="dropdown">
+    <select class="select" name="" id="">
+      <div class="search-container">
+        <form action="/action_page.php">
+          <input type="text" placeholder="Search.." name="search">
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+      <option value=""></option>
+      <option value="">Project1</option>
+      <option value="">Project1</option>
+    </select>
+    <!-- <mat-form-field class="select">
+      <mat-select>
+        <mat-option>
+          <ngx-mat-select-search></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let project of projectNames">
+          ProjectName
+        </mat-option>
+      </mat-select>
+    </mat-form-field> -->
+  </div>
+  <br> <br>
+  <div class="main-header">
+    QUANTITY SURVEY
+  </div>
+  <table>
+    <thead>
+      <th class="header">NAME</th>
+      <th class="header">COST_CODE</th>
+    </thead>
+    <tbody>
+      <td>
+        Mark
+      </td>
+      <td>
+        0101
+      </td>
+    </tbody>
+  </table>
+  <br>
+  <a routerLink="/template">Edit Quantity Survey Template</a>
+  <div>
+    <button class="submit"><i class="fas fa-check"></i> Submit</button>
+  </div>
+
+</div>

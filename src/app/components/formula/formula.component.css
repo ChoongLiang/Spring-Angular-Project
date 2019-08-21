@@ -1,0 +1,58 @@
+.wrapper{
+    /* margin: auto; */
+}
+
+table { 
+    border-collapse: collapse;
+}
+
+table, th {
+    border: 1px groove white;
+    width: 50vw;
+    text-align: center;
+}
+th{
+    background-color: rgb(235, 237, 237);
+    padding: 5px 0px;
+}
+tbody{
+    text-align: left;
+}
+.main-header{
+    border: 1px solid rgb(117, 116, 116);
+    background-color: gray;
+    color: white;
+    font-weight: normal;
+    padding: 10px 10px;
+}
+
+a{
+    padding-left: 15px;
+}
+
+/* .dropdown{
+    /* background-color: blue; */
+/* } */
+
+.select{
+    position: absolute;
+    right: 0px;
+}
+
+.footer{
+    background-color: blue;
+}
+
+.submit{
+    position: absolute;
+    right: 0px;
+    margin-right: 25vw;
+    color: white;
+    background-color: rgb(255, 104, 4);
+    border: none;
+    padding: 5px 10px;
+}
+
+.fa-check{
+    color: white;
+}
