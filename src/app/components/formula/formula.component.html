@@ -1,49 +1,61 @@
-<div class="formula-wrapper">
-  <div class="dropdown">
-    <select class="select" name="" id="">
-      <div class="search-container">
-        <form action="/action_page.php">
-          <input type="text" placeholder="Search.." name="search">
-          <button type="submit">Submit</button>
-        </form>
+<div style="min-width: 1000px">
+  <mat-toolbar style="background-color: #808080">
+    <div class="row w-100">
+      <div class="col">
+        <div class="row no-gutters">
+          <div class="col">
+            <span>
+              <input type="text" placeholder="Keyword">
+            </span>
+          </div>
+          <div class="col">
+            <span>
+              <button class="add-btn search-btn">
+                <span style="color: white">
+                  <i class="fas fa-search"></i>
+                </span>
+              </button>
+            </span>
+          </div>
+        </div>
       </div>
-      <option value=""></option>
-      <option value="">Project1</option>
-      <option value="">Project1</option>
-    </select>
-    <!-- <mat-form-field class="select">
-      <mat-select>
-        <mat-option>
-          <ngx-mat-select-search></ngx-mat-select-search>
-        </mat-option>
-        <mat-option *ngFor="let project of projectNames">
-          ProjectName
-        </mat-option>
-      </mat-select>
-    </mat-form-field> -->
-  </div>
-  <br> <br>
-  <div class="main-header">
-    QUANTITY SURVEY
-  </div>
-  <table>
-    <thead>
-      <th class="header">NAME</th>
-      <th class="header">COST_CODE</th>
-    </thead>
-    <tbody>
-      <td>
-        Mark
-      </td>
-      <td>
-        0101
-      </td>
-    </tbody>
-  </table>
-  <br>
-  <a routerLink="/template">Edit Quantity Survey Template</a>
-  <div>
-    <button class="submit"><i class="fas fa-check"></i> Submit</button>
-  </div>
+      <div class="col text-center">
+        <p class="pt-3">Resource Catalog</p>
+      </div>
+      <div class="col text-right">
+        <button class="add-btn"><span style="color: white">
+          <i class="fas fa-plus"></i></span>
+        </button>
+      </div>
+    </div>
+  </mat-toolbar>
+      
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
+    <!-- Resource Name Column -->
+    <ng-container matColumnDef="resourceName">
+      <mat-header-cell *matHeaderCellDef> RESOURCE NAME </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element["name"]}} </mat-cell>
+    </ng-container>
+
+    <!-- Resource Code Column -->
+    <ng-container matColumnDef="resourceCode">
+      <mat-header-cell *matHeaderCellDef> RESOURCE CODE </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element["code"]}} </mat-cell>
+    </ng-container>
+
+    <ng-container *ngFor="let feature of displayedColumns | slice: 2;let i = index">
+      <ng-container matColumnDef={{feature}}>
+        <mat-header-cell *matHeaderCellDef> {{feature}} </mat-header-cell>
+        <mat-cell *matCellDef="let element;"> 
+          <div *ngIf="element['features'][i] !== undefined">
+            {{element["features"][i]["featureValue"]["value"]}}
+          </div>
+        </mat-cell>
+      </ng-container>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 </div>

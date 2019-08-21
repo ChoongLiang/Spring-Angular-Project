@@ -1,60 +1,63 @@
-<!-- <div id="resourceTable">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">RESOURCE NAME</th>
-        <th scope="col">RESOURCE CODE</th>
-        <th scope="col" *ngFor="let feature of features; index as featureIdx">{{ feature["name"] }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{ feature }}
-      <tr *ngFor="let resource of resources; index as resourceIdx">
-        <th scope="row">{{ resourceIdx + 1 }}</th>
-        <td [hidden]="true">{{ resource["id"] }}</td>
-        <td>{{ resource["name"] }}</td>
-        <td>{{ resource["code"] }}</td>
-        <div *ngFor="let resourceFeatureValueKey of resourceFeatureValueKeys">
-          <div *ngIf="resourceFeatureValueKey['resource'] === resource['id']">
-
-            <div *ngFor="let featureValue of featureValues">
-              <div *ngIf="featureValue['id'] === resourceFeatureValueKey['featureValue']">
-                <td>{{ featureValue["value"] }}</td>
-              </div>
-            </div>
-
+<div style="min-width: 1400px">
+  <mat-toolbar style="background-color: #808080">
+    <div class="row w-100">
+      <div class="col">
+        <div class="row no-gutters">
+          <div class="col">
+            <span>
+              <input type="text" placeholder="Keyword">
+            </span>
+          </div>
+          <div class="col">
+            <span>
+              <button class="add-btn search-btn">
+                <span style="color: white">
+                  <i class="fas fa-search"></i>
+                </span>
+              </button>
+            </span>
           </div>
         </div>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
+      </div>
+      <div class="col text-center">
+        <p class="pt-3 font-weight-normal">Resource Catalog</p>
+      </div>
+      <div class="col text-right px-0">
+        <button class="add-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span style="color: white">
+            <i class="fas fa-plus"></i>
+          </span>
+        </button>
+        <div id="dropdown-menu-size" class="dropdown-menu dropdown-menu-right shadow text-secondary" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item btn" id="dropdown-item-padding">
+            <div class="row w-100">
+              <div class="col-5 text-center"><i class="fas fa-align-left"></i></div>
+              <div class="col-7 text-left px-0">Add Row</div>
+            </div>
+          </a>
+          <a class="dropdown-item" id="dropdown-item-padding">
+            <div class="row w-100">
+              <div class="col-5 text-center"><i class="fas fa-columns"></i></div>
+              <div class="col-7 text-left px-0">Add Column</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar>
+      
+  <mat-table [dataSource]="dataSource" class="table-border">
 
-<div style="min-width: 1000px">
-  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-      <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+    <!-- Resource Name Column -->
+    <ng-container matColumnDef="resourceName">
+      <mat-header-cell *matHeaderCellDef> RESOURCE NAME </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element["name"]}} </mat-cell>
     </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-    </ng-container>
-
-    <!-- Weight Column -->
-    <ng-container matColumnDef="weight">
-      <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
-    </ng-container>
-
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="symbol">
-      <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+    <!-- Resource Code Column -->
+    <ng-container matColumnDef="resourceCode">
+      <mat-header-cell *matHeaderCellDef> RESOURCE CODE </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element["code"]}} </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
