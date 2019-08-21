@@ -27,9 +27,7 @@ export class SignupService {
     return this.registerSuccess;
   }
 
- 
    registerStatus(status: boolean) {
     this.registerSuccess = status;
   }
-
 }

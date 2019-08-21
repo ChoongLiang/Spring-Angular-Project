@@ -1,32 +1,63 @@
-<div id="resourceTable">
+<!-- <div id="resourceTable">
   <table class="table table-striped">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col">RESOURCE NAME</th>
+        <th scope="col">RESOURCE CODE</th>
+        <th scope="col" *ngFor="let feature of features; index as featureIdx">{{ feature["name"] }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
+      {{ feature }}
+      <tr *ngFor="let resource of resources; index as resourceIdx">
+        <th scope="row">{{ resourceIdx + 1 }}</th>
+        <td [hidden]="true">{{ resource["id"] }}</td>
+        <td>{{ resource["name"] }}</td>
+        <td>{{ resource["code"] }}</td>
+        <div *ngFor="let resourceFeatureValueKey of resourceFeatureValueKeys">
+          <div *ngIf="resourceFeatureValueKey['resource'] === resource['id']">
+
+            <div *ngFor="let featureValue of featureValues">
+              <div *ngIf="featureValue['id'] === resourceFeatureValueKey['featureValue']">
+                <td>{{ featureValue["value"] }}</td>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </tr>
     </tbody>
   </table>
+</div> -->
+
+<div style="min-width: 1000px">
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+      <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="symbol">
+      <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 </div>
