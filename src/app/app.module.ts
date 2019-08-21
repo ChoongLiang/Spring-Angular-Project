@@ -45,7 +45,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MatSelectModule,
     MatFormFieldModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
     MatTableModule
   ],
   providers: [JwtHelperService],

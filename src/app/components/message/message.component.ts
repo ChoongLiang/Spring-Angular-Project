@@ -17,7 +17,7 @@ export class MessageComponent implements OnInit {
               private messageService: MessageService) { }
 
   ngOnInit() {
-    console.log(this.loginService.getRegisterStatus());
+   
   }
 
   showStatus(){
@@ -33,6 +33,12 @@ export class MessageComponent implements OnInit {
       this.message = "Invalid email or password!";
       return 'alert alert-danger fade show';
     }
+
+
+  }
+  
+  onClose(){
+    this.loginService.registerStatus(false);
   }
 
   
