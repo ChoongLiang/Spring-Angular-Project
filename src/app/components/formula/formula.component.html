@@ -1,6 +1,6 @@
 <div class="formula-wrapper">
   <div class="dropdown">
-    <select class="select" name="" id="">
+    <!-- <select class="select" name="" id="">
       <div class="search-container">
         <form action="/action_page.php">
           <input type="text" placeholder="Search.." name="search">
@@ -10,19 +10,21 @@
       <option value=""></option>
       <option value="">Project1</option>
       <option value="">Project1</option>
-    </select>
-    <!-- <mat-form-field class="select">
-      <mat-select>
+    </select> -->
+    <mat-form-field class="select">
+      <mat-select [formControl]="projectCtrl" placeholder="Project">
+        <!--  -->
         <mat-option>
-          <ngx-mat-select-search></ngx-mat-select-search>
+          <ngx-mat-select-search [formControl]="projectFilterCtrl"></ngx-mat-select-search>
         </mat-option>
-        <mat-option *ngFor="let project of projectNames">
-          ProjectName
+
+        <mat-option *ngFor="let project of projectNames" [value]="project">
+          {{ project.name }}
         </mat-option>
       </mat-select>
-    </mat-form-field> -->
+    </mat-form-field>
   </div>
-  <br> <br>
+  <br> <br> <br>
   <div class="main-header">
     QUANTITY SURVEY
   </div>

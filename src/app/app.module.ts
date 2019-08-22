@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { MatTableModule } from '@angular/material/table';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -18,9 +17,12 @@ import { SignupComponent } from './components/signup/signup.component';
 import { MessageComponent } from './components/message/message.component';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TemplateComponent } from './components/template/template.component';
-import { MatFormFieldModule, MatSelectModule } from '@angular/material';
+import { MatFormFieldModule, MatSelectModule, MatIconModule, MatToolbarModule } from '@angular/material';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material/table';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     TemplateComponent
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -45,8 +48,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MatSelectModule,
     MatFormFieldModule,
-    NgxMatSelectSearchModule
-    MatTableModule
+    NgxMatSelectSearchModule,
+    MatTableModule,
+    MatAutocompleteModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   providers: [JwtHelperService],
   bootstrap: [AppComponent]
