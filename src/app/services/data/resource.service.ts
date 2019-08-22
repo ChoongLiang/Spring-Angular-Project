@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../auth/auth.service';
 import { Observable } from 'rxjs';
 
+import { Resource } from '../../models/Resource';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +21,12 @@ export class ResourceService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getResources(): Observable<any> {
-    return this.http.post<any>(this.url, `{ "submit": "${this.param}" }`, this.httpOptions);
+  getResources(): Observable<Resource[]> {
+    return this.http.post<Resource[]>(this.url, `{ "submit": "${this.param}" }`, this.httpOptions);
+  }
+
+  getResource(): Observable<Resource> {
+    return this.http.post<Resource>(this.url, `{ "submit": "${this.param}" }`, this.httpOptions);
   }
 
   setParam(param: string): void {

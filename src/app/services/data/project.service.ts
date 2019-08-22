@@ -4,13 +4,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../auth/auth.service';
 import { Observable } from 'rxjs';
 
+import { Project } from '../../models/Project';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
   private url: string = "http://localhost:8080/ProjectHandler";
-  private projectName:string;
+  private projectName: string;
   private param = "";
 
   httpOptions = {
@@ -19,8 +21,12 @@ export class ProjectService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getProjects(): Observable<any> {
-    return this.http.post<any>(this.url, `{ "submit": "${this.param}" }`, this.httpOptions);
+  getProjects(): Observable<Project[]> {
+    return this.http.post<Project[]>(this.url, `{ "submit": "${this.param}" }`, this.httpOptions);
+  }
+
+  getProject(): Observable<Project> {
+    return this.http.post<Project>(this.url, `{ "submit": "${this.param}" }`, this.httpOptions);
   }
 
   setProjectName(name: string): void {
