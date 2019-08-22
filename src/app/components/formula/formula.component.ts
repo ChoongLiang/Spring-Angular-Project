@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterContentInit, Input, ViewChild, AfterContentChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentInit, Input, ViewChild, AfterContentChecked, OnChanges, AfterViewChecked } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormulaService } from 'src/app/services/formula.service';
 import { FormControl } from '@angular/forms';
@@ -6,10 +6,6 @@ import { FormControl } from '@angular/forms';
 import { take, takeUntil } from 'rxjs/operators';
 import { Subject, ReplaySubject } from 'rxjs';
 import { Project } from 'src/app/models/Project';
-import { MatSelect } from '@angular/material';
-
-
-
 import { SideBarService } from 'src/app/services/side-bar.service';
 import { ProjectService } from 'src/app/services/data/project.service';
 import { ResourceService } from 'src/app/services/data/resource.service';
@@ -21,7 +17,7 @@ import { FeatureValueService } from 'src/app/services/data/feature-value.service
   templateUrl: './formula.component.html',
   styleUrls: ['./formula.component.css']
 })
-export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked {
+export class FormulaComponent implements OnInit, OnDestroy, AfterViewChecked {
   private projects: object;
   public projectCtrl: FormControl = new FormControl();
   public projectFilterCtrl: FormControl = new FormControl();
@@ -39,6 +35,8 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
   private resources: Object[];
   private features: Object[];
   private featureValues: Object[];
+  private projectMap = new Map();
+  private projectID: number;
 
   constructor(
     private http: HttpClient,
@@ -48,11 +46,16 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
     private resourceService: ResourceService,
     private featureService: FeatureService,
     private featureValueService: FeatureValueService
-    ) { }
+  ) { }
 
   ngOnInit() {
     // Load projects from back-end
     this.getProjects();
+    // this.resources = [];
+    // this.features = [];
+    // this.featureValues = [];
+
+    this.sidebarService.status = true;
 
     // set initial selection
     this.projectCtrl.setValue('');
@@ -68,9 +71,30 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
         console.log('subsibing');
         this.filterProjects();
       });
+
+    this.projectCtrl.valueChanges.subscribe(() => {
+      this.resources = [];
+      this.features = [];
+      this.featureValues = [];
+      this.displayedColumns = ['resourceName', 'resourceCode'];
+      console.log(this.projectCtrl.value);
+      this.projectID = this.projectMap.get(this.projectCtrl.value);
+      this.getProject();
+      this.getResource();
+      this.getFeature();
+      this.getFeatureValue();
+
+    },
+      error => console.log(error),
+      () => {
+        console.log('COMPLETED');
+        this.resources = [];
+        this.features = [];
+        this.featureValues = [];
+      })
   }
 
-  ngAfterContentChecked() {
+  ngAfterViewChecked() {
   }
 
   getProjects() {
@@ -81,6 +105,7 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
         console.log(this.projects[0]['name']);
         for (let i = 0; i < this.projects['length']; i++) {
           this.projectNames.push(this.projects[i]);
+          this.projectMap.set(this.projects[i]['name'], res[i]['id']);
         }
       },
       err => {
@@ -89,25 +114,16 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
       () => {
         console.log('completed getting projects');
         console.log(this.projectNames);
+        console.log(this.projectMap);
       }
     )
-
-    this.resources = [];
-    this.features = [];
-    this.featureValues = [];
-
-    this.sidebarService.status = true;
-    this.getProject();
-    this.getResource();
-    this.getFeature();
-    this.getFeatureValue();
   }
 
   displayedColumns: string[] = ['resourceName', 'resourceCode'];
   dataSource = [];
 
   getProject() {
-    this.projectService.setParam("find1");
+    this.projectService.setParam("find" + "" + this.projectID);
     this.projectService.getProjects().subscribe(
       res => {
         this.projectService.setProjectName(res["name"]);
@@ -121,9 +137,9 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
     this.resourceService.setParam("displayResource");
     this.resourceService.getResources().subscribe(
       res => {
-        for(let i in res) {
-          if(res[i]["project"]["id"] === 1) {
-            // console.log(res[i]);
+        for (let i in res) {
+          if (res[i]["project"]["id"] === this.projectID) {
+            console.log(res[i]);
             this.resources.push(res[i]);
           }
         }
@@ -137,23 +153,24 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
   }
 
   prepareResource() {
-    for(let resource of this.resources) {
+    for (let resource of this.resources) {
       let resourceId = resource["id"];
       resource["features"] = this.findFeatureValue(resourceId);
     }
     console.log(this.resources);
     this.dataSource = this.resources;
+    // this.resources = [];
   }
 
   findFeatureValue(resourceId: number) {
     let associatedFeatures: any[] = [];
 
-    for(let featureValue of this.featureValues) {
+    for (let featureValue of this.featureValues) {
       let resourceParentId = featureValue["resource"]["id"];
       let featureParent = featureValue["feature"];
 
-      if(resourceParentId == resourceId) {
-        let trimmedFeatureValue = ({"id": featureValue["id"], "value": featureValue["value"]});
+      if (resourceParentId == resourceId) {
+        let trimmedFeatureValue = ({ "id": featureValue["id"], "value": featureValue["value"] });
         featureParent["featureValue"] = trimmedFeatureValue;
         associatedFeatures.push(featureParent);
       }
@@ -163,12 +180,13 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
   }
 
   getFeature() {
+    // this.features = [];
     this.featureService.setParam("displayFeature");
     this.featureService.getFeatures().subscribe(
       res => {
-        for(let i in res) {
-          if(res[i]["project"]["id"] === 1) {
-            // console.log(res[i]);
+        for (let i in res) {
+          if (res[i]["project"]["id"] === this.projectID) {
+            console.log(res[i]);
             this.features.push(res[i]);
           }
         }
@@ -176,13 +194,14 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
       error => console.log(error),
       () => {
         console.log("Feaures loaded.");
+        console.log(this.features);
         this.displayAddedFeatures();
       }
     )
   }
 
   displayAddedFeatures() {
-    for(let feature of this.features){
+    for (let feature of this.features) {
       this.displayedColumns.push(feature["name"]);
     }
     console.log(this.displayedColumns);
@@ -222,12 +241,13 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
   }
 
   getFeatureValue() {
+    // this.featureValues = [];
     this.featureValueService.setParam("displayFeatureValue");
     this.featureValueService.getFeatureValues().subscribe(
       res => {
-        for(let i in res) {
-          if(res[i]["project"]["id"] === 1) {
-            // console.log(res[i]);
+        for (let i in res) {
+          if (res[i]["project"]["id"] === this.projectID) {
+            console.log(res[i]);
             this.featureValues.push(res[i]);
           }
         }

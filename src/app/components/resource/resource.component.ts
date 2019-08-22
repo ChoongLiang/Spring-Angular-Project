@@ -17,10 +17,10 @@ export class ResourceComponent implements OnInit {
   private resources: Object[];
 
   constructor(
-    private sidebarService: SideBarService, 
+    private sidebarService: SideBarService,
     private projectService: ProjectService,
     private resourceService: ResourceService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.resources = [];
@@ -48,8 +48,8 @@ export class ResourceComponent implements OnInit {
     this.resourceService.setParam("displayResource");
     this.resourceService.getResources().subscribe(
       res => {
-        for(let i in res) {
-          if(res[i]["project"]["id"] === 1) {
+        for (let i in res) {
+          if (res[i]["project"]["id"] === 1) {
             // console.log(res[i]);
             this.resources.push(res[i]);
           }
