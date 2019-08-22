@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 import { AppComponent } from './app.component';
@@ -21,7 +19,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { MessageComponent } from './components/message/message.component';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TemplateComponent } from './components/template/template.component';
-import { MatFormFieldModule, MatSelectModule, MatIconModule, MatToolbarModule } from '@angular/material';
+import {MatFormFieldModule, MatSelectModule, MatIconModule, MatToolbarModule, MatInputModule} from '@angular/material';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
