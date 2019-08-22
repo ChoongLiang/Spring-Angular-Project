@@ -5,23 +5,29 @@ import { FormControl } from '@angular/forms';
 
 import { take, takeUntil } from 'rxjs/operators';
 import { Subject, ReplaySubject } from 'rxjs';
-import { Project } from 'src/app/models/Project';
+
+import { MatSelect } from '@angular/material';
+import { Project } from '../../models/Project';
 import { SideBarService } from 'src/app/services/side-bar.service';
 import { ProjectService } from 'src/app/services/data/project.service';
 import { ResourceService } from 'src/app/services/data/resource.service';
 import { FeatureService } from 'src/app/services/data/feature.service';
 import { FeatureValueService } from 'src/app/services/data/feature-value.service';
+import { Resource } from 'src/app/models/Resource';
+import { Feature } from 'src/app/models/Feature';
+import { FeatureValue } from 'src/app/models/FeatureValue';
 
 @Component({
   selector: 'app-formula',
   templateUrl: './formula.component.html',
   styleUrls: ['./formula.component.css']
 })
-export class FormulaComponent implements OnInit, OnDestroy, AfterViewChecked {
-  private projects: object;
+
+export class FormulaComponent implements OnInit, OnDestroy {
   public projectCtrl: FormControl = new FormControl();
   public projectFilterCtrl: FormControl = new FormControl();
   private projectNames: Project[] = [];
+  private projects: object;
 
   /** list of Projects filtered by search keyword */
   public filteredProjects: ReplaySubject<Project[]> = new ReplaySubject<Project[]>(1);
@@ -32,11 +38,12 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterViewChecked {
   /** Label of the search placeholder */
   // @Input() placeholderLabel = 'Project';
 
-  private resources: Object[];
-  private features: Object[];
-  private featureValues: Object[];
+
   private projectMap = new Map();
   private projectID: number;
+  private resources: Resource[];
+  private features: Feature[];
+  private featureValues: FeatureValue[];
 
   constructor(
     private http: HttpClient,
@@ -56,6 +63,8 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterViewChecked {
     // this.featureValues = [];
 
     this.sidebarService.status = true;
+
+    this.getProjectName();
 
     // set initial selection
     this.projectCtrl.setValue('');
@@ -118,7 +127,6 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
     )
   }
-
   displayedColumns: string[] = ['resourceName', 'resourceCode'];
   dataSource = [];
 
@@ -133,14 +141,24 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterViewChecked {
     )
   }
 
+  getProjectName() {
+    this.projectService.setParam("displayall");
+    this.projectService.getProject().subscribe(
+      project => {
+        this.projectService.setProjectName(project.name);
+      },
+      error => console.log(error),
+      () => console.log("Project loaded.")
+    )
+  }
+
   getResource() {
     this.resourceService.setParam("displayResource");
     this.resourceService.getResources().subscribe(
-      res => {
-        for (let i in res) {
-          if (res[i]["project"]["id"] === this.projectID) {
-            console.log(res[i]);
-            this.resources.push(res[i]);
+      resources => {
+        for (let resource of resources) {
+          if (resource.project.id === this.projectID) {
+            this.resources.push(resource);
           }
         }
       },
@@ -154,8 +172,7 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   prepareResource() {
     for (let resource of this.resources) {
-      let resourceId = resource["id"];
-      resource["features"] = this.findFeatureValue(resourceId);
+      resource.features = this.findFeatureValue(resource.id);
     }
     console.log(this.resources);
     this.dataSource = this.resources;
@@ -163,19 +180,13 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   findFeatureValue(resourceId: number) {
-    let associatedFeatures: any[] = [];
-
+    let associatedFeatures: Feature[] = [];
     for (let featureValue of this.featureValues) {
-      let resourceParentId = featureValue["resource"]["id"];
-      let featureParent = featureValue["feature"];
-
-      if (resourceParentId == resourceId) {
-        let trimmedFeatureValue = ({ "id": featureValue["id"], "value": featureValue["value"] });
-        featureParent["featureValue"] = trimmedFeatureValue;
-        associatedFeatures.push(featureParent);
+      if (featureValue.resource.id == resourceId) {
+        featureValue.feature.featureValue = featureValue;
+        associatedFeatures.push(featureValue.feature);
       }
     }
-
     return associatedFeatures;
   }
 
@@ -183,11 +194,10 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterViewChecked {
     // this.features = [];
     this.featureService.setParam("displayFeature");
     this.featureService.getFeatures().subscribe(
-      res => {
-        for (let i in res) {
-          if (res[i]["project"]["id"] === this.projectID) {
-            console.log(res[i]);
-            this.features.push(res[i]);
+      features => {
+        for (let feature of features) {
+          if (feature.project.id === this.projectID) {
+            this.features.push(feature);
           }
         }
       },
@@ -202,7 +212,7 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   displayAddedFeatures() {
     for (let feature of this.features) {
-      this.displayedColumns.push(feature["name"]);
+      this.displayedColumns.push(feature.name);
     }
     console.log(this.displayedColumns);
   }
@@ -244,11 +254,10 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterViewChecked {
     // this.featureValues = [];
     this.featureValueService.setParam("displayFeatureValue");
     this.featureValueService.getFeatureValues().subscribe(
-      res => {
-        for (let i in res) {
-          if (res[i]["project"]["id"] === this.projectID) {
-            console.log(res[i]);
-            this.featureValues.push(res[i]);
+      featureValues => {
+        for (let featureValue of featureValues) {
+          if (featureValue.project.id === this.projectID) {
+            this.featureValues.push(featureValue);
           }
         }
       },
