@@ -17,13 +17,18 @@ import { FormulaComponent } from './components/formula/formula.component';
 import { ErrorComponent } from './components/error/error.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { MessageComponent } from './components/message/message.component';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { TemplateComponent } from './components/template/template.component';
-import {MatFormFieldModule, MatSelectModule, MatIconModule, MatToolbarModule, MatInputModule} from '@angular/material';
+import { FeatureDialogComponent } from './components/resource/feature-dialog/feature-dialog.component';
+
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule, MatToolbarModule } from '@angular/material';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -38,7 +43,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ErrorComponent,
     MessageComponent,
     SignupComponent,
-    TemplateComponent
+    TemplateComponent,
+    FeatureDialogComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -49,13 +55,17 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     BrowserAnimationsModule,
     MatSelectModule,
     MatFormFieldModule,
-    NgxMatSelectSearchModule,
     MatInputModule,
+    NgxMatSelectSearchModule,
     MatTableModule,
     MatToolbarModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatRadioModule
   ],
+  entryComponents: [FeatureDialogComponent],
   providers: [JwtHelperService],
   bootstrap: [AppComponent]
 })

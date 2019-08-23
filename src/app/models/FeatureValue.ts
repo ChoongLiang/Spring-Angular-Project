@@ -1,11 +1,15 @@
 import { Project } from './Project';
-import { Resource } from './Resource';
 import { Feature } from './Feature';
+import { Resource } from './Resource';
 
 export class FeatureValue {
     id?: number;
     value: string;
-    project: Project;
-    resource: Resource;
-    feature: Feature;
+    projectId?: string;
+    resourceId?: string;
+    featureId?: string;
+    project?: Project;
+    feature?: Feature;
+    resource?: Resource;
+    submit?: string;
 }

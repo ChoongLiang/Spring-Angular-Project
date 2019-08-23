@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+
+import { FeatureDialogComponent } from './feature-dialog/feature-dialog.component';
 
 import { SideBarService } from 'src/app/services/side-bar.service';
 import { ProjectService } from 'src/app/services/data/project.service';
@@ -6,10 +8,13 @@ import { ResourceService } from 'src/app/services/data/resource.service';
 import { FeatureService } from 'src/app/services/data/feature.service';
 import { FeatureValueService } from 'src/app/services/data/feature-value.service';
 
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource, MatPaginator, MatSort, MatTable } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Project } from '../../models/Project';
 import { Resource } from '../../models/Resource';
+import { Feature } from 'src/app/models/Feature';
 
 @Component({
   selector: 'app-resource',
@@ -19,38 +24,38 @@ import { Resource } from '../../models/Resource';
 
 export class ResourceComponent implements OnInit {
 
-  private resources: Object[];
+  private resources: Resource[] = [];
   private project: Project;
-  private newResourceName: string;
-  private newResourceCode: string;
-  private dataSource: MatTableDataSource<Object>;
+  private newResourceName: string[] = [];
+  private newResourceCode: string[] = [];
+
+  private newFeature: Feature = {
+    name : "",
+    content : "",
+    type: "",
+    submit: "newFeature"
+  }
+
+  private dataSource;
   private displayedColumns: string[] = ['resourceName', 'resourceCode'];
 
   constructor(
     private sidebarService: SideBarService, 
     private projectService: ProjectService,
-    private resourceService: ResourceService
+    private resourceService: ResourceService,
+    private featureService: FeatureService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
     ) { }
 
   ngOnInit() {
-    this.resources = [];
-
+    this.project = {"id": 1, name: "Project1"};
+    this.projectService.setProjectName(this.project.name);
     this.sidebarService.status = true;
-
-    this.getProject();
     this.getResource();
-  }
+    this.getFeature();
 
-  getProject() {
-    this.projectService.setParam("find1");
-    this.projectService.getProject().subscribe(
-      project => {
-        this.projectService.setProjectName(project.name);
-        this.project = project;
-      },
-      error => console.log(error),
-      () => console.log("Project loaded.")
-    )
+    this.dataSource = new MatTableDataSource();
   }
 
   getResource() {
@@ -67,19 +72,101 @@ export class ResourceComponent implements OnInit {
       error => console.log(error),
       () => {
         console.log("Resources loaded.");
-        this.dataSource = new MatTableDataSource(this.resources);
+        this.updateDataSource();
       }
     )
   }
 
-  addNewRow():void {
-    this.newResourceCode = "somcode";
-    this.newResourceName = "name";
-
-    let newResource: Resource = {"code": this.newResourceCode, "name": this.newResourceName, project: this.project};
-    console.log(newResource);
+  addNewRow(): void {
+    let newResource: Resource = {code: "", name: "", projectId: this.project.id.toString(), editable: true};
     this.resources.push(newResource);
+    this.updateDataSource();
+  }
+
+  updateDataSource(): void {
     this.dataSource = new MatTableDataSource(this.resources);
   }
 
+  saveResource(index: number): void {
+    if(!this.newResourceCode[index] || !this.newResourceName[index]) {
+      this.openSnackBar("Field cannot be empty", "Close")
+      return
+    }
+    this.closeRow(index);
+    let newResource: Resource = {
+      code: this.newResourceCode[index].trim(),
+      name: this.newResourceName[index].trim(),
+      projectId: this.project.id.toString(),
+      submit: "newResource"
+    }
+    this.resources.push(newResource);
+    this.updateDataSource();
+
+    this.resourceService.addResource(newResource).subscribe(
+      (res) => console.log(res),
+      error => console.log(error),
+      () => console.log("completed")
+    );
+  }
+
+  discardResource(index: number): void {
+    this.closeRow(index);
+  }
+
+  closeRow(index: number): void {
+    if(index > -1) {
+      this.resources.splice(index, 1);
+      this.newResourceCode.splice(index, 1);
+      this.newResourceName.splice(index, 1);
+      this.updateDataSource();
+      return
+    }
+    // Should never reach here...
+    this.openSnackBar("Error: Trying to delete index at -1...", "Close");
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    }); 
+  }
+
+  getFeature(): void {
+    this.featureService.setParam("displayFeature");
+    this.featureService.getFeatures().subscribe(
+      features => {
+        for(let feature of features) {
+          if(feature.project.id === 1) {
+            this.displayedColumns.push(feature.name);
+          }
+        }
+      },
+      error => console.log(error)
+    )
+  }
+
+  addNewFeature(): void {
+    const dialogRef = this.dialog.open(FeatureDialogComponent, {
+      width: "300px",
+      data: this.newFeature
+    });
+
+    dialogRef.afterClosed().subscribe(feature => {
+      if(typeof feature === "undefined") {
+        return
+      }
+      this.newFeature = feature.value;
+      this.newFeature.projectId = this.project.id.toString();
+      this.newFeature.submit = "newFeature";
+
+      this.featureService.addFeature(this.newFeature).subscribe(
+        res => console.log(res),
+        error => console.log(error),
+        () => {
+          console.log("New feature saved");
+          this.displayedColumns.push(this.newFeature.name);
+        }
+      )
+    });
+  }
 }

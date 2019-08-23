@@ -14,10 +14,13 @@
     flex: 1 1 auto 1 auto 1;
 }
 
-.add-btn {
-    background: #ef662e;
+button {
     border: none;
     outline: none;
+}
+
+.add-btn {
+    background: #ef662e;
     width: 35px;
     height: 35px
 }
@@ -27,20 +30,65 @@
     border-bottom-right-radius: 5px;
 }
 
+.tick-icon{
+    color: white;
+    position: sticky;
+    top: 50%;
+    display: block;
+    transform: translate(-50%, -50%);
+    height: 10px;
+}
+
+.times-icon {
+    color: white;
+    position: sticky;
+    top: 45%;
+    margin-left: 25%;
+    display: block;
+    transform: translate(-50%, -50%);
+    height: 10px;
+}
+
+.flex-container {
+    display: flex;
+    margin-right: 5px;
+}
+
+.flex-container > button {
+    width: 21px;
+    height: 21px;
+    margin: 2px;
+    background: #ef662e;
+    border-radius: 50%;
+    line-height: 7px;
+}
+
+.flex-container > button:hover {
+    background: #ff9033;
+}
+
 button:hover {
     background: #ff9033;
 }
 
 input[type="text"] {
-    width: 218px;
-    height: 35px;
     font-size: 15px;
     padding: 5px;
+    outline: none;
+}
+
+#search-input {
+    width: 218px;
+    height: 35px;
     border: none;
     border-top: 1px solid #e6e6e6;
     border-left: 1px solid #e6e6e6;
     border-bottom: 1px solid #e6e6e6;
-    outline: none;
+}
+
+#new-resource-input {
+    border: 1.5px #ef662e solid;
+    width: 85%;
 }
 
 .row {
