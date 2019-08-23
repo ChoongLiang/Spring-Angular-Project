@@ -67,7 +67,6 @@ export class ResourceComponent implements OnInit {
             this.resources.push(resource);
           }
         }
-        console.log(this.resources);
       },
       error => console.log(error),
       () => {
@@ -101,6 +100,7 @@ export class ResourceComponent implements OnInit {
     }
     this.resources.push(newResource);
     this.updateDataSource();
+    this.spliceResource(index);
 
     this.resourceService.addResource(newResource).subscribe(
       (res) => console.log(res),
@@ -111,18 +111,22 @@ export class ResourceComponent implements OnInit {
 
   discardResource(index: number): void {
     this.closeRow(index);
+    this.spliceResource(index);
   }
 
   closeRow(index: number): void {
     if(index > -1) {
       this.resources.splice(index, 1);
-      this.newResourceCode.splice(index, 1);
-      this.newResourceName.splice(index, 1);
       this.updateDataSource();
       return
     }
     // Should never reach here...
     this.openSnackBar("Error: Trying to delete index at -1...", "Close");
+  }
+
+  spliceResource(index: number): void {
+    this.newResourceCode.splice(index, 1);
+    this.newResourceName.splice(index, 1);
   }
 
   openSnackBar(message: string, action: string) {

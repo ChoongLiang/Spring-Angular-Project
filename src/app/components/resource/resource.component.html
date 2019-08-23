@@ -1,5 +1,4 @@
-<div style="min-width: 1000px">
-  >>>>>>> 700d711c977130871caa8fc7fe3094d60d7f0fad
+<div style="width: 1300px">
   <mat-toolbar style="background-color: #808080">
     <div class="row w-100">
       <div class="col">
@@ -46,8 +45,10 @@
       </div>
     </div>
   </mat-toolbar>
+</div>
 
-  <mat-table [dataSource]="dataSource" class="table-border">
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource" class="table-border">
 
     <!-- Resource Name Column -->
     <ng-container matColumnDef="resourceName">
@@ -94,5 +95,5 @@
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
+  </table>
 </div>

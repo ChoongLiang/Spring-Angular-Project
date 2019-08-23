@@ -1,17 +1,7 @@
 <div mat-dialog-content>
   <form [formGroup]="options">
     <mat-form-field>
-      <input matInput required formControlName="name" placeholder="Name">
-    </mat-form-field>
-
-    <mat-radio-group class="radio-group" formControlName="type">
-      <mat-radio-button class="radio-button" *ngFor="let type of types" [value]="type">
-        {{ type }}
-      </mat-radio-button>
-    </mat-radio-group>
-  
-    <mat-form-field [hidden]="!(options.get('type').value === 'Formula')">
-      <input matInput formControlName="content" placeholder="Formula">
+      <input matInput required formControlName="name" placeholder="Column name">
     </mat-form-field>
   </form>
 </div>

@@ -12,14 +12,13 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 export class FeatureDialogComponent {
 
   options: FormGroup;
-  types: string[] = ['Text', 'Number', 'Formula'];
 
   constructor(private dialogRef: MatDialogRef<FeatureDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Feature, formBuilder: FormBuilder) {
       this.options = formBuilder.group({
         name: new FormControl(),
         type: 'Text',
-        content: new FormControl()
+        content: null
       });
     }
 
