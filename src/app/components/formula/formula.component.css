@@ -43,3 +43,50 @@ input[type="text"] {
 .mat-header-cell {
     background-color: #ebedf0;
 }
+
+p { 
+    float: right;
+}
+
+.submit {
+    float: right;
+    background-color: #ef662e;
+    padding: 5px 10px; 
+    color: white;
+    border: none;
+}
+
+a {  
+    padding-left: 20px;
+}
+
+.fa-check{
+    color: white;
+    padding-right: 10px;   
+}
+
+.dropdown-toggle::after {
+    display:none;
+}
+
+.dropdown-menu {
+    border-radius: none;
+}
+
+#dropdown-item-padding {
+    padding: .25rem .5rem;
+}
+
+#dropdown-menu-size {
+    min-width: 201px;
+    border-radius: 0px;
+}
+
+.col{
+    font-weight: normal;
+    color: white;
+}
+/* 
+#header{
+    font-weight: bol
+} */

@@ -40,7 +40,7 @@ export class ResourceComponent implements OnInit {
   private displayedColumns: string[] = ['resourceName', 'resourceCode'];
 
   constructor(
-    private sidebarService: SideBarService, 
+    private sidebarService: SideBarService,
     private projectService: ProjectService,
     private resourceService: ResourceService,
     private featureService: FeatureService,
@@ -62,10 +62,10 @@ export class ResourceComponent implements OnInit {
     this.resourceService.setParam("displayResource");
     this.resourceService.getResources().subscribe(
       resources => {
-        for(let resource of resources) {
-          if(resource.project.id === 1) {
+        for (let resource of resources) {
+          if (resource.project.id === 1) {
             this.resources.push(resource);
-          } 
+          }
         }
         console.log(this.resources);
       },

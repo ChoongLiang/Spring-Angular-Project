@@ -1,33 +1,33 @@
-import { Component, OnInit, OnDestroy, AfterContentInit, Input, ViewChild, AfterContentChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentInit, Input, ViewChild, AfterContentChecked, OnChanges, AfterViewChecked } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormulaService } from 'src/app/services/formula.service';
 import { FormControl } from '@angular/forms';
 
 import { take, takeUntil } from 'rxjs/operators';
 import { Subject, ReplaySubject } from 'rxjs';
+
 import { MatSelect } from '@angular/material';
-
 import { Project } from '../../models/Project';
-import { Resource } from '../../models/Resource';
-import { Feature } from '../../models/Feature';
-import { FeatureValue } from '../../models/FeatureValue';
-
 import { SideBarService } from 'src/app/services/side-bar.service';
 import { ProjectService } from 'src/app/services/data/project.service';
 import { ResourceService } from 'src/app/services/data/resource.service';
 import { FeatureService } from 'src/app/services/data/feature.service';
 import { FeatureValueService } from 'src/app/services/data/feature-value.service';
+import { Resource } from 'src/app/models/Resource';
+import { Feature } from 'src/app/models/Feature';
+import { FeatureValue } from 'src/app/models/FeatureValue';
 
 @Component({
   selector: 'app-formula',
   templateUrl: './formula.component.html',
   styleUrls: ['./formula.component.css']
 })
-export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked {
+
+export class FormulaComponent implements OnInit, OnDestroy {
   public projectCtrl: FormControl = new FormControl();
   public projectFilterCtrl: FormControl = new FormControl();
   private projectNames: Project[] = [];
-  private projects: Project[];
+  private projects: object;
 
   /** list of Projects filtered by search keyword */
   public filteredProjects: ReplaySubject<Project[]> = new ReplaySubject<Project[]>(1);
@@ -38,6 +38,9 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
   /** Label of the search placeholder */
   // @Input() placeholderLabel = 'Project';
 
+
+  private projectMap = new Map();
+  private projectID: number;
   private resources: Resource[];
   private features: Feature[];
   private featureValues: FeatureValue[];
@@ -50,21 +53,18 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
     private resourceService: ResourceService,
     private featureService: FeatureService,
     private featureValueService: FeatureValueService
-    ) { }
+  ) { }
 
   ngOnInit() {
     // Load projects from back-end
-    // this.getProjects();
-
-    this.resources = [];
-    this.features = [];
-    this.featureValues = [];
+    this.getProjects();
+    // this.resources = [];
+    // this.features = [];
+    // this.featureValues = [];
 
     this.sidebarService.status = true;
+
     this.getProjectName();
-    this.getResource();
-    this.getFeature();
-    this.getFeatureValue();
 
     // set initial selection
     this.projectCtrl.setValue('');
@@ -80,32 +80,66 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
         console.log('subsibing');
         this.filterProjects();
       });
+
+    this.projectCtrl.valueChanges.subscribe(() => {
+      this.resources = [];
+      this.features = [];
+      this.featureValues = [];
+      this.displayedColumns = ['resourceName', 'resourceCode'];
+      console.log(this.projectCtrl.value);
+      this.projectID = this.projectMap.get(this.projectCtrl.value);
+      this.getProject();
+      this.getResource();
+      this.getFeature();
+      this.getFeatureValue();
+
+    },
+      error => console.log(error),
+      () => {
+        console.log('COMPLETED');
+        this.resources = [];
+        this.features = [];
+        this.featureValues = [];
+      })
   }
 
-  ngAfterContentChecked() {
+  ngAfterViewChecked() {
   }
 
-  // getProjects() {
-  //   this.formulaService.getProjects().subscribe(
-  //     projects => {
-  //       // console.log(res);
-  //       // this.projects = res;
-  //       // console.log(this.projects[0]['name']);
-  //       this.projects = projects;
-  //     },
-  //     err => {
-  //       console.log(err);
-  //     },
-  //     () => {
-  //       console.log('completed getting projects');
-  //       console.log(this.projectNames);
-  //     }
-  //   )
-  // }
-
+  getProjects() {
+    this.formulaService.getProjects().subscribe(
+      res => {
+        console.log(res);
+        this.projects = res;
+        console.log(this.projects[0]['name']);
+        for (let i = 0; i < this.projects['length']; i++) {
+          this.projectNames.push(this.projects[i]);
+          this.projectMap.set(this.projects[i]['name'], res[i]['id']);
+        }
+      },
+      err => {
+        console.log(err);
+      },
+      () => {
+        console.log('completed getting projects');
+        console.log(this.projectNames);
+        console.log(this.projectMap);
+      }
+    )
+  }
   displayedColumns: string[] = ['resourceName', 'resourceCode'];
   dataSource = [];
 
+  getProject() {
+    this.projectService.setParam("find" + "" + this.projectID);
+    this.projectService.getProjects().subscribe(
+      res => {
+        this.projectService.setProjectName(res["name"]);
+      },
+      error => console.log(error),
+      () => console.log("Project loaded.")
+    )
+  }
 
   getProjectName() {
     this.projectService.setParam("displayall");
@@ -122,10 +156,10 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
     this.resourceService.setParam("displayResource");
     this.resourceService.getResources().subscribe(
       resources => {
-        for(let resource of resources) {
-          if(resource.project.id === 1) {
+        for (let resource of resources) {
+          if (resource.project.id === this.projectID) {
             this.resources.push(resource);
-          } 
+          }
         }
       },
       error => console.log(error),
@@ -137,17 +171,18 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
   }
 
   prepareResource() {
-    for(let resource of this.resources) {
+    for (let resource of this.resources) {
       resource.features = this.findFeatureValue(resource.id);
     }
     console.log(this.resources);
     this.dataSource = this.resources;
+    // this.resources = [];
   }
 
   findFeatureValue(resourceId: number) {
     let associatedFeatures: Feature[] = [];
-    for(let featureValue of this.featureValues) {
-      if(featureValue.resource.id == resourceId) {
+    for (let featureValue of this.featureValues) {
+      if (featureValue.resource.id == resourceId) {
         featureValue.feature.featureValue = featureValue;
         associatedFeatures.push(featureValue.feature);
       }
@@ -156,11 +191,12 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
   }
 
   getFeature() {
+    // this.features = [];
     this.featureService.setParam("displayFeature");
     this.featureService.getFeatures().subscribe(
       features => {
-        for(let feature of features) {
-          if(feature.project.id === 1) {
+        for (let feature of features) {
+          if (feature.project.id === this.projectID) {
             this.features.push(feature);
           }
         }
@@ -168,13 +204,14 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
       error => console.log(error),
       () => {
         console.log("Feaures loaded.");
+        console.log(this.features);
         this.displayAddedFeatures();
       }
     )
   }
 
   displayAddedFeatures() {
-    for(let feature of this.features){
+    for (let feature of this.features) {
       this.displayedColumns.push(feature.name);
     }
     console.log(this.displayedColumns);
@@ -214,11 +251,12 @@ export class FormulaComponent implements OnInit, OnDestroy, AfterContentChecked 
   }
 
   getFeatureValue() {
+    // this.featureValues = [];
     this.featureValueService.setParam("displayFeatureValue");
     this.featureValueService.getFeatureValues().subscribe(
       featureValues => {
-        for(let featureValue of featureValues) {
-          if(featureValue.project.id === 1) {
+        for (let featureValue of featureValues) {
+          if (featureValue.project.id === this.projectID) {
             this.featureValues.push(featureValue);
           }
         }
