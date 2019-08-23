@@ -55,8 +55,12 @@ export class ResourceComponent implements OnInit {
     this.getResource();
     this.getFeature();
 
-    this.dataSource = new MatTableDataSource();
+    this.dataSource = new MatTableDataSource(this.resources);
   }
+
+  /**
+   * Resource section
+   */
 
   getResource() {
     this.resourceService.setParam("displayResource");
@@ -129,11 +133,19 @@ export class ResourceComponent implements OnInit {
     this.newResourceName.splice(index, 1);
   }
 
+  /**
+   * Snack bar
+   */
+
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 2000,
     }); 
   }
+
+  /**
+   * Feature section
+   */
 
   getFeature(): void {
     this.featureService.setParam("displayFeature");
@@ -173,4 +185,13 @@ export class ResourceComponent implements OnInit {
       )
     });
   }
+
+  /**
+   * Search section
+   */
+
+  applyFilter(keyword: string): void {
+    this.dataSource.filter = keyword.trim().toLowerCase();
+  }
+
 }
