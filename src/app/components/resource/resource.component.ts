@@ -6,10 +6,9 @@ import { SideBarService } from 'src/app/services/side-bar.service';
 import { ProjectService } from 'src/app/services/data/project.service';
 import { ResourceService } from 'src/app/services/data/resource.service';
 import { FeatureService } from 'src/app/services/data/feature.service';
-import { FeatureValueService } from 'src/app/services/data/feature-value.service';
 
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource, MatPaginator, MatSort, MatTable } from '@angular/material';
+import { MatTableDataSource } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Project } from '../../models/Project';
