@@ -76,7 +76,6 @@ export class TemplateComponent implements OnInit {
 
   onDelete(i: number) {
     (this.fieldForm.get('fields') as FormArray).removeAt(i);
-    // updateAllFormula();
     // this.isFormulaValid.splice(i, 1);
   }
 
