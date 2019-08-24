@@ -20,8 +20,6 @@ export class TemplateComponent implements OnInit {
 
   onAdd() {
     const fieldsArray = this.fieldForm.get('fields') as FormArray;
-    console.log(this.fieldForm);
-    console.log(fieldsArray.length);
     fieldsArray.push(
         new FormGroup({
           field: new FormControl(null, Validators.required),
@@ -36,12 +34,14 @@ export class TemplateComponent implements OnInit {
 
   onDelete(i: number) {
     (this.fieldForm.get('fields') as FormArray).removeAt(i);
-    updateAllFormula();
     // this.isFormulaValid.splice(i, 1);
+    this.updateAllFormulaValidity();
   }
 
-  updateAllFormula() {
-
+  updateAllFormulaValidity() {
+    for (let index = 0; index < (this.fieldForm.get('fields') as FormArray).length; index++) {
+      (this.fieldForm.get('fields') as FormArray).controls[index].get('formula').updateValueAndValidity();
+    }
   }
 
   onSubmit() {
@@ -51,26 +51,4 @@ export class TemplateComponent implements OnInit {
   getControls() {
     return (this.fieldForm.get('fields') as FormArray).controls;
   }
-  // onFormulaChange(i: number, event: Event) {
-  //   let isValidFormula = true;
-  //   for (const partOfFormula of (this.fieldForm.get('fields') as FormArray).controls[i].get('formula').value.split('*')) {
-  //     let matchFound = false;
-  //     for (let index = 0; index < (this.fieldForm.get('fields') as FormArray).length; index++) {
-  //         if ((this.fieldForm.get('fields') as FormArray).controls[index].get('field').value
-  //             === partOfFormula.trim()) {
-  //             matchFound = true;
-  //             break;
-  //         }
-  //     }
-  //     if (!matchFound) {
-  //         isValidFormula = false;
-  //         break;
-  //     }
-  //   }
-  //   this.isFormulaValid[i] = isValidFormula;
-  // }
-  //
-  // isTouched(i: number) {
-  //   return (this.fieldForm.get('fields') as FormArray).controls[i].get('formula').touched;
-  // }
 }
