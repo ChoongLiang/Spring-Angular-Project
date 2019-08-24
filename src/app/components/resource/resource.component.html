@@ -5,7 +5,11 @@
         <div class="row no-gutters">
           <div class="col">
             <span>
-              <input type="text" placeholder="Keyword">
+              <input  matInput
+                      (keyup)="applyFilter($event.target.value)"
+                      id="search-input"
+                      type="text"
+                      placeholder="Keyword">
             </span>
           </div>
           <div class="col">
@@ -35,7 +39,7 @@
               <div class="col-7 text-left px-0">Add Row</div>
             </div>
           </a>
-          <a class="dropdown-item" id="dropdown-item-padding">
+          <a class="dropdown-item" id="dropdown-item-padding" (click)="addNewFeature()">
             <div class="row w-100">
               <div class="col-5 text-center"><i class="fas fa-columns"></i></div>
               <div class="col-7 text-left px-0">Add Column</div>
@@ -45,22 +49,55 @@
       </div>
     </div>
   </mat-toolbar>
+</div>
 
-  <mat-table [dataSource]="dataSource" class="table-border">
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource" class="table-border">
 
     <!-- Resource Name Column -->
     <ng-container matColumnDef="resourceName">
       <mat-header-cell *matHeaderCellDef> RESOURCE NAME </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element["name"]}} </mat-cell>
+      <mat-cell *matCellDef="let element; let i = index">
+          <ng-container *ngIf='element.editable'>
+            <input  type="text"
+                    id="new-resource-input"
+                    [(ngModel)]= "newResourceName[i]"
+                    autofocus />
+          </ng-container>
+          <ng-container *ngIf='!element.editable'>
+            {{element["name"]}}
+          </ng-container>
+      </mat-cell>
     </ng-container>
 
     <!-- Resource Code Column -->
     <ng-container matColumnDef="resourceCode">
       <mat-header-cell *matHeaderCellDef> RESOURCE CODE </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element["code"]}} </mat-cell>
+      <mat-cell *matCellDef="let element; let i = index">
+        <ng-container *ngIf='element.editable'>
+          <div class="flex-container">
+            <button (click)=saveResource(i)><i class="fas fa-check fa-xs tick-icon"></i></button>
+            <button (click)=discardResource(i)><i class="fas fa-times fa-xs times-icon"></i></button>
+          </div>
+          <input  type="text"
+                  id="new-resource-input"
+                  [(ngModel)]="newResourceCode[i]"/>
+        </ng-container>
+        <ng-container *ngIf='!element.editable'>
+          {{element["code"]}}
+        </ng-container>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container *ngFor="let feature of displayedColumns | slice: 2;let i = index">
+      <ng-container matColumnDef={{feature}}>
+        <mat-header-cell *matHeaderCellDef> {{feature}} </mat-header-cell>
+        <mat-cell *matCellDef="let element;">
+        </mat-cell>
+      </ng-container>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
+  </table>
 </div>

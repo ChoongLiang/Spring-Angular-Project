@@ -29,8 +29,16 @@ export class ResourceService {
     return this.http.post<Resource>(this.url, `{ "submit": "${this.param}" }`, this.httpOptions);
   }
 
+  addResource(resource: Resource): Observable<any> {
+    return this.http.post<any>(this.url, resource, this.httpOptions);
+  }
+
   setParam(param: string): void {
     this.param = param;
+  }
+
+  logParam(): void {
+    console.log(this.param);
   }
   
 }

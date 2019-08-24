@@ -27,6 +27,10 @@ export class FeatureService {
   getFeature(): Observable<Feature> {
     return this.http.post<Feature>(this.url, `{ "submit": "${this.param}" }`, this.httpOptions);
   }
+
+  addFeature(feature: Feature): Observable<any> {
+    return this.http.post<any>(this.url, feature, this.httpOptions);
+  }
   
   setParam(param: string): void {
     this.param = param;
