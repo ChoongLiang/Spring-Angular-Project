@@ -1,103 +1,76 @@
 <div class="custom-container">
-  <div class="row">
-    <div class="col-3">
-      <table class="table table-striped ">
-        <thead>
-        <tr class="row">
-          <th class="col-sm-12">
-            Project Scope Fields
-          </th>
-        </tr>
-        <tr class="row">
-          <th class="col-sm-10"> name</th>
-          <th class="col-sm-2">
-            <input type="checkbox" class="form-check-input">
-          </th>
-        </tr>
-        <tr class="row">
-          <th class="col-sm-10">cost_code</th>
-          <th class="col-sm-2">
-            <input type="checkbox" class="form-check-input">
-          </th>
-        </tr>
-        <tr class="row">
-          <th class="col-sm-10">editable</th>
-          <th class="col-sm-2">
-            <input type="checkbox" class="form-check-input">
-          </th>
-        </tr>
-        <tr class="row">
-          <th class="col-sm-10">item_id</th>
-          <th class="col-sm-2">
-            <input type="checkbox" class="form-check-input">
-          </th>
-        </tr>
-        </thead>
-      </table>
+    <div class="row">
+        <div class="col-3">
+            <table class="table table-striped ">
+                <thead>
+                    <tr class="row">
+                        <th class="col-sm-12">
+                            Project Scope Fields
+                        </th>
+                    </tr>
+                    <tr *ngFor="let feature of displayedRows" class="row">
+                        <th class="col-sm-10"> {{ feature }}</th>
+                        <th class="col-sm-2">
+                            <input type="checkbox" id={{feature}} class="form-check-input" checked=true>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="col-1"></div>
+        <div class="col-8">
+            <form [formGroup]="fieldForm">
+                <table class="table table-striped" formArrayName="fields">
+                    <thead>
+                        <tr class="row">
+                            <th class="col-sm-12">
+                                Quantity Survey Fields
+                            </th>
+                        </tr>
+                        <tr *ngFor="let surveyFieldCtrl of getControls(); let i = index" class="row"
+                            [formGroupName]="i">
+                            <th class="col-sm-3">
+                                <div>Field</div>
+                                <input type="text" size="10" class="form-control" formControlName="field">
+                            </th>
+                            <th class="col-sm-3">
+                                <div>Type</div>
+                                <select class="mdb-select md-form colorful-select dropdown-primary"
+                                    formControlName="type" #type>
+                                    <option value="number" name="number">Number</option>
+                                    <option value="text" name="text">Text</option>
+                                    <option value="formula" name="formula">Formula</option>
+                                </select>
+                            </th>
+                            <th class="col-sm-4" *ngIf="type.value === 'formula'">
+                                <div>Formula</div>
+                                <input type="text" class="form-control" formControlName="formula">
+                            </th>
+                            <th class="col-sm-4" *ngIf="type.value !== 'formula'">
+                                <div></div>
+                            </th>
+                            <th class="col-sm-2">
+                                <div class="float-right" (click)="onDelete(i)">
+                                    <button><i class="fa fa-trash " aria-hidden="true"></i></button>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr class="row">
+                            <th class="col-sm-12">
+                                <div class="float-right" (click)="onAdd()">Add Field
+                                    <button><i class="fas fa-plus"></i></button>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </form>
+        </div>
+
+        <div>
+            <button class="submit" type="submit" (click)="saveHandler()">SAVE</button>
+            <!--<a routerLink="/formula"></a>-->
+        </div>
     </div>
-    <div class="col-1"></div>
-    <div class="col-8">
-      <form [formGroup]="fieldForm" (ngSubmit)="onSubmit()">
-        <table class="table table-striped" formArrayName="fields">
-          <thead>
-          <tr class="row">
-            <th class="col-sm-12">
-              Quantity Survey Fields
-            </th>
-          </tr>
-          <tr *ngFor="let surveyFieldCtrl of getControls(); let i = index" class="row"
-              [formGroupName]="i">
-            <th class="col-sm-3">
-              <div>Field</div>
-              <input
-                type="text"
-                size="10"
-                class="form-control"
-                formControlName="field"
-              >
-            </th>
-            <th class="col-sm-3">
-              <div>Type</div>
-              <select
-                class="mdb-select md-form colorful-select dropdown-primary"
-                formControlName="type"
-                #type
-              >
-                <option value="number" name="number">Number</option>
-                <option value="text" name="text" >Text</option>
-                <option value="formula" name="formula">Formula</option>
-              </select>
-            </th>
-            <th class="col-sm-4" *ngIf="type.value === 'formula'">
-              <div>Formula</div>
-              <input
-                id="formula"
-                type="text"
-                class="form-control"
-                formControlName="formula">
-<!--                (input)="onFormulaChange(i, $event)"-->
-<!--                [ngClass]="{'formulaInvalid': !isFormulaValid[i]-->
-<!--                                            && isTouched(i)}"-->
-            </th>
-            <th class="col-sm-4" *ngIf="type.value !== 'formula'">
-              <div></div>
-            </th>
-            <th class="col-sm-2">
-              <div class="float-right" (click)="onDelete(i)">
-                <button><i class="fa fa-trash " aria-hidden="true"></i></button>
-              </div>
-            </th>
-          </tr>
-          <tr class="row">
-            <th class="col-sm-12">
-              <div class="float-right" (click)="onAdd()">Add Field
-                <button><i class="fas fa-plus"></i></button>
-              </div>
-            </th>
-          </tr>
-          </thead>
-        </table>
-      </form>
-    </div>
-  </div>
 </div>

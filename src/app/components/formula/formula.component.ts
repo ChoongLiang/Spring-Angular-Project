@@ -54,6 +54,7 @@ export class FormulaComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Load projects from back-end
     this.getProjects();
+    this.getProjectName();
 
     // set initial selection or the saved value when moving from formula to template or vice-versa.
     this.projectCtrl.setValue(this.formulaService.getProjectName());

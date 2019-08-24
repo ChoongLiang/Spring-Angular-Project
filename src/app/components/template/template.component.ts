@@ -1,11 +1,9 @@
-import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormulaService } from 'src/app/services/formula.service';
 import { Feature } from 'src/app/models/Feature';
 import { Resource } from 'src/app/models/Resource';
 import { Component, OnInit } from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ValidateFormula} from './formula.validator';
+import { ValidateFormula } from './formula.validator';
 
 @Component({
   selector: 'app-template',
@@ -65,26 +63,26 @@ export class TemplateComponent implements OnInit {
     console.log(this.fieldForm);
     console.log(fieldsArray.length);
     fieldsArray.push(
-        new FormGroup({
-          field: new FormControl(null, Validators.required),
-          type: new FormControl('number', Validators.required),
-          formula: new FormControl(null,
-            [Validators.required,
-              ValidateFormula(this.fieldForm,
-                fieldsArray.length)])
-        })
+      new FormGroup({
+        field: new FormControl(null, Validators.required),
+        type: new FormControl('number', Validators.required),
+        formula: new FormControl(null,
+          [Validators.required,
+          ValidateFormula(this.fieldForm,
+            fieldsArray.length)])
+      })
     );
   }
 
   onDelete(i: number) {
     (this.fieldForm.get('fields') as FormArray).removeAt(i);
-    updateAllFormula();
+    // updateAllFormula();
     // this.isFormulaValid.splice(i, 1);
   }
 
-  updateAllFormula() {
+  // updateAllFormula() {
 
-  }
+  // }
 
   onSubmit() {
 
