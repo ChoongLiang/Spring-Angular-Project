@@ -115,8 +115,13 @@ export class FormulaComponent implements OnInit, OnDestroy {
         console.log(this.projectMap);
         this.projectId = this.projectMap.get(this.formulaService.getProjectName());
         this.getProjectName();
-        this.getFeature();
-        this.getFeatureValue();
+        this.resources = this.formulaService.getResources();
+        console.log(this.resources);
+        this.displayedColumns = this.displayedColumns.concat(this.formulaService.getCheckedFeatures());
+        console.log(this.displayedColumns);
+        this.dataSource = this.resources;
+        // this.getFeature();
+        // this.getFeatureValue();
         this.formulaService.clearProjectName();
       }
     )
@@ -187,6 +192,7 @@ export class FormulaComponent implements OnInit, OnDestroy {
             this.resources.push(resource);
           }
         }
+        this.formulaService.saveResources(this.resources);
       },
       error => console.log(error),
       () => {
@@ -202,6 +208,7 @@ export class FormulaComponent implements OnInit, OnDestroy {
     }
     console.log(this.resources);
     this.dataSource = this.resources;
+    // this.dataSource = this.formulaService.getResources();
   }
 
   findFeatureValue(resourceId: number) {

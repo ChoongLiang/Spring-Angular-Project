@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/cor
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormulaService } from 'src/app/services/formula.service';
 import { Feature } from 'src/app/models/Feature';
+import { Resource } from 'src/app/models/Resource';
 
 @Component({
   selector: 'app-template',
@@ -11,9 +12,10 @@ import { Feature } from 'src/app/models/Feature';
 export class TemplateComponent implements OnInit {
   fieldForm: FormGroup;
   features: Feature[];
+  resources: Resource[];
   displayedRows: string[] = [];
   constructor(private formulaService: FormulaService) { }
-  checked = new Map();
+  // checked = new Map();
   checkedFeatures: string[] = [];
   projectName: string;
 
@@ -21,6 +23,8 @@ export class TemplateComponent implements OnInit {
     const surveyFields = new FormArray([]);
     this.fieldForm = new FormGroup({ fields: surveyFields });
     this.features = this.formulaService.getFeatures();
+    this.resources = this.formulaService.getResources();
+    console.log(this.resources);
     console.log(this.features);
     this.parseFeatures();
     this.formulaService.saveProjectName(this.projectName);
@@ -35,14 +39,22 @@ export class TemplateComponent implements OnInit {
 
   saveHandler() {
     this.checkedFeatures = [];
-    for (let i of this.displayedRows) {
-      this.checked.set(i, (<HTMLInputElement>document.getElementById(i)).checked);
-      if ((<HTMLInputElement>document.getElementById(i)).checked) {
-        this.checkedFeatures.push(i);
+    for (let j = 0; j < this.resources.length; j++) {
+      for (let i = 0; i < this.displayedRows.length; i++) {
+        // this.checked.set(i, (<HTMLInputElement>document.getElementById(i)).checked);
+        let checked = (<HTMLInputElement>document.getElementById(this.displayedRows[i])).checked
+        if (checked) {
+          this.checkedFeatures.push(this.displayedRows[i]);
+        } else if (this.resources[j].features[i] !== undefined && this.resources[j].features[i].name == this.displayedRows[i]) {
+          delete this.resources[j].features[i];
+        }
       }
     }
-    this.formulaService.saveCheckedFeatures(this.checkedFeatures);
-    console.log(this.checked);
+    console.log(this.resources);
+    let unique = [...new Set(this.checkedFeatures)];
+    this.formulaService.saveCheckedFeatures(unique);
+    this.formulaService.saveResources(this.resources);
+
   }
 
 

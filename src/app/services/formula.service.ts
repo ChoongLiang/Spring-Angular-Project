@@ -3,6 +3,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { Feature } from '../models/Feature';
+import { Resource } from '../models/Resource';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class FormulaService {
     })
   };
   features: Feature[];
+  resources: Resource[];
   checkedFeatures: string[] = [];
   projectName: string;
 
@@ -57,5 +59,13 @@ export class FormulaService {
 
   clearCheckedFeatures() {
     this.checkedFeatures = [];
+  }
+
+  saveResources(resources: Resource[]) {
+    this.resources = resources;
+  }
+
+  getResources() {
+    return this.resources;
   }
 }
