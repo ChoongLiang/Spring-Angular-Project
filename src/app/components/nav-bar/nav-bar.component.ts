@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
-import { SideBarComponent } from '../side-bar/side-bar.component';
+import { Router } from '@angular/router';
 
-import { SideBarService } from '../../services/side-bar.service';
 import { AuthService } from '../../auth/auth.service';
 import { ProjectService } from '../../services/data/project.service';
 
@@ -11,13 +10,16 @@ import { ProjectService } from '../../services/data/project.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit, AfterContentChecked {
-  name: string;
+  private name: string;
+  private dropdownActive: boolean;
   
   constructor(
-    private sideBarSerivce: SideBarService,
     private authService: AuthService,
-    private projectService: ProjectService
-  ) { }
+    private projectService: ProjectService,
+    private router: Router
+  ) {
+    this.dropdownActive = false;
+  }
 
   ngOnInit() { }
 
@@ -25,13 +27,20 @@ export class NavBarComponent implements OnInit, AfterContentChecked {
     this.name = localStorage.getItem("name");
   }
 
-  clickButton() {
-    this.sideBarSerivce.trigger();
-  }
-
   logOut() {
     this.authService.logOut();
     this.authService.cleanUpStorage();
+    this.router.navigate(['/login']);
+    this.dropdownActive = false;
+  }
+
+  profile() {
+    this.router.navigate(['/profile']);
+    this.dropdownActive = false;
+  }
+
+  triggerDropdown(): void {
+    this.dropdownActive = !this.dropdownActive;
   }
 
 }

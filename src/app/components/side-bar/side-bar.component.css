@@ -1,29 +1,44 @@
 #sidebar {
-    min-width: 200px;
-    max-width: 200px;
-    min-height: 90vh;
-    transition: all 0.3s;
-    background-color: #f2f2f2;
+  min-width: 224px;
+  max-width: 224px;
+  min-height: 95vh;
+  transition: all 0.3s;
+  background-color: black;
 }
 
 .notActive {
-    margin-left: -200px;
+  margin-left: -224px;
 }
 
 .active {
-    margin-left: 0px;
+  margin-left: 0px;
 }
 
 a {
-    color: #343a40;
-    padding: 2px 0px;
+  color: white;
+  padding: 2px 0px;
 }
 
 .current {
-    color: #007bff;
+  color: #F16620;
 }
 
 a:hover {
-    color: #939699;
+  color: #939699;
+}
+
+.flex-brand {
+  display: flex;
+}
+
+button {
+  background: black;
+  outline: none;
+  border: none;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: 40px;
+  height: 40px;
+  color: white;
 }
 
