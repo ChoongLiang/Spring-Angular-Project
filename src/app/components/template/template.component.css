@@ -7,3 +7,9 @@
 .row{
     background-color: #ebebeb;
 }
+input.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
+/*input.formulaInvalid {*/
+/*    border: 1px solid red;*/
+/*}*/
