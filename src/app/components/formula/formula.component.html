@@ -23,7 +23,6 @@
   </mat-toolbar>
 
   <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
     <!-- Resource Name Column -->
     <ng-container matColumnDef="resourceName">
       <mat-header-cell *matHeaderCellDef> NAME </mat-header-cell>
@@ -39,9 +38,12 @@
     <ng-container *ngFor="let feature of displayedColumns | slice: 2;let i = index">
       <ng-container matColumnDef={{feature}}>
         <mat-header-cell *matHeaderCellDef> {{feature}} </mat-header-cell>
-        <mat-cell *matCellDef="let element;">
+        <mat-cell *matCellDef="let element">
           <div *ngIf="element['features'][i] !== undefined">
+            <!--'{{feature}}'   && element['features'][i]['name'] === 'Editable+'-->
+            <!-- <div *ngIf="element['features'][i]['name'] == {{feature}}"> -->
             {{element["features"][i]["featureValue"]["value"]}}
+            <!-- </div> -->
           </div>
         </mat-cell>
       </ng-container>
@@ -55,5 +57,35 @@
     <a routerLink="/template">Edit Quantity Survey Template</a>
     <button class="submit" type="submit"><i class="fas fa-check"></i>Submit</button>
   </div>
+
+  <!-- <p-table value="displayedColumns" [columns]="resources"> -->
+  <!--[columns]="resources"-->
+  <!-- <p-column field="resources['name']" header="resourceName">
+      <ng-template *ngFor="let col of columns">
+        {{ col['name'] }}
+      </ng-template>
+    </p-column> -->
+  <!-- 
+    <p-column field="resources['code']" header="resourceCode">
+      <ng-template *ngFor="let col of columns">
+        {{ columns['code'] }}
+      </ng-template>
+    </p-column> -->
+  <!-- <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let col of displayedColumns"> -->
+  <!-- {{ col }}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns"> -->
+  <!-- *ngIf="displayedColumns == 'resourceName'" -->
+  <!-- {{ col["name"] }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table> -->
 
 </div>

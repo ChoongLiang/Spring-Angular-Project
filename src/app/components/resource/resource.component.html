@@ -1,4 +1,4 @@
-<div style="width: 1300px">
+<div style="min-width: 1000px">
   <mat-toolbar style="background-color: #808080">
     <div class="row w-100">
       <div class="col">
@@ -58,8 +58,8 @@
       <mat-header-cell *matHeaderCellDef> RESOURCE NAME </mat-header-cell>
       <mat-cell *matCellDef="let element; let i = index">
           <ng-container *ngIf='element.editable'>
-            <input  type="text" 
-                    id="new-resource-input" 
+            <input  type="text"
+                    id="new-resource-input"
                     [(ngModel)]= "newResourceName[i]"
                     autofocus />
           </ng-container>
@@ -79,7 +79,7 @@
             <button (click)=discardResource(i)><i class="fas fa-times fa-xs times-icon"></i></button>
           </div>
           <input  type="text"
-                  id="new-resource-input" 
+                  id="new-resource-input"
                   [(ngModel)]="newResourceCode[i]"/>
         </ng-container>
         <ng-container *ngIf='!element.editable'>

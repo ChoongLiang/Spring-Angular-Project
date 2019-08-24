@@ -1,11 +1,16 @@
+<<<<<<< HEAD
+import { Component, OnInit } from '@angular/core';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ValidateFormula} from './formula.validator';
+||||||| merged common ancestors
+import { Component, OnInit } from '@angular/core';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+=======
 import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormulaService } from 'src/app/services/formula.service';
 import { Feature } from 'src/app/models/Feature';
-import { Resource } from 'src/app/models/Resource';
-import { Component, OnInit } from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ValidateFormula} from './formula.validator';
+>>>>>>> ed378949d90a23761218a57138310913f157bf7d
 
 @Component({
   selector: 'app-template',
@@ -14,23 +19,34 @@ import {ValidateFormula} from './formula.validator';
 })
 export class TemplateComponent implements OnInit {
   fieldForm: FormGroup;
+<<<<<<< HEAD
+  // isFormulaValid: boolean[];
+  constructor() { }
+||||||| merged common ancestors
+  constructor() { }
+=======
   features: Feature[];
-  resources: Resource[];
   displayedRows: string[] = [];
   constructor(private formulaService: FormulaService) { }
-  // checked = new Map();
+  checked = new Map();
   checkedFeatures: string[] = [];
   projectName: string;
+>>>>>>> ed378949d90a23761218a57138310913f157bf7d
 
   ngOnInit() {
     const surveyFields = new FormArray([]);
+<<<<<<< HEAD
+    this.fieldForm = new FormGroup({fields: surveyFields});
+    // this.isFormulaValid = [];
+||||||| merged common ancestors
+    this.fieldForm = new FormGroup({fields: surveyFields});
+=======
     this.fieldForm = new FormGroup({ fields: surveyFields });
     this.features = this.formulaService.getFeatures();
-    this.resources = this.formulaService.getResources();
-    console.log(this.resources);
     console.log(this.features);
     this.parseFeatures();
     this.formulaService.saveProjectName(this.projectName);
+>>>>>>> ed378949d90a23761218a57138310913f157bf7d
   }
 
   parseFeatures() {
@@ -42,29 +58,24 @@ export class TemplateComponent implements OnInit {
 
   saveHandler() {
     this.checkedFeatures = [];
-    for (let j = 0; j < this.resources.length; j++) {
-      for (let i = 0; i < this.displayedRows.length; i++) {
-        // this.checked.set(i, (<HTMLInputElement>document.getElementById(i)).checked);
-        let checked = (<HTMLInputElement>document.getElementById(this.displayedRows[i])).checked
-        if (checked) {
-          this.checkedFeatures.push(this.displayedRows[i]);
-        } else if (this.resources[j].features[i] !== undefined && this.resources[j].features[i].name == this.displayedRows[i]) {
-          delete this.resources[j].features[i];
-        }
+    for (let i of this.displayedRows) {
+      this.checked.set(i, (<HTMLInputElement>document.getElementById(i)).checked);
+      if ((<HTMLInputElement>document.getElementById(i)).checked) {
+        this.checkedFeatures.push(i);
       }
     }
-    console.log(this.resources);
-    let unique = [...new Set(this.checkedFeatures)];
-    this.formulaService.saveCheckedFeatures(unique);
-    this.formulaService.saveResources(this.resources);
-
+    this.formulaService.saveCheckedFeatures(this.checkedFeatures);
+    console.log(this.checked);
   }
+
+
 
   onAdd() {
     const fieldsArray = this.fieldForm.get('fields') as FormArray;
     console.log(this.fieldForm);
     console.log(fieldsArray.length);
     fieldsArray.push(
+<<<<<<< HEAD
         new FormGroup({
           field: new FormControl(null, Validators.required),
           type: new FormControl('number', Validators.required),
@@ -73,6 +84,19 @@ export class TemplateComponent implements OnInit {
               ValidateFormula(this.fieldForm,
                 fieldsArray.length)])
         })
+||||||| merged common ancestors
+        new FormGroup({
+          field: new FormControl(null, Validators.required),
+          type: new FormControl('number', Validators.required),
+          formula: new FormControl(null, Validators.required)
+        })
+=======
+      new FormGroup({
+        field: new FormControl(null, Validators.required),
+        type: new FormControl('number', Validators.required),
+        formula: new FormControl(null, Validators.required)
+      })
+>>>>>>> ed378949d90a23761218a57138310913f157bf7d
     );
   }
 
