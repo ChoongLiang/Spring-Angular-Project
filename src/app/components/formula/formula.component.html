@@ -1,53 +1,44 @@
 <div style="min-width: 1000px">
+  <p class="select">
+    <mat-form-field>
+      <!---->
+      <mat-select [formControl]="projectCtrl" placeholder="Project" (change)="selectChangeHandler($event)">
+        <mat-option>
+          <ngx-mat-select-search [formControl]="projectFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+
+        <mat-option *ngFor="let project of projectNames" [value]="project.name">
+          {{ project.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </p>
+
   <mat-toolbar style="background-color: #808080">
     <div class="row w-100">
-      <div class="col">
-        <div class="row no-gutters">
-          <div class="col">
-            <span>
-              <input type="text" placeholder="Keyword">
-            </span>
-          </div>
-          <div class="col">
-            <span>
-              <button class="add-btn search-btn">
-                <span style="color: white">
-                  <i class="fas fa-search"></i>
-                </span>
-              </button>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="col text-center">
-        <p class="pt-3">Resource Catalog</p>
-      </div>
-      <div class="col text-right">
-        <button class="add-btn"><span style="color: white">
-          <i class="fas fa-plus"></i></span>
-        </button>
+      <div class="col text-left">
+        QUANTITY SURVEY
       </div>
     </div>
   </mat-toolbar>
 
   <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
     <!-- Resource Name Column -->
     <ng-container matColumnDef="resourceName">
-      <mat-header-cell *matHeaderCellDef> RESOURCE NAME </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> NAME </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element["name"]}} </mat-cell>
     </ng-container>
 
     <!-- Resource Code Column -->
     <ng-container matColumnDef="resourceCode">
-      <mat-header-cell *matHeaderCellDef> RESOURCE CODE </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> COST_CODE </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element["code"]}} </mat-cell>
     </ng-container>
 
     <ng-container *ngFor="let feature of displayedColumns | slice: 2;let i = index">
       <ng-container matColumnDef={{feature}}>
         <mat-header-cell *matHeaderCellDef> {{feature}} </mat-header-cell>
-        <mat-cell *matCellDef="let element;">
+        <mat-cell *matCellDef="let element">
           <div *ngIf="element['features'][i] !== undefined">
             {{element["features"][i]["featureValue"]["value"]}}
           </div>
@@ -58,4 +49,40 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
+  <br><br>
+  <div>
+    <a routerLink="/template">Edit Quantity Survey Template</a>
+    <button class="submit" type="submit"><i class="fas fa-check"></i>Submit</button>
+  </div>
+
+  <!-- <p-table value="displayedColumns" [columns]="resources"> -->
+  <!--[columns]="resources"-->
+  <!-- <p-column field="resources['name']" header="resourceName">
+      <ng-template *ngFor="let col of columns">
+        {{ col['name'] }}
+      </ng-template>
+    </p-column> -->
+  <!-- 
+    <p-column field="resources['code']" header="resourceCode">
+      <ng-template *ngFor="let col of columns">
+        {{ columns['code'] }}
+      </ng-template>
+    </p-column> -->
+  <!-- <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let col of displayedColumns"> -->
+  <!-- {{ col }}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns"> -->
+  <!-- *ngIf="displayedColumns == 'resourceName'" -->
+  <!-- {{ col["name"] }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table> -->
+
 </div>

@@ -1,4 +1,5 @@
-export interface Project {
-    id: number;
+export class Project {
+    id?: number;
     name: string;
+    submit?: string;
 }

@@ -1,0 +1,142 @@
+<<<<<<< HEAD
+import { Component, OnInit } from '@angular/core';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ValidateFormula} from './formula.validator';
+||||||| merged common ancestors
+import { Component, OnInit } from '@angular/core';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+=======
+import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormulaService } from 'src/app/services/formula.service';
+import { Feature } from 'src/app/models/Feature';
+>>>>>>> ed378949d90a23761218a57138310913f157bf7d
+
+@Component({
+  selector: 'app-template',
+  templateUrl: './template.component.html',
+  styleUrls: ['./template.component.css']
+})
+export class TemplateComponent implements OnInit {
+  fieldForm: FormGroup;
+<<<<<<< HEAD
+  // isFormulaValid: boolean[];
+  constructor() { }
+||||||| merged common ancestors
+  constructor() { }
+=======
+  features: Feature[];
+  displayedRows: string[] = [];
+  constructor(private formulaService: FormulaService) { }
+  checked = new Map();
+  checkedFeatures: string[] = [];
+  projectName: string;
+>>>>>>> ed378949d90a23761218a57138310913f157bf7d
+
+  ngOnInit() {
+    const surveyFields = new FormArray([]);
+<<<<<<< HEAD
+    this.fieldForm = new FormGroup({fields: surveyFields});
+    // this.isFormulaValid = [];
+||||||| merged common ancestors
+    this.fieldForm = new FormGroup({fields: surveyFields});
+=======
+    this.fieldForm = new FormGroup({ fields: surveyFields });
+    this.features = this.formulaService.getFeatures();
+    console.log(this.features);
+    this.parseFeatures();
+    this.formulaService.saveProjectName(this.projectName);
+>>>>>>> ed378949d90a23761218a57138310913f157bf7d
+  }
+
+  parseFeatures() {
+    for (let feature of this.features) {
+      this.displayedRows.push(feature['name']);
+      this.projectName = feature['project']['name'];
+    }
+  }
+
+  saveHandler() {
+    this.checkedFeatures = [];
+    for (let i of this.displayedRows) {
+      this.checked.set(i, (<HTMLInputElement>document.getElementById(i)).checked);
+      if ((<HTMLInputElement>document.getElementById(i)).checked) {
+        this.checkedFeatures.push(i);
+      }
+    }
+    this.formulaService.saveCheckedFeatures(this.checkedFeatures);
+    console.log(this.checked);
+  }
+
+
+
+  onAdd() {
+    const fieldsArray = this.fieldForm.get('fields') as FormArray;
+    console.log(this.fieldForm);
+    console.log(fieldsArray.length);
+    fieldsArray.push(
+<<<<<<< HEAD
+        new FormGroup({
+          field: new FormControl(null, Validators.required),
+          type: new FormControl('number', Validators.required),
+          formula: new FormControl(null,
+            [Validators.required,
+              ValidateFormula(this.fieldForm,
+                fieldsArray.length)])
+        })
+||||||| merged common ancestors
+        new FormGroup({
+          field: new FormControl(null, Validators.required),
+          type: new FormControl('number', Validators.required),
+          formula: new FormControl(null, Validators.required)
+        })
+=======
+      new FormGroup({
+        field: new FormControl(null, Validators.required),
+        type: new FormControl('number', Validators.required),
+        formula: new FormControl(null, Validators.required)
+      })
+>>>>>>> ed378949d90a23761218a57138310913f157bf7d
+    );
+  }
+
+  onDelete(i: number) {
+    (this.fieldForm.get('fields') as FormArray).removeAt(i);
+    updateAllFormula();
+    // this.isFormulaValid.splice(i, 1);
+  }
+
+  updateAllFormula() {
+
+  }
+
+  onSubmit() {
+
+  }
+
+  getControls() {
+    return (this.fieldForm.get('fields') as FormArray).controls;
+  }
+  // onFormulaChange(i: number, event: Event) {
+  //   let isValidFormula = true;
+  //   for (const partOfFormula of (this.fieldForm.get('fields') as FormArray).controls[i].get('formula').value.split('*')) {
+  //     let matchFound = false;
+  //     for (let index = 0; index < (this.fieldForm.get('fields') as FormArray).length; index++) {
+  //         if ((this.fieldForm.get('fields') as FormArray).controls[index].get('field').value
+  //             === partOfFormula.trim()) {
+  //             matchFound = true;
+  //             break;
+  //         }
+  //     }
+  //     if (!matchFound) {
+  //         isValidFormula = false;
+  //         break;
+  //     }
+  //   }
+  //   this.isFormulaValid[i] = isValidFormula;
+  // }
+  //
+  // isTouched(i: number) {
+  //   return (this.fieldForm.get('fields') as FormArray).controls[i].get('formula').touched;
+  // }
+}

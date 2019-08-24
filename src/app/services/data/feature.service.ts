@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../auth/auth.service';
 import { Observable } from 'rxjs';
 
+import { Feature } from '../../models/Feature';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,8 +20,16 @@ export class FeatureService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getFeatures(): Observable<any> {
-    return this.http.post<any>(this.url, `{ "submit": "${this.param}" }`, this.httpOptions);
+  getFeatures(): Observable<Feature[]> {
+    return this.http.post<Feature[]>(this.url, `{ "submit": "${this.param}" }`, this.httpOptions);
+  }
+
+  getFeature(): Observable<Feature> {
+    return this.http.post<Feature>(this.url, `{ "submit": "${this.param}" }`, this.httpOptions);
+  }
+
+  addFeature(feature: Feature): Observable<any> {
+    return this.http.post<any>(this.url, feature, this.httpOptions);
   }
   
   setParam(param: string): void {
