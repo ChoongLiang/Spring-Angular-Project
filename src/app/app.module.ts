@@ -24,6 +24,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ErrorComponent,
     MessageComponent,
     SignupComponent,
-    TemplateComponent
+    TemplateComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -54,7 +55,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatTableModule,
     MatToolbarModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    TableModule
   ],
   providers: [JwtHelperService],
   bootstrap: [AppComponent]

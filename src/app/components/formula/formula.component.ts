@@ -45,6 +45,9 @@ export class FormulaComponent implements OnInit, OnDestroy {
   private features: Feature[];
   private featureValues: FeatureValue[];
 
+  displayedColumns: string[] = ['resourceName', 'resourceCode'];
+  dataSource = [];
+
   constructor(
     private http: HttpClient,
     private formulaService: FormulaService,
@@ -82,24 +85,20 @@ export class FormulaComponent implements OnInit, OnDestroy {
       });
 
     this.projectCtrl.valueChanges.subscribe(() => {
+      this.displayedColumns = ['resourceName', 'resourceCode'];
       this.resources = [];
       this.features = [];
       this.featureValues = [];
-      this.displayedColumns = ['resourceName', 'resourceCode'];
       console.log(this.projectCtrl.value);
       this.projectID = this.projectMap.get(this.projectCtrl.value);
       this.getProject();
-      this.getResource();
-      this.getFeature();
       this.getFeatureValue();
-
+      this.getFeature();
+      // this.getResource();
     },
       error => console.log(error),
       () => {
         console.log('COMPLETED');
-        this.resources = [];
-        this.features = [];
-        this.featureValues = [];
       })
   }
 
@@ -127,8 +126,6 @@ export class FormulaComponent implements OnInit, OnDestroy {
       }
     )
   }
-  displayedColumns: string[] = ['resourceName', 'resourceCode'];
-  dataSource = [];
 
   getProject() {
     this.projectService.setParam("find" + "" + this.projectID);
@@ -152,7 +149,55 @@ export class FormulaComponent implements OnInit, OnDestroy {
     )
   }
 
+  getFeatureValue() {
+    this.featureValueService.setParam("displayFeatureValue");
+    this.featureValueService.getFeatureValues().subscribe(
+      featureValues => {
+        for (let featureValue of featureValues) {
+          if (featureValue.project.id === this.projectID) {
+            this.featureValues.push(featureValue);
+          }
+        }
+        console.log(this.featureValues);
+      },
+      error => console.log(error),
+      () => {
+        console.log("Feature values loaded.");
+        this.getResource();
+      }
+    )
+  }
+  getFeature() {
+    this.featureService.setParam("displayFeature");
+    this.featureService.getFeatures().subscribe(
+      features => {
+        for (let feature of features) {
+          if (feature.project.id === this.projectID) {
+            this.features.push(feature);
+          }
+        }
+      },
+      error => console.log(error),
+      () => {
+        console.log("Feaures loaded.");
+        console.log(this.features);
+        this.formulaService.saveFeatures(this.features);
+        this.displayAddedFeatures();
+      }
+    )
+  }
+
+  displayAddedFeatures() {
+    // for (let feature of this.features) {
+    //   this.displayedColumns.push(feature.name);
+    // }
+    this.displayedColumns.concat(this.formulaService.getCheckedFeatures());
+    console.log(this.displayedColumns);
+  }
+
   getResource() {
+    // await this.getFeatureValue();
+    // await this.getFeature();
     this.resourceService.setParam("displayResource");
     this.resourceService.getResources().subscribe(
       resources => {
@@ -190,34 +235,6 @@ export class FormulaComponent implements OnInit, OnDestroy {
     return associatedFeatures;
   }
 
-  getFeature() {
-    // this.features = [];
-    this.featureService.setParam("displayFeature");
-    this.featureService.getFeatures().subscribe(
-      features => {
-        for (let feature of features) {
-          if (feature.project.id === this.projectID) {
-            this.features.push(feature);
-          }
-        }
-      },
-      error => console.log(error),
-      () => {
-        console.log("Feaures loaded.");
-        console.log(this.features);
-        this.displayAddedFeatures();
-      }
-    )
-  }
-
-  displayAddedFeatures() {
-    for (let feature of this.features) {
-      this.displayedColumns.push(feature.name);
-    }
-    console.log(this.displayedColumns);
-  }
-
-
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
@@ -248,23 +265,5 @@ export class FormulaComponent implements OnInit, OnDestroy {
         project.name.toLowerCase().indexOf(search) > -1
       })
     );
-  }
-
-  getFeatureValue() {
-    // this.featureValues = [];
-    this.featureValueService.setParam("displayFeatureValue");
-    this.featureValueService.getFeatureValues().subscribe(
-      featureValues => {
-        for (let featureValue of featureValues) {
-          if (featureValue.project.id === this.projectID) {
-            this.featureValues.push(featureValue);
-          }
-        }
-      },
-      error => console.log(error),
-      () => {
-        console.log("Feature values loaded.");
-      }
-    )
   }
 }

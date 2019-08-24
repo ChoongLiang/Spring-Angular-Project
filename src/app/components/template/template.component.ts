@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormulaService } from 'src/app/services/formula.service';
+import { Feature } from 'src/app/models/Feature';
 
 @Component({
   selector: 'app-template',
@@ -8,21 +10,48 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class TemplateComponent implements OnInit {
   fieldForm: FormGroup;
-  constructor() { }
+  features: Feature[];
+  displayedRows: string[] = [];
+  constructor(private formulaService: FormulaService) { }
+  checked = new Map();
+  checkedFeatures: string[] = [];
 
   ngOnInit() {
     const surveyFields = new FormArray([]);
-    this.fieldForm = new FormGroup({fields: surveyFields});
+    this.fieldForm = new FormGroup({ fields: surveyFields });
+    this.features = this.formulaService.getFeatures();
+    console.log(this.features);
+    this.parseFeatures();
   }
+
+  parseFeatures() {
+    for (let feature of this.features) {
+      this.displayedRows.push(feature['name']);
+    }
+  }
+
+  saveHandler() {
+    this.checkedFeatures = [];
+    for (let i of this.displayedRows) {
+      this.checked.set(i, (<HTMLInputElement>document.getElementById(i)).checked);
+      if ((<HTMLInputElement>document.getElementById(i)).checked) {
+        this.checkedFeatures.push(i);
+      }
+    }
+    this.formulaService.saveCheckedFeatures(this.checkedFeatures);
+    console.log(this.checked);
+  }
+
+
 
   onAdd() {
     const fieldsArray = this.fieldForm.get('fields') as FormArray;
     fieldsArray.push(
-        new FormGroup({
-          field: new FormControl(null, Validators.required),
-          type: new FormControl('number', Validators.required),
-          formula: new FormControl(null, Validators.required)
-        })
+      new FormGroup({
+        field: new FormControl(null, Validators.required),
+        type: new FormControl('number', Validators.required),
+        formula: new FormControl(null, Validators.required)
+      })
     );
   }
 
