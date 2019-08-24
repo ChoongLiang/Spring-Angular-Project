@@ -2,7 +2,6 @@
     width: 400.1px;
     padding: 50px 30px;
     border-radius: 10px;
-    background-color: #ebebeb;
 }
 
 .ng-valid[required], .ng-valid.required  {
@@ -20,4 +19,24 @@
 .invalid {
     font-size: 15px;
     color: #dc3545;
+}
+
+.login-logo {
+    text-shadow: 1px 1px gray;
+    color: #F48132;
+}
+
+.login-btn {
+    background-color: #FF4400;
+    color: white;
+    border-radius: 0px;
+}
+
+input[type="email"], input[type="password"] {
+    background: #FAFFBD;
+    border-radius: 0px;
+}
+
+a {
+    color: black;
 }

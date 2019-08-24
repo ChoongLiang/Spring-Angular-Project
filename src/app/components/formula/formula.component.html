@@ -40,7 +40,10 @@
         <mat-header-cell *matHeaderCellDef> {{feature}} </mat-header-cell>
         <mat-cell *matCellDef="let element">
           <div *ngIf="element['features'][i] !== undefined">
+            <!--'{{feature}}'   && element['features'][i]['name'] === 'Editable+'-->
+            <!-- <div *ngIf="element['features'][i]['name'] == {{feature}}"> -->
             {{element["features"][i]["featureValue"]["value"]}}
+            <!-- </div> -->
           </div>
         </mat-cell>
       </ng-container>

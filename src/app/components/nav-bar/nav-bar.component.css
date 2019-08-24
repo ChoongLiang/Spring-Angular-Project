@@ -2,13 +2,12 @@
  * Side bar toggle button
  */
 .sidebar-bg {
-    padding: 5px 13px;
-    border-radius: 50%;
-    background-color: #343a40;
+    padding: 11px;
+    background-color: #F16620;
 }
 
 .sidebar-bg:hover {
-    background-color: #6c757d;
+    background-color: #F48132;
 }
 
 #sidebarBtn {
@@ -21,11 +20,11 @@
  */
 #userCircleLogo {
     font-size: 35px;
-    color: #939699;
+    color: black;
 }
 
 #userCircleLogo:hover {
-    color: white;
+    color: #6c757d;
 }
 
 /*
@@ -33,11 +32,11 @@
  */
 .helpCircleLogo {
     font-size: 35px;
-    color: #939699;
+    color: black;
 }
 
 .helpCircleLogo:hover {
-    color: white;
+    color: #6c757d;
 }
 
 /*
@@ -51,10 +50,64 @@
  * Active link
  */
 .active {
-    color: white;
+    color: black;
     font-weight: bold;
 }
 
 .dropdown-toggle::after {
     display:none;
+}
+
+/*
+ * Nav bar background
+ */
+.navbar-color {
+    border-bottom: 1px solid black;
+}
+
+.navbar-brand {
+    color: white;
+    background: #F16620;
+}
+
+.username {
+    width: 30px;
+    height: 60px;
+    line-height: 80px;
+}
+
+.navbar {
+    height: 60px;
+}
+
+/*
+ * Css triangle
+ */
+.arrow-up {
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid black;
+}
+
+.user-info {
+    width: 230px;
+    height: 150px;
+    position: absolute;
+    top: 100%;
+    right: 4.5%;
+    z-index: 100;
+}
+
+.user-info-top {
+    background: black;
+    width: 100%;
+    height: 65%;
+}
+
+.user-info-bottom {
+    background: #AFAFAF;
+    width: 100%;
+    height: 35%;
 }

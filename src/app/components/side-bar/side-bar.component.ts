@@ -8,9 +8,17 @@ import { SideBarService } from 'src/app/services/side-bar.service';
 })
 export class SideBarComponent implements OnInit {
 
-  constructor(private sideBarService: SideBarService) { }
+  private sidebarActive: boolean;
+
+  constructor(private sideBarService: SideBarService) {
+    this.sidebarActive = false;
+  }
 
   ngOnInit() {
   }
 
+  sideBar(): void {
+    this.sideBarService.trigger();
+    this.sidebarActive = !this.sidebarActive;
+  }
 }
