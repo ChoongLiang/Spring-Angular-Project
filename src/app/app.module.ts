@@ -26,7 +26,6 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { TableModule } from 'primeng/table';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
@@ -62,7 +61,6 @@ import { MatRadioModule } from '@angular/material/radio';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    TableModule,
     MatSnackBarModule,
     MatDialogModule,
     MatRadioModule

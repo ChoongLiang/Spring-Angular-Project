@@ -1,10 +1,8 @@
-import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormulaService } from 'src/app/services/formula.service';
 import { Feature } from 'src/app/models/Feature';
 import { Resource } from 'src/app/models/Resource';
-import { Component, OnInit } from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ValidateFormula} from './formula.validator';
 
 @Component({
@@ -78,7 +76,6 @@ export class TemplateComponent implements OnInit {
 
   onDelete(i: number) {
     (this.fieldForm.get('fields') as FormArray).removeAt(i);
-    updateAllFormula();
     // this.isFormulaValid.splice(i, 1);
   }
 
