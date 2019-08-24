@@ -55,34 +55,34 @@
     <button class="submit" type="submit"><i class="fas fa-check"></i>Submit</button>
   </div>
 
-  <p-table value="displayedColumns" [columns]="resources">
-    <!--[columns]="resources"-->
-    <!-- <p-column field="resources['name']" header="resourceName">
+  <!-- <p-table value="displayedColumns" [columns]="resources"> -->
+  <!--[columns]="resources"-->
+  <!-- <p-column field="resources['name']" header="resourceName">
       <ng-template *ngFor="let col of columns">
         {{ col['name'] }}
       </ng-template>
     </p-column> -->
-    <!-- 
+  <!-- 
     <p-column field="resources['code']" header="resourceCode">
       <ng-template *ngFor="let col of columns">
         {{ columns['code'] }}
       </ng-template>
     </p-column> -->
-    <ng-template pTemplate="header">
+  <!-- <ng-template pTemplate="header">
       <tr>
-        <th *ngFor="let col of displayedColumns">
-          {{ col }}
+        <th *ngFor="let col of displayedColumns"> -->
+  <!-- {{ col }}
         </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-columns="columns">
       <tr>
-        <td *ngFor="let col of columns">
-          <!-- *ngIf="displayedColumns == 'resourceName'" -->
-          {{ col["name"] }}
+        <td *ngFor="let col of columns"> -->
+  <!-- *ngIf="displayedColumns == 'resourceName'" -->
+  <!-- {{ col["name"] }}
         </td>
       </tr>
     </ng-template>
-  </p-table>
+  </p-table> -->
 
 </div>

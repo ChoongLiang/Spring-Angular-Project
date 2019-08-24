@@ -62,7 +62,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    TableModule
+    TableModule,
     MatSnackBarModule,
     MatDialogModule,
     MatRadioModule

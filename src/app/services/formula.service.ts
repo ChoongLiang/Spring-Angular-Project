@@ -18,6 +18,7 @@ export class FormulaService {
   };
   features: Feature[];
   checkedFeatures: string[] = [];
+  projectName: string;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -40,5 +41,21 @@ export class FormulaService {
 
   getCheckedFeatures() {
     return this.checkedFeatures;
+  }
+
+  saveProjectName(name: string) {
+    this.projectName = name;
+  }
+
+  getProjectName() {
+    return this.projectName;
+  }
+
+  clearProjectName() {
+    this.projectName = '';
+  }
+
+  clearCheckedFeatures() {
+    this.checkedFeatures = [];
   }
 }

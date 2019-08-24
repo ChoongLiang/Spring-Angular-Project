@@ -15,6 +15,7 @@ export class TemplateComponent implements OnInit {
   constructor(private formulaService: FormulaService) { }
   checked = new Map();
   checkedFeatures: string[] = [];
+  projectName: string;
 
   ngOnInit() {
     const surveyFields = new FormArray([]);
@@ -22,11 +23,13 @@ export class TemplateComponent implements OnInit {
     this.features = this.formulaService.getFeatures();
     console.log(this.features);
     this.parseFeatures();
+    this.formulaService.saveProjectName(this.projectName);
   }
 
   parseFeatures() {
     for (let feature of this.features) {
       this.displayedRows.push(feature['name']);
+      this.projectName = feature['project']['name'];
     }
   }
 
