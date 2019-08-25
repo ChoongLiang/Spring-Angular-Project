@@ -2,7 +2,7 @@
   <p class="select">
     <mat-form-field>
       <!---->
-      <mat-select [formControl]="projectCtrl" placeholder="Project" (change)="selectChangeHandler($event)">
+      <mat-select [formControl]="projectCtrl" placeholder="Project">
         <mat-option>
           <ngx-mat-select-search [formControl]="projectFilterCtrl"></ngx-mat-select-search>
         </mat-option>

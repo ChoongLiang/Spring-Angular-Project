@@ -82,7 +82,7 @@ export class TemplateComponent implements OnInit {
     for (let index = 0; index < (this.fieldForm.get('fields') as FormArray).length; index++) {
       (this.fieldForm.get('fields') as FormArray).controls[index].get('formula').updateValueAndValidity();
     }
-
+  }
   onSubmit() {
 
   }

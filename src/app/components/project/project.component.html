@@ -1,3 +1,97 @@
-<p>
-  project works!
-</p>
+<div style="min-width: 1000px">
+  <div class="select">
+    <mat-form-field>
+      <!---->
+      <mat-select [formControl]="projectCtrl" placeholder="Project">
+        <mat-option>
+          <ngx-mat-select-search [formControl]="projectFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+
+        <mat-option *ngFor="let project of projectNames" [value]="project.name">
+          {{ project.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="resource-table">
+    <mat-toolbar style="background-color: #808080">
+      <div class="row w-100">
+        <div class="col text-center">
+          Resource Catalog
+        </div>
+      </div>
+    </mat-toolbar>
+
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!-- Resource Name Column -->
+      <ng-container matColumnDef="resourceName">
+        <mat-header-cell *matHeaderCellDef> NAME </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element["name"]}} </mat-cell>
+      </ng-container>
+
+      <!-- Resource Code Column -->
+      <ng-container matColumnDef="resourceCode">
+        <mat-header-cell *matHeaderCellDef> COST_CODE </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element["code"]}} </mat-cell>
+      </ng-container>
+
+      <ng-container *ngFor="let feature of displayedColumns | slice: 2;let i = index">
+        <ng-container matColumnDef={{feature}}>
+          <mat-header-cell *matHeaderCellDef> {{feature}} </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element['features'][i] !== undefined">
+              <!--'{{feature}}'   && element['features'][i]['name'] === 'Editable+'-->
+              <!-- <div *ngIf="element['features'][i]['name'] == {{feature}}"> -->
+              {{element["features"][i]["featureValue"]["value"]}}
+              <!-- </div> -->
+            </div>
+          </mat-cell>
+        </ng-container>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+
+  <div class="project-table">
+    <mat-toolbar style="background-color: #808080">
+      <div class="row w-100">
+        <div class="col text-center">
+          Project
+        </div>
+      </div>
+    </mat-toolbar>
+    <mat-table [dataSource]="" class="mat-elevation-z8">
+      <!-- Resource Name Column -->
+      <ng-container matColumnDef="resourceName">
+        <mat-header-cell *matHeaderCellDef> NAME </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element["name"]}} </mat-cell>
+      </ng-container>
+
+      <!-- Resource Code Column -->
+      <ng-container matColumnDef="resourceCode">
+        <mat-header-cell *matHeaderCellDef> COST_CODE </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element["code"]}} </mat-cell>
+      </ng-container>
+
+      <ng-container *ngFor="let feature of displayedColumns | slice: 2;let i = index">
+        <ng-container matColumnDef={{feature}}>
+          <mat-header-cell *matHeaderCellDef> {{feature}} </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element['features'][i] !== undefined">
+              <!--'{{feature}}'   && element['features'][i]['name'] === 'Editable+'-->
+              <!-- <div *ngIf="element['features'][i]['name'] == {{feature}}"> -->
+              {{element["features"][i]["featureValue"]["value"]}}
+              <!-- </div> -->
+            </div>
+          </mat-cell>
+        </ng-container>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>

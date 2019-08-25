@@ -1,0 +1,14 @@
+.resource-table{
+    clear: both;
+    width: 49%;
+    float: left;
+}
+
+.project-table{
+    width: 49%;
+    float: right;
+}
+
+.select{
+    float: right;
+}
