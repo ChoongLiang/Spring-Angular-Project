@@ -47,7 +47,7 @@ export class TemplateComponent implements OnInit {
   }
 
   saveHandler() {
-    // this.checkedFeatures = [];
+    // this.checkedFeatures = [];1
     // for (let j = 0; j < this.resources.length; j++) {
     //   for (let i = 0; i < this.displayedRows.length; i++) {
     //     // this.checked.set(i, (<HTMLInputElement>document.getElementById(i)).checked);
@@ -69,9 +69,6 @@ export class TemplateComponent implements OnInit {
       this.formulaService.iFCheck[i] = (<HTMLInputElement>document.getElementById(this.displayedRows[i])).checked;
     }
     this.router.navigateByUrl('/formula')
-    
-
-
   }
 
   onAdd() {
