@@ -24,7 +24,7 @@
 
   <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- Resource Name Column -->
-    <ng-container matColumnDef="resourceName">
+    <ng-container matColumnDef={{displayedColumns[0]}}>
       <mat-header-cell *matHeaderCellDef> NAME </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element["name"]}} </mat-cell>
     </ng-container>

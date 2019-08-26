@@ -19,22 +19,24 @@ export class TemplateComponent implements OnInit {
   // checked = new Map();
   checkedFeatures: string[] = [];
   projectName: string;
+  displayedColums: string[] = [];
 
   ngOnInit() {
     const surveyFields = new FormArray([]);
+    
     this.fieldForm = new FormGroup({ fields: surveyFields });
     this.features = this.formulaService.getFeatures();
     this.resources = this.formulaService.getResources();
     console.log(this.resources);
     console.log(this.features);
-    this.parseFeatures();
+    this.parseResource();
     this.formulaService.saveProjectName(this.projectName);
   }
 
-  parseFeatures() {
-    for (let feature of this.features) {
-      this.displayedRows.push(feature['name']);
-      this.projectName = feature['project']['name'];
+  parseResource() {
+    for (let resource of this.resources) {
+      this.displayedRows.push(resource['name']);
+      this.projectName = resource['project']['name'];
     }
   }
 

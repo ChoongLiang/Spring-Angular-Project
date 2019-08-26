@@ -59,7 +59,7 @@ export class FormulaComponent implements OnInit, OnDestroy {
     // set initial selection or the saved value when moving from formula to template or vice-versa.
     this.projectCtrl.setValue(this.formulaService.getProjectName());
 
-    this.displayedColumns = ['resourceName', 'resourceCode'];
+    this.displayedColumns = ["resourceName", 'resourceCode'];
     this.resources = [];
     this.features = [];
     this.featureValues = [];
@@ -178,10 +178,10 @@ export class FormulaComponent implements OnInit, OnDestroy {
   }
 
   displayAddedFeatures() {
-    // for (let feature of this.features) {
-    //   this.displayedColumns.push(feature.name);
-    // }
-    this.displayedColumns = this.displayedColumns.concat(this.formulaService.getCheckedFeatures());
+    for (let feature of this.features) {
+      this.displayedColumns.push(feature.name);
+    }
+    // this.displayedColumns = this.displayedColumns.concat(this.formulaService.getCheckedFeatures());
   }
 
   getResource() {
