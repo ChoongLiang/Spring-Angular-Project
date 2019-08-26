@@ -4,11 +4,14 @@
     border-radius: 10px;
     
 }
-.row{
-    background-color: #ebebeb;
-}
+
 input.ng-invalid.ng-touched {
     border: 1px solid red;
+}
+
+button{
+    background: #ef662e;
+
 }
 /*input.formulaInvalid {*/
 /*    border: 1px solid red;*/
