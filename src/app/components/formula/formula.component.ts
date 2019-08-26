@@ -65,6 +65,7 @@ export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
     this.initProjects();
 
     this.updateDataSource();
+    console.log(this.formulaService.iFCheck);
   }
 
   initProjects() {

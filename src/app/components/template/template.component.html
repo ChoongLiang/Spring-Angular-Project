@@ -1,28 +1,31 @@
-<div class="custom-container">
-  <div class="row">
-    <div class="col-4">
-      <table class="table table-striped ">
-        <thead>
-        <tr class="row">
-          <th class="col-sm-12">
-            Project Scope Fields
-          </th>
-        </tr>
-        <tr *ngFor="let feature of displayedRows" class="row">
-          <th class="col-sm-10"> {{ feature }}</th>
-          <th class="col-sm-2">
-            <input type="checkbox" id={{feature}} class="form-check-input" checked=true>
-          </th>
-        </tr>
-        </thead>
-      </table>
-    </div>
+<div class="custom-container" style="width: 1000px ;height: 500px">
+    <div class="row" style="width: 300 ;height: 400px">
+    
+            <table class="col-3 table table-striped ">
+              <tbody>
+                    <tr class="row">
+                        <th class="col-sm-12">
+                            Project Scope Fields
+                        </th>
+                    </tr>
+                
+                
+                    <tr *ngFor="let resource of displayedRows" class="row">
+                        <th class="col-sm-10"> {{ resource }}</th>
+                        <th class="col-sm-2">
+                            <input type="checkbox" id={{resource}} class="form-check-input" checked=true>
+                        </th>
+                    </tr>
+                </tbody>
+                
+            </table>
+        
 
     <div class="col-1"></div>
     <div class="col-7">
       <form [formGroup]="fieldForm" (ngSubmit)="onSubmit()">
         <table class="table table-striped" formArrayName="fields">
-          <thead>
+          <tbody>
           <tr class="row">
             <th class="col-sm-12">
               Quantity Survey Fields
@@ -65,29 +68,32 @@
             </th>
             <th class="col-sm-2">
               <div class="float-right" (click)="onDelete(i)">
-                <button><i class="fa fa-trash " aria-hidden="true"></i></button>
+                <button><i class="fa fa-trash text-light" aria-hidden="true"></i></button>
               </div>
             </th>
           </tr>
           <tr class="row">
             <th class="col-sm-12">
               <div class="float-right" (click)="onAdd()">Add Field
-                <button><i class="fas fa-plus"></i></button>
+                <button><i class="fas fa-plus text-light"></i></button>
               </div>
             </th>
           </tr>
-          </thead>
+          </tbody>
         </table>
-        <button class="btn btn-primary" type="submit">Save</button>
+        
       </form>
-      <div>
-        <button class="submit"
-                type="submit"
-                (click)="saveHandler()"
-                style="float: right; margin: 10px"
-        >SAVE</button>
-        <!--<a routerLink="/formula"></a>-->
+        </div>
+
+        
+        <div class="text-right">
+          <hr style="width: 1000px">
+          <button class="submit text-light p-2 mr-4"   type="submit" (click)="saveHandler()">SAVE</button>
+          <!--<a routerLink="/formula"></a>-->
       </div>
-    </div>
-  </div>
+        
+        
+
+        
+    
 </div>

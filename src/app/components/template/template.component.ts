@@ -4,6 +4,9 @@ import { Feature } from 'src/app/models/Feature';
 import { Resource } from 'src/app/models/Resource';
 import { Component, OnInit } from '@angular/core';
 import { ValidateFormula } from './formula.validator';
+import { RouteReuseStrategy } from '@angular/router';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-template',
@@ -14,10 +17,11 @@ export class TemplateComponent implements OnInit {
   fieldForm: FormGroup;
   features: Feature[];
   displayedRows: string[] = [];
+  constructor(private formulaService: FormulaService,
+    private router: Router) { }
   // checked = new Map();
   checkedFeatures: string[] = [];
   projectName: string;
-  constructor(private formulaService: FormulaService) { }
 
   ngOnInit() {
     this.features = this.formulaService.getFeatures();
@@ -41,6 +45,10 @@ export class TemplateComponent implements OnInit {
         )
       }
     }
+    this.router.navigateByUrl('/formula')
+    
+
+
   }
 
   onAdd() {
