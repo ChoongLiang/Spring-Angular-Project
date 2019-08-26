@@ -17,6 +17,8 @@ export class FormulaService {
       'Content-Type': 'application/json'
     })
   };
+
+  iFCheck: boolean[] = [true,true];
   features: Feature[];
   resources: Resource[];
   checkedFeatures: string[] = [];
@@ -67,5 +69,9 @@ export class FormulaService {
 
   getResources() {
     return this.resources;
+  }
+
+  updateFeatures(modifiedFeatures: Feature[]) {
+    this.features = modifiedFeatures;
   }
 }

@@ -85,6 +85,7 @@ export class ResourceComponent implements OnInit {
       error => console.log(error),
       () => {
         console.log("Resources loaded.");
+        console.log(this.resources);
         this.updateDataSource();
       }
     )

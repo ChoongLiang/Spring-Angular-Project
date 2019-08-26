@@ -59,6 +59,7 @@ export class FormulaComponent implements OnInit {
 
     this.getProjects();
     this.updateDataSource();
+    // console.log(this.formulaService.iFCheck);
   }
 
   getProjects() {
@@ -144,8 +145,12 @@ export class FormulaComponent implements OnInit {
       () => {
         console.log("Feaures loaded.");
         this.displayAddedFeatures();
+        this.formulaService.saveFeatures(this.features);
       }
     )
+  }
+  updateFeatures(modifiedFeatures: Feature[]) {
+    this.features = modifiedFeatures;
   }
 
   displayAddedFeatures() {
