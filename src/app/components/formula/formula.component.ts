@@ -50,7 +50,7 @@ export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.project = {id: 1, name: "Project 1"};
+    this.project = {id: 11, name: "Project 1"};
 
     this.displayedColumns = ["resourceName", 'resourceCode'];
     this.resources = [];
@@ -65,6 +65,7 @@ export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
     this.initProjects();
 
     this.updateDataSource();
+    console.log(this.formulaService.iFCheck);
   }
 
   initProjects() {

@@ -24,17 +24,19 @@
 <div class="table-container">
   <table mat-table [dataSource]="dataSource" >
     <!-- Resource Name Column -->
-    <ng-container matColumnDef={{displayedColumns[0]}}>
-      <mat-header-cell *matHeaderCellDef> NAME </mat-header-cell>
-      <mat-cell *matCellDef="let element; let i = index">
+    <ng-container matColumnDef={{displayedColumns[0]}} >
+      <mat-header-cell *matHeaderCellDef [hidden]="!this.formulaService.iFCheck[0]"> NAME </mat-header-cell>
+      <mat-cell *matCellDef="let element; let i = index" [hidden]="!this.formulaService.iFCheck[0]">
         <input type="text" [value]="element.name" (change)="onEdit($event.target.value,'name', i)">
       </mat-cell>
     </ng-container>
+   
+    
 
     <!-- Resource Code Column -->
     <ng-container matColumnDef="resourceCode">
-      <mat-header-cell *matHeaderCellDef> COST_CODE </mat-header-cell>
-      <mat-cell *matCellDef="let element; let i = index">
+      <mat-header-cell *matHeaderCellDef [hidden]="!this.formulaService.iFCheck[1]"> COST_CODE </mat-header-cell>
+      <mat-cell *matCellDef="let element; let i = index" [hidden]="!this.formulaService.iFCheck[1]">
         <input type="text" [value]="element.code" (change)="onEdit($event.target.value, 'code', i)">
       </mat-cell>
     </ng-container>

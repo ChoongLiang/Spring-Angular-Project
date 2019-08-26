@@ -48,7 +48,7 @@ export class ResourceComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.project = {id: 1, name: "Project1"};
+    this.project = {id: 11, name: "Project1"};
     this.projectService.setProjectName(this.project.name);
     this.projectService.setCurrentProject(this.project);
     this.sidebarService.status = true;
@@ -67,7 +67,7 @@ export class ResourceComponent implements OnInit {
     this.resourceService.getResources().subscribe(
       resources => {
         for (let resource of resources) {
-          if (resource.project.id === 1) {
+          if (resource.project.id === 11) {
             this.resources.push(resource);
           }
         }
@@ -152,7 +152,7 @@ export class ResourceComponent implements OnInit {
     this.featureService.getFeatures().subscribe(
       features => {
         for(let feature of features) {
-          if(feature.project.id === 1) {
+          if(feature.project.id === 11) {
             this.displayedColumns.push(feature.name);
           }
         }
