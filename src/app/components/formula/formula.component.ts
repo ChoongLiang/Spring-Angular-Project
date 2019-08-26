@@ -50,7 +50,7 @@ export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.project = {id: 1, name: "Project 1"};
+    this.project = {id: 9, name: "Project 1"};
 
     this.displayedColumns = ["resourceName", 'resourceCode'];
     this.resources = [];
@@ -160,8 +160,12 @@ export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
       () => {
         console.log("Feaures loaded.");
         this.displayAddedFeatures();
+        this.formulaService.saveFeatures(this.features);
       }
     )
+  }
+  updateFeatures(modifiedFeatures: Feature[]) {
+    this.features = modifiedFeatures;
   }
 
   displayAddedFeatures() {

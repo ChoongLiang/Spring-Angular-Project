@@ -68,4 +68,8 @@ export class FormulaService {
   getResources() {
     return this.resources;
   }
+
+  updateFeatures(modifiedFeatures: Feature[]) {
+    this.features = modifiedFeatures;
+  }
 }
