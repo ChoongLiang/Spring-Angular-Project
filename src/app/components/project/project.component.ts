@@ -3,15 +3,16 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SideBarService } from 'src/app/services/side-bar.service';
 import { ProjectService } from 'src/app/services/data/project.service';
 import { ResourceService } from 'src/app/services/data/resource.service';
-import { SelectionModel } from '@angular/cdk/collections';
+import { FormulaService } from 'src/app/services/formula.service';
 
-import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { ResourceComponent } from '../resource/resource.component';
 import { Resource } from 'src/app/models/Resource';
+import { Project } from 'src/app/models/Project';
+
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { ReplaySubject, Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { Project } from 'src/app/models/Project';
-import { FormulaService } from 'src/app/services/formula.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-project',

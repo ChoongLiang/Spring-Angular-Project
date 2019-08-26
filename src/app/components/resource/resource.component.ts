@@ -29,8 +29,8 @@ export class ResourceComponent implements OnInit {
   private newResourceCode: string[] = [];
 
   private newFeature: Feature = {
-    name : "",
-    content : "",
+    name: "",
+    content: "",
     type: "",
     submit: "newFeature"
   }
@@ -45,7 +45,7 @@ export class ResourceComponent implements OnInit {
     private featureService: FeatureService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.sidebarService.status = true;
@@ -57,7 +57,7 @@ export class ResourceComponent implements OnInit {
    * Project section
    */
 
-   getProject(): void {
+  getProject(): void {
     this.projectService.setParam("displayall");
     this.projectService.getProjects().subscribe(
       projects => {
@@ -66,9 +66,10 @@ export class ResourceComponent implements OnInit {
         this.projectService.setCurrentProject(this.project);
         this.getResource();
         this.getFeature();
-      }
+      },
+      (error) => console.log(error)
     )
-   }
+  }
 
   /**
    * Resource section
@@ -92,7 +93,7 @@ export class ResourceComponent implements OnInit {
   }
 
   addNewRow(): void {
-    let newResource: Resource = {code: "", name: "", projectId: this.project.id.toString(), editable: true};
+    let newResource: Resource = { code: "", name: "", projectId: this.project.id.toString(), editable: true };
     this.resources.push(newResource);
     this.updateDataSource();
   }
@@ -102,7 +103,7 @@ export class ResourceComponent implements OnInit {
   }
 
   saveResource(index: number): void {
-    if(!this.newResourceCode[index] || !this.newResourceName[index]) {
+    if (!this.newResourceCode[index] || !this.newResourceName[index]) {
       this.openSnackBar("Field cannot be empty", "Close")
       return
     }
@@ -130,7 +131,7 @@ export class ResourceComponent implements OnInit {
   }
 
   closeRow(index: number): void {
-    if(index > -1) {
+    if (index > -1) {
       this.resources.splice(index, 1);
       this.updateDataSource();
       return
@@ -151,7 +152,7 @@ export class ResourceComponent implements OnInit {
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 2000,
-    }); 
+    });
   }
 
   /**
@@ -162,8 +163,8 @@ export class ResourceComponent implements OnInit {
     this.featureService.setParam("displayFeature");
     this.featureService.getFeatures().subscribe(
       features => {
-        for(let feature of features) {
-          if(feature.project.id === this.project.id) {
+        for (let feature of features) {
+          if (feature.project.id === this.project.id) {
             this.displayedColumns.push(feature.name);
           }
         }
@@ -179,7 +180,7 @@ export class ResourceComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(feature => {
-      if(typeof feature === "undefined") {
+      if (typeof feature === "undefined") {
         return
       }
       this.newFeature = feature.value;

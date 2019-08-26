@@ -24,7 +24,7 @@ import { FeatureValue } from 'src/app/models/FeatureValue';
 export class FormulaComponent implements OnInit {
   public projectCtrl: FormControl = new FormControl();
   public projectFilterCtrl: FormControl = new FormControl();
-  
+
   private projects: Project[] = [];
   private project: Project;
   private currentProjectId: number;
@@ -85,7 +85,7 @@ export class FormulaComponent implements OnInit {
   }
 
   selectedProject(selectedProjectId: any) {
-    if(this.project.id === selectedProjectId.value) {
+    if (this.project.id === selectedProjectId.value) {
       return
     }
     this.project = this.getProject(selectedProjectId.value);
@@ -96,7 +96,7 @@ export class FormulaComponent implements OnInit {
     this.getFeature();
   }
 
-  resetData():void {
+  resetData(): void {
     this.resources = [];
     this.features = [];
     this.featureValues = [];
@@ -105,8 +105,8 @@ export class FormulaComponent implements OnInit {
   }
 
   getProject(projectId: number): Project {
-    for(let project of this.projects) {
-      if(project.id === projectId) {
+    for (let project of this.projects) {
+      if (project.id === projectId) {
         return project
       }
     }
@@ -201,8 +201,8 @@ export class FormulaComponent implements OnInit {
   }
 
   inputboxValue(resourceFeatures: Feature[], feature: Feature): string {
-    for(let resourceFeature of resourceFeatures) {
-      if(resourceFeature.name === feature.name) {
+    for (let resourceFeature of resourceFeatures) {
+      if (resourceFeature.name === feature.name) {
         return resourceFeature.featureValue.value;
       }
     }
@@ -210,21 +210,21 @@ export class FormulaComponent implements OnInit {
   }
 
   onEdit(value: string, resource: Resource, column: string, y: number, x?: number): void {
-    if(column === "name") {
+    if (column === "name") {
       resource.name = value;
       this.isResouceEdited(resource);
       this.saveResouceChanges(resource);
     }
-    else if(column === "code") {
+    else if (column === "code") {
       resource.code = value;
       this.isResouceEdited(resource);
       this.saveResouceChanges(resource);
     } else {
       // New cell
       let newFeatureValue: FeatureValue;
-      if(resource.features.length === 0) {
+      if (resource.features.length === 0) {
         newFeatureValue = {
-          value: value, 
+          value: value,
           resource: resource,
           feature: this.features[x],
           project: this.project,
@@ -239,7 +239,7 @@ export class FormulaComponent implements OnInit {
       }
       this.isCellEdited(newFeatureValue.resource.id, newFeatureValue.feature.id);
       let index = this.saveFeatureValueChanges(newFeatureValue);
-      this.editedCells.push({resourceId: resource.id, featureId: newFeatureValue.feature.id, index: index})
+      this.editedCells.push({ resourceId: resource.id, featureId: newFeatureValue.feature.id, index: index })
     }
     this.updateDataSource();
   }
@@ -252,8 +252,8 @@ export class FormulaComponent implements OnInit {
   }
 
   isResouceEdited(editedResource: Resource): void {
-    for(let [index, resource] of this.editedResourceList.entries()) {
-      if(editedResource.id === resource.id) {
+    for (let [index, resource] of this.editedResourceList.entries()) {
+      if (editedResource.id === resource.id) {
         this.editedResourceList.splice(index, 1);
         break
       }
@@ -261,8 +261,8 @@ export class FormulaComponent implements OnInit {
   }
 
   isCellEdited(resourceId: number, featureId: number): void {
-    for(let cell of this.editedCells) {
-      if(cell.resourceId === resourceId && cell.featureId === featureId) {
+    for (let cell of this.editedCells) {
+      if (cell.resourceId === resourceId && cell.featureId === featureId) {
         this.editedFeatureValueList.splice(cell.index, 1);
         break
       }
@@ -279,7 +279,7 @@ export class FormulaComponent implements OnInit {
   }
 
   submit(): void {
-    for(let editedResource of this.editedResourceList) {
+    for (let editedResource of this.editedResourceList) {
       delete editedResource.features;
       delete editedResource.project;
       this.resourceService.editResource(editedResource).subscribe(
@@ -288,7 +288,7 @@ export class FormulaComponent implements OnInit {
         () => console.log("Resources updated successfully!")
       )
     }
-    for(let editedFeatureValue of this.editedFeatureValueList) {
+    for (let editedFeatureValue of this.editedFeatureValueList) {
       delete editedFeatureValue.feature;
       delete editedFeatureValue.resource;
       delete editedFeatureValue.project;

@@ -183,11 +183,6 @@ mat-toolbar {
     max-height: 650px;
   }
 
-  mat-card {
-    margin-top: 5px;
-    height: 500px;
-  }
-
   .mat-mini-fab {
     min-width: 0;
     border-radius: 50%;
