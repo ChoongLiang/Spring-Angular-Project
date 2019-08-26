@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormulaService } from 'src/app/services/formula.service';
 import { FormControl } from '@angular/forms';
 
@@ -8,7 +8,6 @@ import { ProjectService } from 'src/app/services/data/project.service';
 import { ResourceService } from 'src/app/services/data/resource.service';
 import { FeatureService } from 'src/app/services/data/feature.service';
 import { FeatureValueService } from 'src/app/services/data/feature-value.service';
-import { StorageService } from 'src/app/services/storage.service';
 
 import { MatTableDataSource } from '@angular/material';
 
@@ -22,11 +21,9 @@ import { FeatureValue } from 'src/app/models/FeatureValue';
   styleUrls: ['./formula.component.css']
 })
 
-export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
+export class FormulaComponent implements OnInit {
   public projectCtrl: FormControl = new FormControl();
   public projectFilterCtrl: FormControl = new FormControl();
-
-  private projectsStorageKey: string = "projects";
   
   private projects: Project[] = [];
   private project: Project;
@@ -39,19 +36,20 @@ export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
   private displayedColumns: string[] = ['resourceName', 'resourceCode'];
   private dataSource;
 
+  private editedFeatureValueList: FeatureValue[] = [];
+  private editedResourceList: Resource[] = [];
+  private editedCells: any[] = [];
+
   constructor(
     private formulaService: FormulaService,
     private sidebarService: SideBarService,
     private projectService: ProjectService,
     private resourceService: ResourceService,
     private featureService: FeatureService,
-    private featureValueService: FeatureValueService,
-    private storageService: StorageService
+    private featureValueService: FeatureValueService
   ) { }
 
   ngOnInit() {
-    this.project = {id: 1, name: "Project 1"};
-
     this.displayedColumns = ['resourceName', 'resourceCode'];
     this.resources = [];
     this.features = [];
@@ -59,23 +57,8 @@ export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
 
     this.sidebarService.status = true;
 
-    this.getFeatureValue();
-    this.getFeature();
-
-    this.initProjects();
-
+    this.getProjects();
     this.updateDataSource();
-  }
-
-  initProjects() {
-    let projects = this.storageService.get(this.projectsStorageKey);
-    if(projects == null) {
-      this.getProjects();
-    } else {
-      this.projects = projects;
-      this.setCurrentProject();
-      this.currentProjectId = this.project.id;
-    }
   }
 
   getProjects() {
@@ -86,9 +69,10 @@ export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
       },
       error => console.log(error),
       () => {
-        // this.storageService.store(this.projectsStorageKey, this.projects);
         this.setCurrentProject();
         this.currentProjectId = this.project.id;
+        this.getFeature();
+        this.getFeatureValue();
       }
     )
   }
@@ -194,8 +178,6 @@ export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
     for (let resource of this.resources) {
       resource.features = this.findFeatureValue(resource.id);
     }
-    // console.log(this.resources);
-    this.dataSource = this.resources;
   }
 
   findFeatureValue(resourceId: number) {
@@ -213,33 +195,104 @@ export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
     this.dataSource = new MatTableDataSource(this.resources);
   }
 
-  submit(): void {
-    for(let resource of this.resources) {
-      console.log(resource);
+  inputboxValue(resourceFeatures: Feature[], feature: Feature): string {
+    for(let resourceFeature of resourceFeatures) {
+      if(resourceFeature.name === feature.name) {
+        return resourceFeature.featureValue.value;
+      }
     }
+    return "";
   }
 
-  onEdit(value: string, column: string, y: number, x?: number): void {
-    console.log("value: " + value + "\n y: " + y + "\n x: " + x + "\nColumn: " + column);
+  onEdit(value: string, resource: Resource, column: string, y: number, x?: number): void {
     if(column === "name") {
-      this.resources[y].name = value;
+      resource.name = value;
+      this.isResouceEdited(resource);
+      this.saveResouceChanges(resource);
     }
-    if(column === "code") {
-      this.resources[y].code = value;
+    else if(column === "code") {
+      resource.code = value;
+      this.isResouceEdited(resource);
+      this.saveResouceChanges(resource);
     } else {
-      
+      // New cell
+      let newFeatureValue: FeatureValue;
+      if(resource.features.length === 0) {
+        newFeatureValue = {
+          value: value, 
+          resource: resource,
+          feature: this.features[x],
+          project: this.project,
+          submit: "newFeatureValue"
+        }
+      } else {
+        // Edit old resource
+        console.log(resource);
+        newFeatureValue = resource.features[x].featureValue;
+        newFeatureValue.value = value;
+        newFeatureValue.submit = `edit${newFeatureValue.id}`;
+      }
+      this.isCellEdited(newFeatureValue.resource.id, newFeatureValue.feature.id);
+      let index = this.saveFeatureValueChanges(newFeatureValue);
+      this.editedCells.push({resourceId: resource.id, featureId: newFeatureValue.feature.id, index: index})
     }
-
-    console.log(this.resources);
     this.updateDataSource();
   }
 
-  ngOnChanges(changes) {
-    console.log(changes);
+  saveResouceChanges(resource: Resource): void {
+    resource.submit = `edit${resource.id}`;
+    resource.projectId = this.project.id.toString();
+    this.editedResourceList.push(resource);
+    console.log(this.editedResourceList);
   }
 
-  ngOnDestroy() {
-    this.storageService.cleanup(this.projectsStorageKey);
+  isResouceEdited(editedResource: Resource): void {
+    for(let [index, resource] of this.editedResourceList.entries()) {
+      if(editedResource.id === resource.id) {
+        this.editedResourceList.splice(index, 1);
+        break
+      }
+    }
+  }
+
+  isCellEdited(resourceId: number, featureId: number): void {
+    for(let cell of this.editedCells) {
+      if(cell.resourceId === resourceId && cell.featureId === featureId) {
+        this.editedFeatureValueList.splice(cell.index, 1);
+        break
+      }
+    }
+  }
+
+  saveFeatureValueChanges(featureValue: FeatureValue): number {
+    featureValue.projectId = this.project.id.toString();
+    featureValue.resourceId = featureValue.resource.id.toString();
+    featureValue.featureId = featureValue.feature.id.toString();
+    this.editedFeatureValueList.push(featureValue);
+    console.log(this.editedFeatureValueList);
+    return this.editedFeatureValueList.length - 1;
+  }
+
+  submit(): void {
+    for(let editedResource of this.editedResourceList) {
+      delete editedResource.features;
+      delete editedResource.project;
+      this.resourceService.editResource(editedResource).subscribe(
+        res => console.log(res),
+        error => console.log(error),
+        () => console.log("Resources updated successfully!")
+      )
+    }
+    for(let editedFeatureValue of this.editedFeatureValueList) {
+      delete editedFeatureValue.feature;
+      delete editedFeatureValue.resource;
+      delete editedFeatureValue.project;
+      this.featureValueService.editFeatureValue(editedFeatureValue).subscribe(
+        res => console.log(res),
+        error => console.log(error),
+        () => console.log("Feature Values updated successfully!")
+      )
+    }
   }
 
   // getProjects() {

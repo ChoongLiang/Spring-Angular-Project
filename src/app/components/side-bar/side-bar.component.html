@@ -31,10 +31,10 @@
   </div>
   <div class="col">
     <button (click)="sideBar()">
-      <div *ngIf="!sidebarActive">
+      <div *ngIf="sideBarService.status">
         <i class="fas fa-chevron-left fa-xs"></i>
       </div>
-      <div *ngIf="sidebarActive">
+      <div *ngIf="!sideBarService.status">
         <i class="fas fa-chevron-right fa-xs"></i>
       </div>
     </button>

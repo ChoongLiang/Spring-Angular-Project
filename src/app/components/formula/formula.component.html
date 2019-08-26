@@ -22,12 +22,12 @@
   </mat-toolbar>
 </div>
 <div class="table-container">
-  <table mat-table [dataSource]="dataSource" >
+  <table mat-table [dataSource]="dataSource">
     <!-- Resource Name Column -->
     <ng-container matColumnDef="resourceName">
       <mat-header-cell *matHeaderCellDef> NAME </mat-header-cell>
       <mat-cell *matCellDef="let element; let i = index">
-        <input type="text" [value]="element.name" (change)="onEdit($event.target.value,'name', i)">
+        <input type="text" [value]="element.name" (change)="onEdit($event.target.value, element, 'name', i)">
       </mat-cell>
     </ng-container>
 
@@ -35,20 +35,21 @@
     <ng-container matColumnDef="resourceCode">
       <mat-header-cell *matHeaderCellDef> COST_CODE </mat-header-cell>
       <mat-cell *matCellDef="let element; let i = index">
-        <input type="text" [value]="element.code" (change)="onEdit($event.target.value, 'code', i)">
+        <input type="text" [value]="element.code" (change)="onEdit($event.target.value, element, 'code', i)">
       </mat-cell>
     </ng-container>
 
-    <ng-container *ngFor="let feature of displayedColumns | slice: 2;let y = index">
-      <ng-container matColumnDef={{feature}}>
-        <mat-header-cell *matHeaderCellDef> {{feature}} </mat-header-cell>
-        <mat-cell *matCellDef="let element; let x = index">
-          <div *ngIf="element.features[y] !== undefined">
-            <input type="text" [value]="element.features[y].featureValue.value" (change)="onEdit($event.target.value, y, x, feature)">
+    <ng-container *ngFor="let feature of features; let x = index">
+      <ng-container matColumnDef={{feature.name}}>
+        <mat-header-cell *matHeaderCellDef> {{feature.name}} </mat-header-cell>
+        <mat-cell *matCellDef="let element; let y = index">
+          <div *ngIf="element.features.length > 0; else featuresListEmpty">
+            <input type="text" [value]="inputboxValue(element.features, feature)" 
+            (change)="onEdit($event.target.value, element, feature, y, x)">
           </div>
-          <div *ngIf="element.features[y] === undefined">
-            <input type="text" (change)="onEdit($event.target.value, y, x, feature)">
-          </div>
+          <ng-template #featuresListEmpty>
+            <input type="text" (change)="onEdit($event.target.value, element, feature, y, x)">
+          </ng-template>
         </mat-cell>
       </ng-container>
     </ng-container>

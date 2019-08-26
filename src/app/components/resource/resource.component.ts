@@ -48,29 +48,39 @@ export class ResourceComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.project = {id: 1, name: "Project1"};
-    this.projectService.setProjectName(this.project.name);
-    this.projectService.setCurrentProject(this.project);
     this.sidebarService.status = true;
-    this.getResource();
-    this.getFeature();
-
+    this.getProject();
     this.dataSource = new MatTableDataSource(this.resources);
   }
+
+  /**
+   * Project section
+   */
+
+   getProject(): void {
+    this.projectService.setParam("displayall");
+    this.projectService.getProjects().subscribe(
+      projects => {
+        this.project = projects[0];
+        this.projectService.setProjectName(this.project.name);
+        this.projectService.setCurrentProject(this.project);
+        this.getResource();
+        this.getFeature();
+      }
+    )
+   }
 
   /**
    * Resource section
    */
 
-  getResource() {
+  getResource(): void {
     this.resourceService.setParam("displayResource");
     this.resourceService.getResources().subscribe(
       resources => {
-        for (let resource of resources) {
-          if (resource.project.id === 1) {
-            this.resources.push(resource);
-          }
-        }
+        this.resources = resources.filter(
+          resource => resource.project.id === this.project.id
+        )
       },
       error => console.log(error),
       () => {
@@ -152,7 +162,7 @@ export class ResourceComponent implements OnInit {
     this.featureService.getFeatures().subscribe(
       features => {
         for(let feature of features) {
-          if(feature.project.id === 1) {
+          if(feature.project.id === this.project.id) {
             this.displayedColumns.push(feature.name);
           }
         }

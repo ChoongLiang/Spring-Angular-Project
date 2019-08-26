@@ -33,6 +33,10 @@ export class ResourceService {
     return this.http.post<any>(this.url, resource, this.httpOptions);
   }
 
+  editResource(resource: Resource): Observable<any> {
+    return this.http.post<any>(this.url, resource, this.httpOptions);
+  }
+
   setParam(param: string): void {
     this.param = param;
   }
