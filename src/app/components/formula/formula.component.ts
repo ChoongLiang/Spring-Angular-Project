@@ -104,6 +104,7 @@ export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
       return
     }
     this.project = this.getProject(selectedProjectId.value);
+    this.projectService.setProjectName(this.project.name);
     console.log("selected project: " + this.project.id);
     this.resetData();
     this.getFeatureValue();
@@ -225,7 +226,10 @@ export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
     }
     if(column === "code") {
       this.resources[y].code = value;
+    } else {
+      
     }
+
     console.log(this.resources);
     this.updateDataSource();
   }

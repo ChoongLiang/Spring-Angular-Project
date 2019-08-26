@@ -244,7 +244,7 @@ checkedData = [];
     // this.getFeature();
     this.getFeatureValue();
 
-    this.projects = this.projectService.activeProject;
+    // this.projects = this.projectService.activeProject;
 
     //retrieving data from resource component
    this.dataFromResource = this.n.dataSource.name[1];
@@ -394,7 +394,7 @@ checkedData = [];
   // }
 
   onSetToInactive(id:number){
-    this.projectService.setToInactive(id);
+    // this.projectService.setToInactive(id);
   }
 
 
