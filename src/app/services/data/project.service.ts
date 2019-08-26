@@ -14,6 +14,7 @@ export class ProjectService {
   private url: string = "http://localhost:8080/ProjectHandler";
   private projectName: string;
   private param = "";
+  private project: Project;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': this.authService.getJwt() })
@@ -39,5 +40,13 @@ export class ProjectService {
 
   setParam(param: string): void {
     this.param = param;
+  }
+
+  getCurrentProject(): Project {
+    return this.project;
+  }
+
+  setCurrentProject(project: Project): void {
+    this.project = project;
   }
 }

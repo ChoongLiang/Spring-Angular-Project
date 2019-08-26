@@ -1,9 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { FormulaService } from 'src/app/services/formula.service';
 import { FormControl } from '@angular/forms';
-
-import { take, takeUntil } from 'rxjs/operators';
-import { Subject, ReplaySubject } from 'rxjs';
 
 import { Project } from '../../models/Project';
 import { SideBarService } from 'src/app/services/side-bar.service';
@@ -11,6 +8,10 @@ import { ProjectService } from 'src/app/services/data/project.service';
 import { ResourceService } from 'src/app/services/data/resource.service';
 import { FeatureService } from 'src/app/services/data/feature.service';
 import { FeatureValueService } from 'src/app/services/data/feature-value.service';
+import { StorageService } from 'src/app/services/storage.service';
+
+import { MatTableDataSource } from '@angular/material';
+
 import { Resource } from 'src/app/models/Resource';
 import { Feature } from 'src/app/models/Feature';
 import { FeatureValue } from 'src/app/models/FeatureValue';
@@ -21,26 +22,22 @@ import { FeatureValue } from 'src/app/models/FeatureValue';
   styleUrls: ['./formula.component.css']
 })
 
-export class FormulaComponent implements OnInit, OnDestroy {
+export class FormulaComponent implements OnInit, OnDestroy, OnChanges {
   public projectCtrl: FormControl = new FormControl();
   public projectFilterCtrl: FormControl = new FormControl();
-  private projectNames: Project[] = [];
-  private projects: object;
 
-  /** list of Projects filtered by search keyword */
-  public filteredProjects: ReplaySubject<Project[]> = new ReplaySubject<Project[]>(1);
+  private projectsStorageKey: string = "projects";
+  
+  private projects: Project[] = [];
+  private project: Project;
+  private currentProjectId: number;
 
-  /** Subject that emits when the component has been destroyed. */
-  protected _onDestroy = new Subject<void>();
-
-  private projectMap = new Map();
-  private projectId: number;
   private resources: Resource[];
   private features: Feature[];
   private featureValues: FeatureValue[];
 
-  displayedColumns: string[] = ['resourceName', 'resourceCode'];
-  dataSource = [];
+  private displayedColumns: string[] = ['resourceName', 'resourceCode'];
+  private dataSource;
 
   constructor(
     private formulaService: FormulaService,
@@ -48,16 +45,12 @@ export class FormulaComponent implements OnInit, OnDestroy {
     private projectService: ProjectService,
     private resourceService: ResourceService,
     private featureService: FeatureService,
-    private featureValueService: FeatureValueService
+    private featureValueService: FeatureValueService,
+    private storageService: StorageService
   ) { }
 
   ngOnInit() {
-    // Load projects from back-end
-    this.getProjects();
-    this.getProjectName();
-
-    // set initial selection or the saved value when moving from formula to template or vice-versa.
-    this.projectCtrl.setValue(this.formulaService.getProjectName());
+    this.project = {id: 1, name: "Project 1"};
 
     this.displayedColumns = ['resourceName', 'resourceCode'];
     this.resources = [];
@@ -66,89 +59,83 @@ export class FormulaComponent implements OnInit, OnDestroy {
 
     this.sidebarService.status = true;
 
-    console.log(this.filteredProjects.next(this.projectNames.slice()));
-    // load the initial project list
-    this.filteredProjects.next(this.projectNames.slice());
+    this.getFeatureValue();
+    this.getFeature();
 
-    /*
-      TODO: figure out how to filter the projectNames in the dropdown 
-      menu (search bar)
-    */
-    // listen for search field value changes
-    this.projectFilterCtrl.valueChanges
-      .pipe(takeUntil(this._onDestroy))
-      .subscribe(() => {
-        console.log('subsibing');
-        this.filterProjects();
-      });
+    this.initProjects();
 
-    this.projectCtrl.valueChanges.subscribe(() => {
-      this.formulaService.clearCheckedFeatures();
-      console.log('inside value changes');
-      this.displayedColumns = ['resourceName', 'resourceCode'];
-      this.resources = [];
-      this.features = [];
-      this.featureValues = [];
-      this.projectId = this.projectMap.get(this.projectCtrl.value);
-      this.getProjectName();
-      this.getFeatureValue();
-      this.getFeature();
-    },
-      error => console.log(error),
-      () => {
-        console.log('COMPLETED');
-      })
+    this.updateDataSource();
+  }
+
+  initProjects() {
+    let projects = this.storageService.get(this.projectsStorageKey);
+    if(projects == null) {
+      this.getProjects();
+    } else {
+      this.projects = projects;
+      this.setCurrentProject();
+      this.currentProjectId = this.project.id;
+    }
   }
 
   getProjects() {
-    this.formulaService.getProjects().subscribe(
-      res => {
-        this.projects = res;
-        for (let i = 0; i < this.projects['length']; i++) {
-          this.projectNames.push(this.projects[i]);
-          this.projectMap.set(this.projects[i]['name'], res[i]['id']);
-        }
+    this.projectService.setParam("displayall");
+    this.projectService.getProjects().subscribe(
+      projects => {
+        this.projects = projects;
       },
-      err => console.log(err),
+      error => console.log(error),
       () => {
-        console.log('completed getting projects');
-        console.log(this.projectNames);
-        console.log(this.projectMap);
-        this.projectId = this.projectMap.get(this.formulaService.getProjectName());
-        this.getProjectName();
-        this.resources = this.formulaService.getResources();
-        console.log(this.resources);
-        this.displayedColumns = this.displayedColumns.concat(this.formulaService.getCheckedFeatures());
-        console.log(this.displayedColumns);
-        this.dataSource = this.resources;
-        // this.getFeature();
-        // this.getFeatureValue();
-        this.formulaService.clearProjectName();
+        // this.storageService.store(this.projectsStorageKey, this.projects);
+        this.setCurrentProject();
+        this.currentProjectId = this.project.id;
       }
     )
   }
 
-  getProjectName() {
-    this.projectService.setParam("displayall");
-    this.projectService.getProject().subscribe(
-      project => {
-        this.projectService.setProjectName(project.name);
-      },
-      error => console.log(error),
-      () => console.log("Project loaded.")
-    )
+  setCurrentProject(): void {
+    this.project = this.projects[0];
+    this.projectService.setCurrentProject(this.project);
+    this.projectService.setProjectName(this.project.name);
+  }
+
+  selectedProject(selectedProjectId: any) {
+    if(this.project.id === selectedProjectId.value) {
+      return
+    }
+    this.project = this.getProject(selectedProjectId.value);
+    console.log("selected project: " + this.project.id);
+    this.resetData();
+    this.getFeatureValue();
+    this.getFeature();
+  }
+
+  resetData():void {
+    this.resources = [];
+    this.features = [];
+    this.featureValues = [];
+    this.displayedColumns.length = 2;
+    this.updateDataSource();
+  }
+
+  getProject(projectId: number): Project {
+    for(let project of this.projects) {
+      if(project.id === projectId) {
+        return project
+      }
+    }
   }
 
   getFeatureValue() {
     this.featureValueService.setParam("displayFeatureValue");
     this.featureValueService.getFeatureValues().subscribe(
       featureValues => {
+        console.log("fetching feature value of project id: " + this.project.id);
         for (let featureValue of featureValues) {
-          if (featureValue.project.id === this.projectId) {
+          if (featureValue.project.id === this.project.id) {
             this.featureValues.push(featureValue);
           }
         }
-        console.log(this.featureValues);
       },
       error => console.log(error),
       () => {
@@ -157,12 +144,13 @@ export class FormulaComponent implements OnInit, OnDestroy {
       }
     )
   }
+
   getFeature() {
     this.featureService.setParam("displayFeature");
     this.featureService.getFeatures().subscribe(
       features => {
         for (let feature of features) {
-          if (feature.project.id === this.projectId) {
+          if (feature.project.id === this.project.id) {
             this.features.push(feature);
           }
         }
@@ -170,18 +158,15 @@ export class FormulaComponent implements OnInit, OnDestroy {
       error => console.log(error),
       () => {
         console.log("Feaures loaded.");
-        console.log(this.features);
-        this.formulaService.saveFeatures(this.features);
         this.displayAddedFeatures();
       }
     )
   }
 
   displayAddedFeatures() {
-    // for (let feature of this.features) {
-    //   this.displayedColumns.push(feature.name);
-    // }
-    this.displayedColumns = this.displayedColumns.concat(this.formulaService.getCheckedFeatures());
+    for (let feature of this.features) {
+      this.displayedColumns.push(feature.name);
+    }
   }
 
   getResource() {
@@ -189,7 +174,7 @@ export class FormulaComponent implements OnInit, OnDestroy {
     this.resourceService.getResources().subscribe(
       resources => {
         for (let resource of resources) {
-          if (resource.project.id === this.projectId) {
+          if (resource.project.id === this.project.id) {
             this.resources.push(resource);
           }
         }
@@ -199,6 +184,7 @@ export class FormulaComponent implements OnInit, OnDestroy {
       () => {
         console.log("Resources loaded.");
         this.prepareResource();
+        this.updateDataSource();
       }
     )
   }
@@ -207,9 +193,8 @@ export class FormulaComponent implements OnInit, OnDestroy {
     for (let resource of this.resources) {
       resource.features = this.findFeatureValue(resource.id);
     }
-    console.log(this.resources);
+    // console.log(this.resources);
     this.dataSource = this.resources;
-    // this.dataSource = this.formulaService.getResources();
   }
 
   findFeatureValue(resourceId: number) {
@@ -223,39 +208,92 @@ export class FormulaComponent implements OnInit, OnDestroy {
     return associatedFeatures;
   }
 
-  /*
-    TODO: search bar in drop-down
-  */
-  protected filterProjects() {
-    console.log('inside filterProjects');
-    if (!this.projectNames) {
-      return;
+  updateDataSource(): void {
+    this.dataSource = new MatTableDataSource(this.resources);
+  }
+
+  submit(): void {
+    for(let resource of this.resources) {
+      console.log(resource);
     }
-    // get the search keyword
-    let search = this.projectFilterCtrl.value;
-    console.log(search);
-    if (!search) {
-      console.log(this.projectNames.slice());
-      this.filteredProjects.next(this.projectNames.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
+  }
+
+  onEdit(value: string, column: string, y: number, x?: number): void {
+    console.log("value: " + value + "\n y: " + y + "\n x: " + x + "\nColumn: " + column);
+    if(column === "name") {
+      this.resources[y].name = value;
     }
-    // filter the projects
-    console.log(this.projectNames);
-    console.log(this.projectNames)
-    this.filteredProjects.next(
-      this.projectNames.filter(project => {
-        console.log(project.name);
-        console.log(project.name.toLowerCase().indexOf(search));
-        project.name.toLowerCase().indexOf(search) > -1
-      })
-    );
+    if(column === "code") {
+      this.resources[y].code = value;
+    }
+    console.log(this.resources);
+    this.updateDataSource();
+  }
+
+  ngOnChanges(changes) {
+    console.log(changes);
   }
 
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this.storageService.cleanup(this.projectsStorageKey);
   }
+
+  // getProjects() {
+  //   this.formulaService.getProjects().subscribe(
+  //     res => {
+  //       this.projects = res;
+  //       for (let i = 0; i < this.projects['length']; i++) {
+  //         this.projectNames.push(this.projects[i]);
+  //         this.projectMap.set(this.projects[i]['name'], res[i]['id']);
+  //       }
+  //     },
+  //     err => console.log(err),
+  //     () => {
+  //       console.log('completed getting projects');
+  //       console.log(this.projectNames);
+  //       console.log(this.projectMap);
+  //       this.projectId = this.projectMap.get(this.formulaService.getProjectName());
+  //       this.getProjectName();
+  //       this.resources = this.formulaService.getResources();
+  //       console.log(this.resources);
+  //       this.displayedColumns = this.displayedColumns.concat(this.formulaService.getCheckedFeatures());
+  //       console.log(this.displayedColumns);
+  //       this.dataSource = this.resources;
+  //       // this.getFeature();
+  //       // this.getFeatureValue();
+  //       this.formulaService.clearProjectName();
+  //     }
+  //   )
+  // }
+
+  /*
+    TODO: search bar in drop-down
+  */
+  // protected filterProjects() {
+  //   console.log('inside filterProjects');
+  //   if (!this.projectNames) {
+  //     return;
+  //   }
+  //   // get the search keyword
+  //   let search = this.projectFilterCtrl.value;
+  //   console.log(search);
+  //   if (!search) {
+  //     console.log(this.projectNames.slice());
+  //     this.filteredProjects.next(this.projectNames.slice());
+  //     return;
+  //   } else {
+  //     search = search.toLowerCase();
+  //   }
+  //   // filter the projects
+  //   console.log(this.projectNames);
+  //   console.log(this.projectNames)
+  //   this.filteredProjects.next(
+  //     this.projectNames.filter(project => {
+  //       console.log(project.name);
+  //       console.log(project.name.toLowerCase().indexOf(search));
+  //       project.name.toLowerCase().indexOf(search) > -1
+  //     })
+  //   );
+  // }
 
 }

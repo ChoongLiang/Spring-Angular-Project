@@ -1,4 +1,4 @@
-<div style="min-width: 1000px">
+<div style="width: 80vw;">
   <mat-toolbar style="background-color: #808080">
     <div class="row w-100">
       <div class="col">
@@ -64,7 +64,7 @@
                     autofocus />
           </ng-container>
           <ng-container *ngIf='!element.editable'>
-            {{element["name"]}}
+            {{element.name}}
           </ng-container>
       </mat-cell>
     </ng-container>
@@ -83,7 +83,7 @@
                   [(ngModel)]="newResourceCode[i]"/>
         </ng-container>
         <ng-container *ngIf='!element.editable'>
-          {{element["code"]}}
+          {{element.code}}
         </ng-container>
       </mat-cell>
     </ng-container>
