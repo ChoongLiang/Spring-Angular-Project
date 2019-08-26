@@ -17,7 +17,7 @@ export class FeatureDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: Feature, formBuilder: FormBuilder) {
       this.options = formBuilder.group({
         name: new FormControl(),
-        type: 'Text',
+        type: 'text',
         content: null
       });
     }

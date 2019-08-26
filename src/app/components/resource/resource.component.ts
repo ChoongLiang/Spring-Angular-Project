@@ -58,6 +58,7 @@ export class ResourceComponent implements OnInit {
    */
 
    getProject(): void {
+    console.log("Getting projects...");
     this.projectService.setParam("displayall");
     this.projectService.getProjects().subscribe(
       projects => {
