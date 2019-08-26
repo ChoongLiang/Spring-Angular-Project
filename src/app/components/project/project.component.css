@@ -21,6 +21,42 @@
     border: none;
 }
 
+.footer{
+  clear: both;
+}
+
+.btn-info{
+  line-height: 10px;
+  margin-left: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px
+}
+
+.col-lg-4{
+  /* background-color: #ebedf0; */
+  background-color: #808080;
+}
+
+.dropdown.leftTable.col-lg-2{
+  background-color: #808080;
+  padding-right: 15px;
+}
+
+.col-lg-2{
+  background-color: #808080;
+  padding-left: 0px;
+}
+
+#dropdowMenuButton{
+  margin-right: 10px;
+}
+
+.dropdown-toggle::after {
+  display:none;
+}
+.container{
+  font-weight: normal;
+}
 mat-toolbar {
     height: 25px;
   }

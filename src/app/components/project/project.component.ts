@@ -3,9 +3,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SideBarService } from 'src/app/services/side-bar.service';
 import { ProjectService } from 'src/app/services/data/project.service';
 import { ResourceService } from 'src/app/services/data/resource.service';
-import { FeatureService } from 'src/app/services/data/feature.service';
-import { FeatureValueService } from 'src/app/services/data/feature-value.service';
-
 import { SelectionModel } from '@angular/cdk/collections';
 
 import { MatPaginator, MatTableDataSource } from '@angular/material';
@@ -53,7 +50,6 @@ export class ProjectComponent implements OnInit {
   // displayedColumns2 = ['select', 'position', 'name', 'weight', 'symbol'];
   displayedColumns3 = ['select', 'name', 'weight'];
 
-
   selection = new SelectionModel<Element>(true, []);
 
   checkedDataSource = new MatTableDataSource<Element>(this.checkedData);
@@ -78,11 +74,9 @@ export class ProjectComponent implements OnInit {
 
     this.projectCtrl.valueChanges.subscribe(() => {
       this.formulaService.clearCheckedFeatures();
-      console.log('inside value changes');
-      // this.displayedColumns = ['resourceName', 'resourceCode'];
       this.resources = [];
       this.projectId = this.projectMap.get(this.projectCtrl.value);
-      this.getProjectName();
+      this.projectService.setProjectName(this.projectCtrl.value);
       this.getResource();
     },
       error => console.log(error),
@@ -114,17 +108,6 @@ export class ProjectComponent implements OnInit {
         console.log(this.projectNames);
         console.log(this.projectMap);
       }
-    )
-  }
-
-  getProjectName() {
-    this.projectService.setParam("displayall");
-    this.projectService.getProject().subscribe(
-      project => {
-        this.projectService.setProjectName(project.name);
-      },
-      error => console.log(error),
-      () => console.log("Project loaded.")
     )
   }
 
