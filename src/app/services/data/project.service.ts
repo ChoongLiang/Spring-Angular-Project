@@ -18,20 +18,20 @@ export class ProjectService {
   // inactiveProject: any[];
   private project: Project;
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': this.authService.getJwt() })
-  };
-
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getProjects(): Observable<Project[]> {
-    return this.http.post<Project[]>(this.url, `{ "submit": "${this.param}" }`, {
+    return this.http.post<Project[]>(this.url, `{ "submit": "${this.param}" }`, this.getHeader());
+  }
+
+  getHeader(): object {
+    return {
       headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': this.authService.getJwt() })
-    });
+    };
   }
 
   getProject(): Observable<Project> {
-    return this.http.post<Project>(this.url, `{ "submit": "${this.param}" }`, this.httpOptions);
+    return this.http.post<Project>(this.url, `{ "submit": "${this.param}" }`, this.getHeader());
   }
 
   setProjectName(name: string): void {
@@ -51,10 +51,8 @@ export class ProjectService {
   // }
 
   addProject(name: string) {
-    return this.http.post(this.url, { "submit": "newProject", "projectName": name }, this.httpOptions);
-  }
-
-  getCurrentProject(): Project {
+    return this.http.post(this.url, { "submit": "newProject", "projectName": name }, this.getHeader());
+    getCurrentProject(): Project {
     return this.project;
   }
 

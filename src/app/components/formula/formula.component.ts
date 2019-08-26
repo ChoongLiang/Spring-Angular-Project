@@ -38,7 +38,6 @@ export class FormulaComponent implements OnInit {
 
   private editedFeatureValueList: FeatureValue[] = [];
   private editedResourceList: Resource[] = [];
-  private editedCells: any[] = [];
 
   constructor(
     private formulaService: FormulaService,
@@ -59,8 +58,11 @@ export class FormulaComponent implements OnInit {
 
     this.getProjects();
     this.updateDataSource();
-    // console.log(this.formulaService.iFCheck);
   }
+
+  /**
+   * Project section
+   */
 
   getProjects() {
     this.projectService.setParam("displayall");
@@ -84,6 +86,10 @@ export class FormulaComponent implements OnInit {
     this.projectService.setProjectName(this.project.name);
   }
 
+  /**
+   * Whenever a project is selected
+   */
+
   selectedProject(selectedProjectId: any) {
     if (this.project.id === selectedProjectId.value) {
       return
@@ -96,7 +102,19 @@ export class FormulaComponent implements OnInit {
     this.getFeature();
   }
 
-  resetData(): void {
+  getProject(projectId: number): Project {
+    for(let project of this.projects) {
+      if(project.id === projectId) {
+        return project
+      }
+    }
+  }
+
+  /**
+   * Reset the table(data)
+   */
+
+  resetData():void {
     this.resources = [];
     this.features = [];
     this.featureValues = [];
@@ -104,24 +122,18 @@ export class FormulaComponent implements OnInit {
     this.updateDataSource();
   }
 
-  getProject(projectId: number): Project {
-    for (let project of this.projects) {
-      if (project.id === projectId) {
-        return project
-      }
-    }
-  }
+  /**
+   * Feature values
+   */
 
   getFeatureValue() {
     this.featureValueService.setParam("displayFeatureValue");
     this.featureValueService.getFeatureValues().subscribe(
       featureValues => {
         console.log("fetching feature value of project id: " + this.project.id);
-        for (let featureValue of featureValues) {
-          if (featureValue.project.id === this.project.id) {
-            this.featureValues.push(featureValue);
-          }
-        }
+        this.featureValues = featureValues.filter(
+          featureValue => featureValue.project.id === this.project.id
+        )
       },
       error => console.log(error),
       () => {
@@ -131,15 +143,17 @@ export class FormulaComponent implements OnInit {
     )
   }
 
+  /**
+   * Features
+   */
+
   getFeature() {
     this.featureService.setParam("displayFeature");
     this.featureService.getFeatures().subscribe(
       features => {
-        for (let feature of features) {
-          if (feature.project.id === this.project.id) {
-            this.features.push(feature);
-          }
-        }
+        this.features = features.filter(
+          feature => feature.project.id === this.project.id
+        )
       },
       error => console.log(error),
       () => {
@@ -149,9 +163,6 @@ export class FormulaComponent implements OnInit {
       }
     )
   }
-  updateFeatures(modifiedFeatures: Feature[]) {
-    this.features = modifiedFeatures;
-  }
 
   displayAddedFeatures() {
     for (let feature of this.features) {
@@ -159,15 +170,21 @@ export class FormulaComponent implements OnInit {
     }
   }
 
+  updateFeatures(modifiedFeatures: Feature[]) {
+    this.features = modifiedFeatures;
+  }
+
+  /**
+   * Resources
+   */
+
   getResource() {
     this.resourceService.setParam("displayResource");
     this.resourceService.getResources().subscribe(
       resources => {
-        for (let resource of resources) {
-          if (resource.project.id === this.project.id) {
-            this.resources.push(resource);
-          }
-        }
+        this.resources = resources.filter(
+          resource => resource.project.id === this.project.id
+        )
         this.formulaService.saveResources(this.resources);
       },
       error => console.log(error),
@@ -200,55 +217,66 @@ export class FormulaComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.resources);
   }
 
+  /**
+   * HTML table cell input box helper
+   * @param resourceFeatures - Associated features in resource
+   * @param feature - Column(Feature)
+   */
+
   inputboxValue(resourceFeatures: Feature[], feature: Feature): string {
-    for (let resourceFeature of resourceFeatures) {
-      if (resourceFeature.name === feature.name) {
-        return resourceFeature.featureValue.value;
+    for(let resourceFeature of resourceFeatures) {
+      if(resourceFeature.name === feature.name) {
+        return resourceFeature.featureValue.value
       }
     }
-    return "";
+    return ""
   }
 
-  onEdit(value: string, resource: Resource, column: string, y: number, x?: number): void {
-    if (column === "name") {
-      resource.name = value;
-      this.isResouceEdited(resource);
-      this.saveResouceChanges(resource);
-    }
-    else if (column === "code") {
-      resource.code = value;
+  /**
+   * Edit table cell
+   * @param value - cell value
+   * @param resource - row(Resource)
+   * @param column - (Feature)
+   */
+
+  onEdit(value: string, resource: Resource, column: any): void {
+    if(column === "name" || column === "code") {
+      switch(column){
+        case "name":
+          resource.name = value;
+          break
+        case "code":
+          resource.code = value;
+          break
+        default:
+          alert("error")
+      }
       this.isResouceEdited(resource);
       this.saveResouceChanges(resource);
     } else {
-      // New cell
       let newFeatureValue: FeatureValue;
-      if (resource.features.length === 0) {
+      let associatedFeature = resource.features.filter(
+        feature => feature.name === column.name
+      )
+      if(associatedFeature.length > 0) {
+        // Use index 0 here because there can only be one cell associated with this row/col
+        newFeatureValue = associatedFeature[0].featureValue;
+
+        newFeatureValue.value = value;
+        newFeatureValue.submit = `edit${newFeatureValue.id}`;
+      } else {
         newFeatureValue = {
           value: value,
           resource: resource,
-          feature: this.features[x],
+          feature: column,
           project: this.project,
           submit: "newFeatureValue"
         }
-      } else {
-        // Edit old resource
-        console.log(resource);
-        newFeatureValue = resource.features[x].featureValue;
-        newFeatureValue.value = value;
-        newFeatureValue.submit = `edit${newFeatureValue.id}`;
       }
-      this.isCellEdited(newFeatureValue.resource.id, newFeatureValue.feature.id);
-      let index = this.saveFeatureValueChanges(newFeatureValue);
-      this.editedCells.push({ resourceId: resource.id, featureId: newFeatureValue.feature.id, index: index })
+      this.isCellEdited(resource.id, column.id);
+      this.saveFeatureValueChanges(newFeatureValue);
     }
     this.updateDataSource();
-  }
-
-  saveResouceChanges(resource: Resource): void {
-    resource.submit = `edit${resource.id}`;
-    resource.projectId = this.project.id.toString();
-    this.editedResourceList.push(resource);
-    console.log(this.editedResourceList);
   }
 
   isResouceEdited(editedResource: Resource): void {
@@ -260,22 +288,27 @@ export class FormulaComponent implements OnInit {
     }
   }
 
+  saveResouceChanges(resource: Resource): void {
+    resource.submit = `edit${resource.id}`;
+    resource.projectId = this.project.id.toString();
+    this.editedResourceList.push(resource);
+  }
+
   isCellEdited(resourceId: number, featureId: number): void {
-    for (let cell of this.editedCells) {
-      if (cell.resourceId === resourceId && cell.featureId === featureId) {
-        this.editedFeatureValueList.splice(cell.index, 1);
+    for(let [index, edited] of this.editedFeatureValueList.entries()) {
+      if(edited.resource.id === resourceId && edited.feature.id === featureId) {
+        this.editedFeatureValueList.splice(index, 1);
         break
       }
     }
   }
 
-  saveFeatureValueChanges(featureValue: FeatureValue): number {
+  saveFeatureValueChanges(featureValue: FeatureValue): void {
     featureValue.projectId = this.project.id.toString();
     featureValue.resourceId = featureValue.resource.id.toString();
     featureValue.featureId = featureValue.feature.id.toString();
+
     this.editedFeatureValueList.push(featureValue);
-    console.log(this.editedFeatureValueList);
-    return this.editedFeatureValueList.length - 1;
   }
 
   submit(): void {

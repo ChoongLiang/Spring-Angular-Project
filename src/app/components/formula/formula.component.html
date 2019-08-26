@@ -26,29 +26,29 @@
     <!-- Resource Name Column -->
     <ng-container matColumnDef="resourceName" >
       <mat-header-cell *matHeaderCellDef [hidden]="!this.formulaService.iFCheck[0]"> NAME </mat-header-cell>
-      <mat-cell *matCellDef="let element; let i = index" [hidden]="!this.formulaService.iFCheck[0]">
-        <input type="text" [value]="element.name" (change)="onEdit($event.target.value, element, 'name', i)">
+      <mat-cell *matCellDef="let element" [hidden]="!this.formulaService.iFCheck[0]">
+        <input type="text" [value]="element.name" (change)="onEdit($event.target.value, element, 'name')">
       </mat-cell>
     </ng-container>
    
     <!-- Resource Code Column -->
     <ng-container matColumnDef="resourceCode">
       <mat-header-cell *matHeaderCellDef [hidden]="!this.formulaService.iFCheck[1]"> COST_CODE </mat-header-cell>
-      <mat-cell *matCellDef="let element; let i = index" [hidden]="!this.formulaService.iFCheck[1]">
-        <input type="text" [value]="element.code" (change)="onEdit($event.target.value, element, 'code', i)">
+      <mat-cell *matCellDef="let element" [hidden]="!this.formulaService.iFCheck[1]">
+        <input type="text" [value]="element.code" (change)="onEdit($event.target.value, element, 'code')">
       </mat-cell>
     </ng-container>
 
-    <ng-container *ngFor="let feature of features; let x = index">
+    <ng-container *ngFor="let feature of features">
       <ng-container matColumnDef={{feature.name}}>
         <mat-header-cell *matHeaderCellDef> {{feature.name}} </mat-header-cell>
-        <mat-cell *matCellDef="let element; let y = index">
+        <mat-cell *matCellDef="let element">
           <div *ngIf="element.features.length > 0; else featuresListEmpty">
             <input type="text" [value]="inputboxValue(element.features, feature)" 
-            (change)="onEdit($event.target.value, element, feature, y, x)">
+            (change)="onEdit($event.target.value, element, feature)">
           </div>
           <ng-template #featuresListEmpty>
-            <input type="text" (change)="onEdit($event.target.value, element, feature, y, x)">
+            <input type="text" (change)="onEdit($event.target.value, element, feature)">
           </ng-template>
         </mat-cell>
       </ng-container>
