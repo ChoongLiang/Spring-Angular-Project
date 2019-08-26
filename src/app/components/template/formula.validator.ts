@@ -9,7 +9,7 @@ export function ValidateFormula(fieldForm: FormGroup, i: number): ValidatorFn {
     for (const partOfFormula of control.value.split('*')) {
       let matchFound = false;
       for (let index = 0; index < (fieldForm.get('fields') as FormArray).length; index++) {
-        if ((fieldForm.get('fields') as FormArray).controls[index].get('field').value
+        if ((fieldForm.get('fields') as FormArray).controls[index].get('name').value
           === partOfFormula.trim()) {
           matchFound = true;
           break;

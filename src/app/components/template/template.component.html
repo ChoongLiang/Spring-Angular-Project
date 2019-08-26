@@ -21,9 +21,9 @@
             </table>
         
 
-        <div class="col-1"></div>
-        <div class="col-8">
-            <form [formGroup]="fieldForm" (ngSubmit)="onSubmit()">
+    <div class="col-1"></div>
+    <div class="col-7">
+      <form [formGroup]="fieldForm" (ngSubmit)="onSubmit()">
         <table class="table table-striped" formArrayName="fields">
           <tbody>
           <tr class="row">
@@ -39,7 +39,7 @@
                 type="text"
                 size="10"
                 class="form-control"
-                formControlName="field"
+                formControlName="name"
                 (input)="updateAllFormulaValidity()"
               >
             </th>
@@ -51,7 +51,7 @@
                 #type
               >
                 <option value="number" name="number">Number</option>
-                <option value="text" name="text" >Text</option>
+                <option value="text" name="text">Text</option>
                 <option value="formula" name="formula">Formula</option>
               </select>
             </th>
@@ -61,10 +61,7 @@
                 id="formula"
                 type="text"
                 class="form-control"
-                formControlName="formula">
-<!--                (input)="onFormulaChange(i, $event)"-->
-<!--                [ngClass]="{'formulaInvalid': !isFormulaValid[i]-->
-<!--                                            && isTouched(i)}"-->
+                formControlName="content">
             </th>
             <th class="col-sm-4" *ngIf="type.value !== 'formula'">
               <div></div>
