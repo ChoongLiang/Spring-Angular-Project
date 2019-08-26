@@ -2,7 +2,8 @@ import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
-import { ProjectService } from '../../services/data/project.service';
+import { ProjectService } from '../../services/data/project.service'
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -15,6 +16,7 @@ export class NavBarComponent implements OnInit, AfterContentChecked {
   
   constructor(
     private authService: AuthService,
+    private storageService: StorageService,
     private projectService: ProjectService,
     private router: Router
   ) {
@@ -30,6 +32,7 @@ export class NavBarComponent implements OnInit, AfterContentChecked {
   logOut() {
     this.authService.logOut();
     this.authService.cleanUpStorage();
+    this.storageService.cleanup("projects");
     this.router.navigate(['/login']);
     this.dropdownActive = false;
   }

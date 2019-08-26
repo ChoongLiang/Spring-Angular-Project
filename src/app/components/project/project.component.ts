@@ -165,7 +165,7 @@ export class ProjectComponent implements OnInit {
   moveToTableTwo() {
     console.log(this.dataSource.data)
     this.selection.selected.forEach((k, item) => {
-      //this.dataSource.data.splice(this.dataSource.data.indexOf(k),1); 
+      //this.dataSource.data.splice(this.dataSource.data.indexOf(k),1);
       this.checkedDataSource.data.push(k);
 
     });
@@ -246,7 +246,7 @@ export class ProjectComponent implements OnInit {
   }
 
   /**
-   * Delete Right List ... 
+   * Delete Right List ...
    */
   trashRightList = () => this.checkedDataSource.data = [];
 
@@ -300,7 +300,7 @@ export class ProjectComponent implements OnInit {
   // }
   // /**
   //  * Set Selected Project Name (Right Table Drop Down List)...
-  //  * @param projectName 
+  //  * @param projectName
   //  */
   // selectProjectName(projectName: string): void {
   //   if (projectName) {

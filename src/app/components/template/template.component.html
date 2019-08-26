@@ -8,10 +8,10 @@
                             Project Scope Fields
                         </th>
                     </tr>
-                    <tr *ngFor="let feature of displayedRows" class="row">
-                        <th class="col-sm-10"> {{ feature }}</th>
+                    <tr *ngFor="let resource of displayedRows" class="row">
+                        <th class="col-sm-10"> {{ resource }}</th>
                         <th class="col-sm-2">
-                            <input type="checkbox" id={{feature}} class="form-check-input" checked=true>
+                            <input type="checkbox" id={{resource}} class="form-check-input" checked=true>
                         </th>
                     </tr>
                 </thead>
@@ -78,3 +78,5 @@
         </div>
 
     </div>
+
+</div>

@@ -48,8 +48,9 @@ export class ResourceComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.project = {"id": 1, name: "Project1"};
+    this.project = {id: 1, name: "Project1"};
     this.projectService.setProjectName(this.project.name);
+    this.projectService.setCurrentProject(this.project);
     this.sidebarService.status = true;
     this.getResource();
     this.getFeature();

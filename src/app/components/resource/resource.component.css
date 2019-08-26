@@ -1,11 +1,11 @@
 .table-container {
     overflow-x: scroll;
-    width: 1300px;
+    width: 80vw;
 }
 
 table {
     border: 1px solid #e6e6e6;
-    width: 2000px;
+    width: 100vw;
 }
 
 .mat-toolbar-single-row {
