@@ -29,6 +29,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -63,7 +66,10 @@ import { MatRadioModule } from '@angular/material/radio';
     MatButtonModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatRadioModule
+    MatRadioModule,
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatCardModule
   ],
   entryComponents: [FeatureDialogComponent],
   providers: [JwtHelperService],
