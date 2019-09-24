@@ -1,23 +1,21 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
-import { Observable } from 'rxjs';
-import { User } from '../models/User';
+import { Observable } from "rxjs";
+import { User } from "../models/User";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class SignupService {
-
   private url: string = "http://localhost:8080/api/auth/signup";
   private registerSuccess: boolean;
-  private object : String = null;
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ "Content-Type": "application/json" })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   newAccount(user: User): Observable<User> {
     return this.http.post<User>(this.url, user, this.httpOptions);
@@ -27,7 +25,7 @@ export class SignupService {
     return this.registerSuccess;
   }
 
-   registerStatus(status: boolean) {
+  registerStatus(status: boolean) {
     this.registerSuccess = status;
   }
 }

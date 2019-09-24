@@ -1,30 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { FormulaService } from 'src/app/services/formula.service';
-import { FormControl } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { FormulaService } from "src/app/services/formula.service";
+import { FormControl } from "@angular/forms";
 
-import { Project } from '../../models/Project';
-import { SideBarService } from 'src/app/services/side-bar.service';
-import { ProjectService } from 'src/app/services/data/project.service';
-import { ResourceService } from 'src/app/services/data/resource.service';
-import { FeatureService } from 'src/app/services/data/feature.service';
-import { FeatureValueService } from 'src/app/services/data/feature-value.service';
+import { Project } from "../../models/Project";
+import { SideBarService } from "src/app/services/side-bar.service";
+import { ProjectService } from "src/app/services/data/project.service";
+import { ResourceService } from "src/app/services/data/resource.service";
+import { FeatureService } from "src/app/services/data/feature.service";
+import { FeatureValueService } from "src/app/services/data/feature-value.service";
 
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from "@angular/material";
 
-import { Resource } from 'src/app/models/Resource';
-import { Feature } from 'src/app/models/Feature';
-import { FeatureValue } from 'src/app/models/FeatureValue';
+import { Resource } from "src/app/models/Resource";
+import { Feature } from "src/app/models/Feature";
+import { FeatureValue } from "src/app/models/FeatureValue";
 
 @Component({
-  selector: 'app-formula',
-  templateUrl: './formula.component.html',
-  styleUrls: ['./formula.component.css']
+  selector: "app-formula",
+  templateUrl: "./formula.component.html",
+  styleUrls: ["./formula.component.css"]
 })
-
 export class FormulaComponent implements OnInit {
   public projectCtrl: FormControl = new FormControl();
   public projectFilterCtrl: FormControl = new FormControl();
-  
+
   private projects: Project[] = [];
   private project: Project;
   private currentProjectId: number;
@@ -33,7 +32,7 @@ export class FormulaComponent implements OnInit {
   private features: Feature[];
   private featureValues: FeatureValue[];
 
-  private displayedColumns: string[] = ['resourceName', 'resourceCode'];
+  private displayedColumns: string[] = ["resourceName", "resourceCode"];
   private dataSource;
 
   private editedFeatureValueList: FeatureValue[] = [];
@@ -46,10 +45,10 @@ export class FormulaComponent implements OnInit {
     private resourceService: ResourceService,
     private featureService: FeatureService,
     private featureValueService: FeatureValueService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.displayedColumns = ['resourceName', 'resourceCode'];
+    this.displayedColumns = ["resourceName", "resourceCode"];
     this.resources = [];
     this.features = [];
     this.featureValues = [];
@@ -77,7 +76,7 @@ export class FormulaComponent implements OnInit {
         this.getFeature();
         this.getFeatureValue();
       }
-    )
+    );
   }
 
   setCurrentProject(): void {
@@ -91,8 +90,8 @@ export class FormulaComponent implements OnInit {
    */
 
   selectedProject(selectedProjectId: any) {
-    if(this.project.id === selectedProjectId.value) {
-      return
+    if (this.project.id === selectedProjectId.value) {
+      return;
     }
     this.project = this.getProject(selectedProjectId.value);
     this.projectService.setProjectName(this.project.name);
@@ -103,9 +102,9 @@ export class FormulaComponent implements OnInit {
   }
 
   getProject(projectId: number): Project {
-    for(let project of this.projects) {
-      if(project.id === projectId) {
-        return project
+    for (let project of this.projects) {
+      if (project.id === projectId) {
+        return project;
       }
     }
   }
@@ -114,7 +113,7 @@ export class FormulaComponent implements OnInit {
    * Reset the table(data)
    */
 
-  resetData():void {
+  resetData(): void {
     this.resources = [];
     this.features = [];
     this.featureValues = [];
@@ -133,14 +132,14 @@ export class FormulaComponent implements OnInit {
         console.log("fetching feature value of project id: " + this.project.id);
         this.featureValues = featureValues.filter(
           featureValue => featureValue.project.id === this.project.id
-        )
+        );
       },
       error => console.log(error),
       () => {
         console.log("Feature values loaded.");
         this.getResource();
       }
-    )
+    );
   }
 
   /**
@@ -153,7 +152,7 @@ export class FormulaComponent implements OnInit {
       features => {
         this.features = features.filter(
           feature => feature.project.id === this.project.id
-        )
+        );
       },
       error => console.log(error),
       () => {
@@ -161,7 +160,7 @@ export class FormulaComponent implements OnInit {
         this.displayAddedFeatures();
         this.formulaService.saveFeatures(this.features);
       }
-    )
+    );
   }
 
   displayAddedFeatures() {
@@ -169,7 +168,7 @@ export class FormulaComponent implements OnInit {
       this.displayedColumns.push(feature.name);
     }
   }
-  
+
   updateFeatures(modifiedFeatures: Feature[]) {
     this.features = modifiedFeatures;
   }
@@ -184,7 +183,7 @@ export class FormulaComponent implements OnInit {
       resources => {
         this.resources = resources.filter(
           resource => resource.project.id === this.project.id
-        )
+        );
         this.formulaService.saveResources(this.resources);
       },
       error => console.log(error),
@@ -193,7 +192,7 @@ export class FormulaComponent implements OnInit {
         this.prepareResource();
         this.updateDataSource();
       }
-    )
+    );
   }
 
   prepareResource() {
@@ -224,12 +223,12 @@ export class FormulaComponent implements OnInit {
    */
 
   inputboxValue(resourceFeatures: Feature[], feature: Feature): string {
-    for(let resourceFeature of resourceFeatures) {
-      if(resourceFeature.name === feature.name) {
-        return resourceFeature.featureValue.value
+    for (let resourceFeature of resourceFeatures) {
+      if (resourceFeature.name === feature.name) {
+        return resourceFeature.featureValue.value;
       }
     }
-    return ""
+    return "";
   }
 
   /**
@@ -240,16 +239,16 @@ export class FormulaComponent implements OnInit {
    */
 
   onEdit(value: string, resource: Resource, column: any): void {
-    if(column === "name" || column === "code") {
-      switch(column){
+    if (column === "name" || column === "code") {
+      switch (column) {
         case "name":
           resource.name = value;
-          break
+          break;
         case "code":
           resource.code = value;
-          break
+          break;
         default:
-          alert("error")
+          alert("error");
       }
       this.isResouceEdited(resource);
       this.saveResouceChanges(resource);
@@ -257,8 +256,8 @@ export class FormulaComponent implements OnInit {
       let newFeatureValue: FeatureValue;
       let associatedFeature = resource.features.filter(
         feature => feature.name === column.name
-      )
-      if(associatedFeature.length > 0) {
+      );
+      if (associatedFeature.length > 0) {
         // Use index 0 here because there can only be one cell associated with this row/col
         newFeatureValue = associatedFeature[0].featureValue;
 
@@ -266,12 +265,12 @@ export class FormulaComponent implements OnInit {
         newFeatureValue.submit = `edit${newFeatureValue.id}`;
       } else {
         newFeatureValue = {
-          value: value, 
+          value: value,
           resource: resource,
           feature: column,
           project: this.project,
           submit: "newFeatureValue"
-        }
+        };
       }
       this.isCellEdited(resource.id, column.id);
       this.saveFeatureValueChanges(newFeatureValue);
@@ -280,10 +279,10 @@ export class FormulaComponent implements OnInit {
   }
 
   isResouceEdited(editedResource: Resource): void {
-    for(let [index, resource] of this.editedResourceList.entries()) {
-      if(editedResource.id === resource.id) {
+    for (let [index, resource] of this.editedResourceList.entries()) {
+      if (editedResource.id === resource.id) {
         this.editedResourceList.splice(index, 1);
-        break
+        break;
       }
     }
   }
@@ -295,10 +294,13 @@ export class FormulaComponent implements OnInit {
   }
 
   isCellEdited(resourceId: number, featureId: number): void {
-    for(let [index, edited] of this.editedFeatureValueList.entries()) {
-      if(edited.resource.id === resourceId && edited.feature.id === featureId) {
+    for (let [index, edited] of this.editedFeatureValueList.entries()) {
+      if (
+        edited.resource.id === resourceId &&
+        edited.feature.id === featureId
+      ) {
         this.editedFeatureValueList.splice(index, 1);
-        break
+        break;
       }
     }
   }
@@ -312,83 +314,28 @@ export class FormulaComponent implements OnInit {
   }
 
   submit(): void {
-    for(let editedResource of this.editedResourceList) {
+    for (let editedResource of this.editedResourceList) {
       delete editedResource.features;
       delete editedResource.project;
-      this.resourceService.editResource(editedResource).subscribe(
-        res => console.log(res),
-        error => console.log(error),
-        () => console.log("Resources updated successfully!")
-      )
+      this.resourceService
+        .editResource(editedResource)
+        .subscribe(
+          res => console.log(res),
+          error => console.log(error),
+          () => console.log("Resources updated successfully!")
+        );
     }
-    for(let editedFeatureValue of this.editedFeatureValueList) {
+    for (let editedFeatureValue of this.editedFeatureValueList) {
       delete editedFeatureValue.feature;
       delete editedFeatureValue.resource;
       delete editedFeatureValue.project;
-      this.featureValueService.editFeatureValue(editedFeatureValue).subscribe(
-        res => console.log(res),
-        error => console.log(error),
-        () => console.log("Feature Values updated successfully!")
-      )
+      this.featureValueService
+        .editFeatureValue(editedFeatureValue)
+        .subscribe(
+          res => console.log(res),
+          error => console.log(error),
+          () => console.log("Feature Values updated successfully!")
+        );
     }
   }
-
-  // getProjects() {
-  //   this.formulaService.getProjects().subscribe(
-  //     res => {
-  //       this.projects = res;
-  //       for (let i = 0; i < this.projects['length']; i++) {
-  //         this.projectNames.push(this.projects[i]);
-  //         this.projectMap.set(this.projects[i]['name'], res[i]['id']);
-  //       }
-  //     },
-  //     err => console.log(err),
-  //     () => {
-  //       console.log('completed getting projects');
-  //       console.log(this.projectNames);
-  //       console.log(this.projectMap);
-  //       this.projectId = this.projectMap.get(this.formulaService.getProjectName());
-  //       this.getProjectName();
-  //       this.resources = this.formulaService.getResources();
-  //       console.log(this.resources);
-  //       this.displayedColumns = this.displayedColumns.concat(this.formulaService.getCheckedFeatures());
-  //       console.log(this.displayedColumns);
-  //       this.dataSource = this.resources;
-  //       // this.getFeature();
-  //       // this.getFeatureValue();
-  //       this.formulaService.clearProjectName();
-  //     }
-  //   )
-  // }
-
-  /*
-    TODO: search bar in drop-down
-  */
-  // protected filterProjects() {
-  //   console.log('inside filterProjects');
-  //   if (!this.projectNames) {
-  //     return;
-  //   }
-  //   // get the search keyword
-  //   let search = this.projectFilterCtrl.value;
-  //   console.log(search);
-  //   if (!search) {
-  //     console.log(this.projectNames.slice());
-  //     this.filteredProjects.next(this.projectNames.slice());
-  //     return;
-  //   } else {
-  //     search = search.toLowerCase();
-  //   }
-  //   // filter the projects
-  //   console.log(this.projectNames);
-  //   console.log(this.projectNames)
-  //   this.filteredProjects.next(
-  //     this.projectNames.filter(project => {
-  //       console.log(project.name);
-  //       console.log(project.name.toLowerCase().indexOf(search));
-  //       project.name.toLowerCase().indexOf(search) > -1
-  //     })
-  //   );
-  // }
-
 }

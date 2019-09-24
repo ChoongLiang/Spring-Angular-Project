@@ -1,19 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class MessageService {
+  private object: String = null;
 
-  private object : String = null;
+  constructor() {}
 
-  constructor() { }
-
-  getObject(){
+  getObject() {
     return this.object;
   }
 
-  setObject(ob : String){
+  setObject(ob: String) {
     this.object = ob;
   }
 }

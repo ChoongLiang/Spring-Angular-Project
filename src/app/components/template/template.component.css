@@ -1,17 +1,15 @@
 .custom-container {
-    width: 700px;
-    padding: 50px 30px;
-    border-radius: 10px;
-    
+  width: 700px;
+  padding: 50px 30px;
+  border-radius: 10px;
 }
 
 input.ng-invalid.ng-touched {
-    border: 1px solid red;
+  border: 1px solid red;
 }
 
-button{
-    background: #ef662e;
-
+button {
+  background: #ef662e;
 }
 /*input.formulaInvalid {*/
 /*    border: 1px solid red;*/

@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Login } from '../../models/Login';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { Login } from "../../models/Login";
 
-import { SideBarService } from 'src/app/services/side-bar.service';
-import { LoginService } from 'src/app/services/login.service';
-import { AuthService } from '../../auth/auth.service';
-import { SignupService } from 'src/app/services/signup.service';
-import { MessageService } from 'src/app/services/message.service';
+import { SideBarService } from "src/app/services/side-bar.service";
+import { LoginService } from "src/app/services/login.service";
+import { AuthService } from "../../auth/auth.service";
+import { SignupService } from "src/app/services/signup.service";
+import { MessageService } from "src/app/services/message.service";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.css"]
 })
 export class LoginComponent implements OnInit {
   login: Login;
@@ -23,11 +23,11 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private signupService: SignupService,
     private messageService: MessageService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.sidebarService.status = false;
-    this.loginService.registerStatus(false) ;
+    this.loginService.registerStatus(false);
   }
 
   onSubmit(loginForm) {
@@ -35,18 +35,17 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.login).subscribe(
       res => {
         this.authService.storeJwt(res);
-        this.authService.storeName(res['name']);
-        this.authService.storeExpiration(res['expiration']);
+        this.authService.storeName(res["name"]);
+        this.authService.storeExpiration(res["expiration"]);
       },
-      (error) => {
-        console.log('error');
+      error => {
+        console.log("error");
         this.messageService.setObject("login");
         this.loginService.registerStatus(true);
       },
       () => {
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl("/");
       }
-    )
+    );
   }
-
 }

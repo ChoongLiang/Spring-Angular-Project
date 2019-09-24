@@ -1,42 +1,44 @@
 .login {
-    width: 400.1px;
-    padding: 50px 30px;
-    border-radius: 10px;
+  width: 400.1px;
+  padding: 50px 30px;
+  border-radius: 10px;
 }
 
-.ng-valid[required], .ng-valid.required  {
-    border: 1px solid #42A948;
+.ng-valid[required],
+.ng-valid.required {
+  border: 1px solid #42a948;
 }
-    
-.ng-invalid:not(form)  {
-    border: 1px solid #dc3545;
+
+.ng-invalid:not(form) {
+  border: 1px solid #dc3545;
 }
 
 .ng-untouched[required] {
-    border: 1px solid #ced4da;
+  border: 1px solid #ced4da;
 }
 
 .invalid {
-    font-size: 15px;
-    color: #dc3545;
+  font-size: 15px;
+  color: #dc3545;
 }
 
 .login-logo {
-    text-shadow: 1px 1px gray;
-    color: #F48132;
+  text-shadow: 1px 1px gray;
+  color: #f48132;
 }
 
 .login-btn {
-    background-color: #FF4400;
-    color: white;
-    border-radius: 0px;
+  background-color: #ff4400;
+  color: white;
+  border-radius: 0px;
 }
 
-input[type="email"], input[type="password"] {
-    background: #FAFFBD;
-    border-radius: 0px;
+input[type="email"],
+input[type="password"] {
+  background: #faffbd;
+  border-radius: 0px;
 }
 
 a {
-    color: black;
+  color: black;
 }

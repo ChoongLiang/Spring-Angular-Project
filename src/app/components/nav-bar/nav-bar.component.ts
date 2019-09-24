@@ -1,18 +1,18 @@
-import { Component, OnInit, AfterContentChecked } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, AfterContentChecked } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { AuthService } from '../../auth/auth.service';
-import { ProjectService } from '../../services/data/project.service'
+import { AuthService } from "../../auth/auth.service";
+import { ProjectService } from "../../services/data/project.service";
 
 @Component({
-  selector: 'app-nav-bar',
-  templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.css']
+  selector: "app-nav-bar",
+  templateUrl: "./nav-bar.component.html",
+  styleUrls: ["./nav-bar.component.css"]
 })
 export class NavBarComponent implements OnInit, AfterContentChecked {
   private name: string;
   private dropdownActive: boolean;
-  
+
   constructor(
     private authService: AuthService,
     private projectService: ProjectService,
@@ -21,7 +21,7 @@ export class NavBarComponent implements OnInit, AfterContentChecked {
     this.dropdownActive = false;
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   ngAfterContentChecked() {
     this.name = localStorage.getItem("name");
@@ -30,17 +30,16 @@ export class NavBarComponent implements OnInit, AfterContentChecked {
   logOut() {
     this.authService.logOut();
     this.authService.cleanUpStorage();
-    this.router.navigate(['/login']);
+    this.router.navigate(["/login"]);
     this.dropdownActive = false;
   }
 
   profile() {
-    this.router.navigate(['/profile']);
+    this.router.navigate(["/profile"]);
     this.dropdownActive = false;
   }
 
   triggerDropdown(): void {
     this.dropdownActive = !this.dropdownActive;
   }
-
 }

@@ -1,24 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class SideBarService {
   status: boolean;
   sidebarClass: string;
 
-  constructor() { 
+  constructor() {
     this.status = false;
-    this.sidebarClass = 'notActive';
+    this.sidebarClass = "notActive";
   }
 
   getActiveClass() {
-    this.sidebarClass = this.status ? 'active' : 'notActive';
+    this.sidebarClass = this.status ? "active" : "notActive";
     return this.sidebarClass;
   }
 
   trigger() {
     this.status = !this.status;
   }
-
 }

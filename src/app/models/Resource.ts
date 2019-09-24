@@ -1,5 +1,5 @@
-import { Feature } from './Feature';
-import { Project } from './Project';
+import { Feature } from "./Feature";
+import { Project } from "./Project";
 
 export class Resource {
   id?: number;

@@ -1,33 +1,37 @@
-import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
-import { Feature } from '../models/Feature';
-import { Resource } from '../models/Resource';
+import { Injectable } from "@angular/core";
+import { HttpHeaders, HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { AuthService } from "../auth/auth.service";
+import { Feature } from "../models/Feature";
+import { Resource } from "../models/Resource";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class FormulaService {
-  url: string = 'http://localhost:8080/ProjectHandler';
+  url: string = "http://localhost:8080/ProjectHandler";
   jwt: string = this.authService.getJwt();
   httpOptions = {
     headers: new HttpHeaders({
-      'Authorization': `${this.jwt}`,
-      'Content-Type': 'application/json'
+      Authorization: `${this.jwt}`,
+      "Content-Type": "application/json"
     })
   };
 
-  iFCheck: boolean[] = [true,true];
+  iFCheck: boolean[] = [true, true];
   features: Feature[];
   resources: Resource[];
   checkedFeatures: string[] = [];
   projectName: string;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getProjects(): Observable<Object> {
-    return this.http.post(this.url, { 'submit': 'displayProjects' }, this.httpOptions);
+    return this.http.post(
+      this.url,
+      { submit: "displayProjects" },
+      this.httpOptions
+    );
   }
 
   getFeatures(): Feature[] {
@@ -56,7 +60,7 @@ export class FormulaService {
   }
 
   clearProjectName() {
-    this.projectName = '';
+    this.projectName = "";
   }
 
   clearCheckedFeatures() {

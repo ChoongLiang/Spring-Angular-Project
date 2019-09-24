@@ -1,31 +1,28 @@
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormulaService } from 'src/app/services/formula.service';
-import { Feature } from 'src/app/models/Feature';
-import { Resource } from 'src/app/models/Resource';
-import { Component, OnInit } from '@angular/core';
-import { ValidateFormula } from './formula.validator';
-import { RouteReuseStrategy } from '@angular/router';
-import { Router } from '@angular/router';
-
+import { FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormulaService } from "src/app/services/formula.service";
+import { Feature } from "src/app/models/Feature";
+import { Resource } from "src/app/models/Resource";
+import { Component, OnInit } from "@angular/core";
+import { ValidateFormula } from "./formula.validator";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-template',
-  templateUrl: './template.component.html',
-  styleUrls: ['./template.component.css']
+  selector: "app-template",
+  templateUrl: "./template.component.html",
+  styleUrls: ["./template.component.css"]
 })
 export class TemplateComponent implements OnInit {
   fieldForm: FormGroup;
   features: Feature[];
   displayedRows: string[] = [];
-  constructor(private formulaService: FormulaService,
-    private router: Router) { }
+  constructor(private formulaService: FormulaService, private router: Router) {}
   // checked = new Map();
   checkedFeatures: string[] = [];
   projectName: string;
 
   ngOnInit() {
     this.features = this.formulaService.getFeatures();
-    console.log('hehe');
+    console.log("hehe");
     console.log(this.features);
     this.parseResource();
     this.formulaService.saveProjectName(this.projectName);
@@ -36,16 +33,22 @@ export class TemplateComponent implements OnInit {
       for (let index = 0; index < this.features.length; index++) {
         surveyFields.push(
           new FormGroup({
-            name: new FormControl(this.features[index].name, Validators.required),
-            type: new FormControl(this.features[index].type, Validators.required),
-            content: new FormControl(this.features[index].content,
-            [Validators.required,
-            ValidateFormula(this.fieldForm,
-              surveyFields.length)])
+            name: new FormControl(
+              this.features[index].name,
+              Validators.required
+            ),
+            type: new FormControl(
+              this.features[index].type,
+              Validators.required
+            ),
+            content: new FormControl(this.features[index].content, [
+              Validators.required,
+              ValidateFormula(this.fieldForm, surveyFields.length)
+            ])
           })
         );
       }
-    }  
+    }
   }
 
   parseResource() {
@@ -75,39 +78,48 @@ export class TemplateComponent implements OnInit {
     // this.formulaService.saveCheckedFeatures(unique);
     // this.formulaService.saveResources(this.resources);
     for (let i = 0; i < this.displayedRows.length; i++) {
-      
-      console.log((<HTMLInputElement>document.getElementById(this.displayedRows[i])).checked);
-      this.formulaService.iFCheck[i] = (<HTMLInputElement>document.getElementById(this.displayedRows[i])).checked;
-    // this.formulaService.saveProjectName(this.projectName);
-    
-    this.router.navigateByUrl('/formula')
+      console.log(
+        (<HTMLInputElement>document.getElementById(this.displayedRows[i]))
+          .checked
+      );
+      this.formulaService.iFCheck[i] = (<HTMLInputElement>(
+        document.getElementById(this.displayedRows[i])
+      )).checked;
+      // this.formulaService.saveProjectName(this.projectName);
+
+      this.router.navigateByUrl("/formula");
     }
   }
 
   onAdd() {
-    const fieldsArray = this.fieldForm.get('fields') as FormArray;
+    const fieldsArray = this.fieldForm.get("fields") as FormArray;
     fieldsArray.push(
       new FormGroup({
         name: new FormControl(null, Validators.required),
-        type: new FormControl('number', Validators.required),
-        content: new FormControl(null,
-          [Validators.required,
-          ValidateFormula(this.fieldForm,
-            fieldsArray.length)])
+        type: new FormControl("number", Validators.required),
+        content: new FormControl(null, [
+          Validators.required,
+          ValidateFormula(this.fieldForm, fieldsArray.length)
+        ])
       })
     );
   }
 
   onDelete(i: number) {
-    (this.fieldForm.get('fields') as FormArray).removeAt(i);
+    (this.fieldForm.get("fields") as FormArray).removeAt(i);
     // this.isFormulaValid.splice(i, 1);
     this.updateAllFormulaValidity();
   }
 
   updateAllFormulaValidity() {
-    for (let index = 0; index < (this.fieldForm.get('fields') as FormArray).length; index++) {
-      (this.fieldForm.get('fields') as FormArray).controls[index].get('content').updateValueAndValidity();
-
+    for (
+      let index = 0;
+      index < (this.fieldForm.get("fields") as FormArray).length;
+      index++
+    ) {
+      (this.fieldForm.get("fields") as FormArray).controls[index]
+        .get("content")
+        .updateValueAndValidity();
     }
   }
   onSubmit() {
@@ -119,7 +131,6 @@ export class TemplateComponent implements OnInit {
     this.formulaService.updateFeatures(this.features);
   }
   getControls() {
-    return (this.fieldForm.get('fields') as FormArray).controls;
+    return (this.fieldForm.get("fields") as FormArray).controls;
   }
-
 }

@@ -1,221 +1,226 @@
- .resource-table{
-    clear: both;
-    width: 49%;
-    float: left;
+.resource-table {
+  clear: both;
+  width: 49%;
+  float: left;
 }
 
-.project-table{
-    width: 49%;
-    float: right;
+.project-table {
+  width: 49%;
+  float: right;
 }
 
-.select{
-    float: right;
+.select {
+  float: right;
 }
 
 .submit {
-    float: right;
-    background-color: #ef662e;
-    padding: 5px 10px;
-    color: white;
-    border: none;
+  float: right;
+  background-color: #ef662e;
+  padding: 5px 10px;
+  color: white;
+  border: none;
 }
 
-.footer{
+.footer {
   clear: both;
 }
 
-.btn-info{
+.btn-info {
   line-height: 10px;
   margin-left: 0px;
   margin-top: 5px;
-  margin-bottom: 5px
+  margin-bottom: 5px;
 }
 
-.col-lg-4{
+.col-lg-4 {
   /* background-color: #ebedf0; */
   background-color: #808080;
 }
 
-.dropdown.leftTable.col-lg-2{
+.dropdown.leftTable.col-lg-2 {
   background-color: #808080;
   padding-right: 15px;
 }
 
-.col-lg-2{
+.col-lg-2 {
   background-color: #808080;
   padding-left: 0px;
 }
 
-#dropdowMenuButton{
+#dropdowMenuButton {
   margin-right: 10px;
 }
 
 .dropdown-toggle::after {
-  display:none;
+  display: none;
 }
-.container{
+.container {
   font-weight: normal;
 }
 mat-toolbar {
-    height: 25px;
-  }
+  height: 25px;
+}
 
-  h3 {
-    font-size: 14px;
-    font-family: Verdana, Sans-Serif;
-    text-align: center;
-    font-weight: bold;
-    margin-top: 0px;
-  }
+h3 {
+  font-size: 14px;
+  font-family: Verdana, Sans-Serif;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 0px;
+}
 
-  h4 {
-    font-size: 12px;
-    font-family: Verdana, Sans-Serif;
-    text-align: center;
-    font-weight: bold;
-  }
+h4 {
+  font-size: 12px;
+  font-family: Verdana, Sans-Serif;
+  text-align: center;
+  font-weight: bold;
+}
 
-  mat-checkbox, .mat-checkbox-inner-container {
-    display: inline-block;
-    height: 15px;
-    line-height: 0;
-    margin: auto;
-    margin-left: 8px;
-    order: 0;
-    position: relative;
-    vertical-align: middle;
-    white-space: nowrap;
-    width: 15px;
-    flex-shrink: 0;
-  }
+mat-checkbox,
+.mat-checkbox-inner-container {
+  display: inline-block;
+  height: 15px;
+  line-height: 0;
+  margin: auto;
+  margin-left: 8px;
+  order: 0;
+  position: relative;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 15px;
+  flex-shrink: 0;
+}
 
-  .mat-checkbox-frame, .mat-checkbox-layout {
-    height: 14px;
-    width: 14px;
-  }
+.mat-checkbox-frame,
+.mat-checkbox-layout {
+  height: 14px;
+  width: 14px;
+}
 
-  mat-paginator {
-    margin-top: 0px;
-  }
+mat-paginator {
+  margin-top: 0px;
+}
 
-  .mat-paginator-container {
-    min-height: 20px;
-    float: right;
-  }
+.mat-paginator-container {
+  min-height: 20px;
+  float: right;
+}
 
-  .example-container {
-    display: flex;
-    flex-direction: column;
-    max-height: 700px;
-    min-width: 400px;
-    margin-top: -20px;
-    width: 590px;
-    height: 500px;
-    float: left;
-  }
+.example-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 700px;
+  min-width: 400px;
+  margin-top: -20px;
+  width: 590px;
+  height: 500px;
+  float: left;
+}
 
-  .example-container2 {
-    display: flex;
-    flex-direction: column;
-    max-height: 700px;
-    min-width: 400px;
-    margin-top: -20px;
-    width: 590px;
-    height: 500px;
-    float: right;
-  }
+.example-container2 {
+  display: flex;
+  flex-direction: column;
+  max-height: 700px;
+  min-width: 400px;
+  margin-top: -20px;
+  width: 590px;
+  height: 500px;
+  float: right;
+}
 
-  .addbtn {
-    margin-top: 8px;
-    border-radius: 15px;
-    height: 30px;
-    width: 150px;
-    font-family: Verdana, sans-serif;
-    font-size: 11px;
-    float: left;
-    margin-left: 40px;
-    font-weight: bold;
-  }
+.addbtn {
+  margin-top: 8px;
+  border-radius: 15px;
+  height: 30px;
+  width: 150px;
+  font-family: Verdana, sans-serif;
+  font-size: 11px;
+  float: left;
+  margin-left: 40px;
+  font-weight: bold;
+}
 
-  mat-header-cell, mat-header-row, .mat-header-cell-def {
-    font-weight: bold;
-    min-height: 30px;
-    font-family: Verdana, Sans-Serif;
-    height: 27px;
-    top: 0;
-    position: sticky;
-    z-index: 1;
-    background-color: inherit;
-  }
+mat-header-cell,
+mat-header-row,
+.mat-header-cell-def {
+  font-weight: bold;
+  min-height: 30px;
+  font-family: Verdana, Sans-Serif;
+  height: 27px;
+  top: 0;
+  position: sticky;
+  z-index: 1;
+  background-color: inherit;
+}
 
-  .mat-checkbox-inner-container {
-    height: 15px;
-    width: 15px;
-  }
+.mat-checkbox-inner-container {
+  height: 15px;
+  width: 15px;
+}
 
-  .deptname {
-    text-align: left;
-    margin-left: -70px;
-    margin-right: 120px
-  }
+.deptname {
+  text-align: left;
+  margin-left: -70px;
+  margin-right: 120px;
+}
 
-  .deptname2 {
-    text-align: left;
-    margin-left: -70px;
-    margin-right: 120px
-  }
+.deptname2 {
+  text-align: left;
+  margin-left: -70px;
+  margin-right: 120px;
+}
 
-  mat-spinner {
-    margin: 150px 150px 450px 550px;
-  }
+mat-spinner {
+  margin: 150px 150px 450px 550px;
+}
 
-  .mat-paginator-container {
-    height: 40px;
-  }
+.mat-paginator-container {
+  height: 40px;
+}
 
-  mat-table {
-    text-align: left;
-    font-size: 11px;
-    font-family: Verdana, Sans-Serif;
-    width: 580px;
-    overflow: auto;
-    max-height: 650px;
-  }
+mat-table {
+  text-align: left;
+  font-size: 11px;
+  font-family: Verdana, Sans-Serif;
+  width: 580px;
+  overflow: auto;
+  max-height: 650px;
+}
 
-  mat-card {
-    margin-top: 5px;
-    height: 500px;
-  }
+mat-card {
+  margin-top: 5px;
+  height: 500px;
+}
 
-  .mat-mini-fab {
-    min-width: 0;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    margin-left: 20px;
-  }
+.mat-mini-fab {
+  min-width: 0;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin-left: 20px;
+}
 
-  mat-icon, .material-icons {
-    width: 15px;
-    height: 15px;
-    margin-top: -20px;
-    margin-left: -3px;
-  }
+mat-icon,
+.material-icons {
+  width: 15px;
+  height: 15px;
+  margin-top: -20px;
+  margin-left: -3px;
+}
 
-  mat-row {
-    min-height: 22px;
-    margin-top: 0px;
-    padding-bottom: 0px;
-    font-family: Verdana, sans-serif;
-    font-size: 11px;
-    margin-bottom: 0px;
-  }
+mat-row {
+  min-height: 22px;
+  margin-top: 0px;
+  padding-bottom: 0px;
+  font-family: Verdana, sans-serif;
+  font-size: 11px;
+  margin-bottom: 0px;
+}
 
-  mat-cell {
-    height: 22px;
-    margin-top: 0px;
-    font-family: Verdana, sans-serif;
-    font-size: 11px;
-    padding-bottom: 0px;
-  }
+mat-cell {
+  height: 22px;
+  margin-top: 0px;
+  font-family: Verdana, sans-serif;
+  font-size: 11px;
+  padding-bottom: 0px;
+}

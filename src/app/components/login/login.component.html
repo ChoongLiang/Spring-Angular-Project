@@ -4,47 +4,63 @@
   <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
     <div class="form-group">
       <label class="font-weight-bold">Username</label>
-      <input  type="email" email
-              name="email" 
-              class="form-control" 
-              ngModel required autofocus
-              #email="ngModel"
-              placeholder="Email">
-      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid">
+      <input
+        type="email"
+        email
+        name="email"
+        class="form-control"
+        ngModel
+        required
+        autofocus
+        #email="ngModel"
+        placeholder="Email"
+      />
+      <div
+        *ngIf="email.invalid && (email.dirty || email.touched)"
+        class="invalid"
+      >
         <div [hidden]="!email.errors.required">
-            Email is required
+          Email is required
         </div>
         <div [hidden]="!email.errors.email">
-            You must enter your email address
+          You must enter your email address
         </div>
       </div>
     </div>
     <div class="form-group">
       <label class="font-weight-bold">Password</label>
-      <input  type="password" 
-              name="password" 
-              class="form-control" 
-              placeholder="Password"
-              ngModel minlength="6" required
-              #password="ngModel">
-      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="invalid">
+      <input
+        type="password"
+        name="password"
+        class="form-control"
+        placeholder="Password"
+        ngModel
+        minlength="6"
+        required
+        #password="ngModel"
+      />
+      <div
+        *ngIf="password.invalid && (password.dirty || password.touched)"
+        class="invalid"
+      >
         <div [hidden]="!password.errors.required">
-            Password is required
+          Password is required
         </div>
         <div [hidden]="!password.errors.minlength">
-            Minimum password length is 6
+          Minimum password length is 6
         </div>
       </div>
     </div>
-    <button type="submit" 
-            class="btn btn-block mt-3 login-btn"
-            [disabled]="loginForm.invalid">Login</button>
+    <button
+      type="submit"
+      class="btn btn-block mt-3 login-btn"
+      [disabled]="loginForm.invalid"
+    >
+      Login
+    </button>
     <div class="form-check mt-3">
-      <input  type="checkbox" 
-              name="remember" 
-              class="form-check-input"
-              ngModel>
-      <label class="form-check-label">Remember me</label> 
+      <input type="checkbox" name="remember" class="form-check-input" ngModel />
+      <label class="form-check-label">Remember me</label>
     </div>
   </form>
   <div class="mt-4 text-center">

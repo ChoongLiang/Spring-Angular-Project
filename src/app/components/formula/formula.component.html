@@ -1,7 +1,11 @@
 <div style="width: 80vw">
   <p class="select">
     <mat-form-field>
-      <mat-select placeholder="Project" (selectionChange)="selectedProject($event)" [(ngModel)]="currentProjectId">
+      <mat-select
+        placeholder="Project"
+        (selectionChange)="selectedProject($event)"
+        [(ngModel)]="currentProjectId"
+      >
         <!-- <mat-option>
           <ngx-mat-select-search [formControl]="projectFilterCtrl"></ngx-mat-select-search>
         </mat-option> -->
@@ -24,48 +28,85 @@
 <div class="table-container">
   <table mat-table [dataSource]="dataSource">
     <!-- Resource Name Column -->
-    <ng-container matColumnDef="resourceName" >
-      <mat-header-cell *matHeaderCellDef [hidden]="!this.formulaService.iFCheck[0]"> NAME </mat-header-cell>
-      <mat-cell *matCellDef="let element" [hidden]="!this.formulaService.iFCheck[0]">
-        <input type="text" [value]="element.name" (change)="onEdit($event.target.value, element, 'name')">
+    <ng-container matColumnDef="resourceName">
+      <mat-header-cell
+        *matHeaderCellDef
+        [hidden]="!this.formulaService.iFCheck[0]"
+      >
+        NAME
+      </mat-header-cell>
+      <mat-cell
+        *matCellDef="let element"
+        [hidden]="!this.formulaService.iFCheck[0]"
+      >
+        <input
+          type="text"
+          [value]="element.name"
+          (change)="onEdit($event.target.value, element, 'name')"
+        />
       </mat-cell>
     </ng-container>
-   
+
     <!-- Resource Code Column -->
     <ng-container matColumnDef="resourceCode">
-      <mat-header-cell *matHeaderCellDef [hidden]="!this.formulaService.iFCheck[1]"> COST_CODE </mat-header-cell>
-      <mat-cell *matCellDef="let element" [hidden]="!this.formulaService.iFCheck[1]">
-        <input type="text" [value]="element.code" (change)="onEdit($event.target.value, element, 'code')">
+      <mat-header-cell
+        *matHeaderCellDef
+        [hidden]="!this.formulaService.iFCheck[1]"
+      >
+        COST_CODE
+      </mat-header-cell>
+      <mat-cell
+        *matCellDef="let element"
+        [hidden]="!this.formulaService.iFCheck[1]"
+      >
+        <input
+          type="text"
+          [value]="element.code"
+          (change)="onEdit($event.target.value, element, 'code')"
+        />
       </mat-cell>
     </ng-container>
 
     <ng-container *ngFor="let feature of features">
-      <ng-container matColumnDef={{feature.name}}>
-        <mat-header-cell *matHeaderCellDef> {{feature.name}} </mat-header-cell>
+      <ng-container matColumnDef="{{ feature.name }}">
+        <mat-header-cell *matHeaderCellDef>
+          {{ feature.name }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element">
           <div *ngIf="element.features.length > 0; else featuresListEmpty">
-            <input type="text" [value]="inputboxValue(element.features, feature)" 
-            (change)="onEdit($event.target.value, element, feature)">
+            <input
+              type="text"
+              [value]="inputboxValue(element.features, feature)"
+              (change)="onEdit($event.target.value, element, feature)"
+            />
           </div>
           <ng-template #featuresListEmpty>
-            <input type="text" (change)="onEdit($event.target.value, element, feature)">
+            <input
+              type="text"
+              (change)="onEdit($event.target.value, element, feature)"
+            />
           </ng-template>
         </mat-cell>
       </ng-container>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </table>
 </div>
 
 <div style="width: 80vw">
   <div class="row mt-3 px-4">
     <div class="col text-left">
-      <a routerLink="/template" class="font-weight-bold">Edit Quantity Servey Template</a>
+      <a routerLink="/template" class="font-weight-bold"
+        >Edit Quantity Servey Template</a
+      >
     </div>
     <div class="col text-right">
-      <button class="submit-btn font-weight-light small py-1" (click)="submit()">
+      <button
+        class="submit-btn font-weight-light small py-1"
+        (click)="submit()"
+      >
         <i class="fas fa-check fa-sm"></i>Submit
       </button>
     </div>
