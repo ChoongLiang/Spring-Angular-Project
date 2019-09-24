@@ -1,47 +1,30 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
-import { AuthService } from "../../auth/auth.service";
 import { Observable } from "rxjs";
 
 import { Project } from "../../models/Project";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root"
 })
 export class ProjectService {
-  private url: string = "http://localhost:8080/ProjectHandler";
+  private url: string = environment.apiUrl + "/ProjectHandler";
   private projectName: string;
   private param = "";
   // private id: number;
   // inactiveProject: any[];
   private project: Project;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
 
   getProjects(): Observable<Project[]> {
-    return this.http.post<Project[]>(
-      this.url,
-      `{ "submit": "${this.param}" }`,
-      this.getHeader()
-    );
-  }
-
-  getHeader(): object {
-    return {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json",
-        Authorization: this.authService.getJwt()
-      })
-    };
+    return this.http.post<Project[]>(this.url, `{ "submit": "${this.param}" }`);
   }
 
   getProject(): Observable<Project> {
-    return this.http.post<Project>(
-      this.url,
-      `{ "submit": "${this.param}" }`,
-      this.getHeader()
-    );
+    return this.http.post<Project>(this.url, `{ "submit": "${this.param}" }`);
   }
 
   setProjectName(name: string): void {
@@ -61,11 +44,10 @@ export class ProjectService {
   // }
 
   addProject(name: string) {
-    return this.http.post(
-      this.url,
-      { submit: "newProject", projectName: name },
-      this.getHeader()
-    );
+    return this.http.post(this.url, {
+      submit: "newProject",
+      projectName: name
+    });
   }
 
   getCurrentProject(): Project {

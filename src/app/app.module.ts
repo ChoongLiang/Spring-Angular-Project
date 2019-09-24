@@ -2,7 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app-routing.module";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MatTableModule } from "@angular/material/table";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -21,6 +21,8 @@ import { SignupComponent } from "./components/signup/signup.component";
 import { MessageComponent } from "./components/message/message.component";
 import { TemplateComponent } from "./components/template/template.component";
 import { FeatureDialogComponent } from "./components/resource/feature-dialog/feature-dialog.component";
+
+import { AuthInterceptor } from "./auth/auth-interceptor";
 
 import { JwtHelperService } from "@auth0/angular-jwt";
 import {
@@ -78,7 +80,10 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     MatCardModule
   ],
   entryComponents: [FeatureDialogComponent],
-  providers: [JwtHelperService],
+  providers: [
+    JwtHelperService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

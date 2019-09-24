@@ -4,11 +4,13 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { User } from "../models/User";
 
+import { environment } from "../../environments/environment";
+
 @Injectable({
   providedIn: "root"
 })
 export class SignupService {
-  private url: string = "http://localhost:8080/api/auth/signup";
+  private url: string = environment.apiUrl + "/api/auth/signup";
   private registerSuccess: boolean;
 
   httpOptions = {

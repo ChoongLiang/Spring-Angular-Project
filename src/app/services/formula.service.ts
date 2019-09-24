@@ -1,22 +1,23 @@
 import { Injectable } from "@angular/core";
-import { HttpHeaders, HttpClient } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { AuthService } from "../auth/auth.service";
 import { Feature } from "../models/Feature";
 import { Resource } from "../models/Resource";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root"
 })
 export class FormulaService {
-  url: string = "http://localhost:8080/ProjectHandler";
+  url: string = environment.apiUrl + "/ProjectHandler";
   jwt: string = this.authService.getJwt();
-  httpOptions = {
-    headers: new HttpHeaders({
-      Authorization: `${this.jwt}`,
-      "Content-Type": "application/json"
-    })
-  };
+  // httpOptions = {
+  //   headers: new HttpHeaders({
+  //     Authorization: `${this.jwt}`,
+  //     "Content-Type": "application/json"
+  //   })
+  // };
 
   iFCheck: boolean[] = [true, true];
   features: Feature[];
@@ -29,8 +30,8 @@ export class FormulaService {
   getProjects(): Observable<Object> {
     return this.http.post(
       this.url,
-      { submit: "displayProjects" },
-      this.httpOptions
+      { submit: "displayProjects" }
+      // this.httpOptions
     );
   }
 
